@@ -56,7 +56,7 @@ return [
     Survos\DocBundle\SurvosDocBundle::class => ['dev' => true, 'test' => true],
     Survos\IiifBundle\SurvosIiifBundle::class => ['all' => true],
     Survos\TuiExtrasBundle\SurvosTuiExtrasBundle::class => ['all' => true],
-    Mitopp\SchemaOrgBundle\MitoppSchemaOrgBundle::class => ['all' => true],
     Survos\FetchBundle\SurvosFetchBundle::class => ['all' => true],
     Survos\ElasticBundle\SurvosElasticBundle::class => ['all' => true],
+    Survos\SchemaOrgBundle\SurvosSchemaOrgBundle::class => ['all' => true],
 ];

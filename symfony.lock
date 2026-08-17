@@ -162,9 +162,6 @@
             "config/routes/liip_imagine.yaml"
         ]
     },
-    "mitopp/schema-org-bundle": {
-        "version": "dev-agent/use-spatie-schema-org"
-    },
     "nelmio/cors-bundle": {
         "version": "2.3",
         "recipe": {
@@ -329,6 +326,9 @@
             "config/packages/survos_meili.yaml",
             "config/routes/survos_meili.yaml"
         ]
+    },
+    "survos/schema-org-bundle": {
+        "version": "2.24.10"
     },
     "survos/search-bundle": {
         "version": "2.10.27"

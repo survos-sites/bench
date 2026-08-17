@@ -3071,11 +3071,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: ""
  *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
  * }
- * @psalm-type MitoppSchemaOrgConfig = array{
- *     id_prefix?: scalar|Param|null, // Optional prefix for generated identifiers. // Default: null
- *     locale?: scalar|Param|null, // Optional default locale. // Default: null
- *     pretty_print?: bool|Param, // Enables pretty printing for the generated JSON-LD output. // Default: false
- * }
  * @psalm-type SurvosFetchConfig = array{
  *     persistent_cache_path?: scalar|Param|null, // SQLite file backing PersistentFetcher -- an app-controlled-TTL cache independent of what (if anything) the origin sends as Cache-Control/Expires. Deliberately outside %kernel.cache_dir% so it survives cache:clear. // Default: "%kernel.project_dir%/var/data/fetch_cache.db"
  * }
@@ -3095,6 +3090,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/admin/elastic"
  *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
+ * }
+ * @psalm-type SurvosSchemaOrgConfig = array{
+ *     pretty_print?: scalar|Param|null, // Indent the JSON-LD. Readable in dev, wasted bytes in prod, so it follows kernel.debug by default. Accepts a bool or a parameter reference. // Default: "%kernel.debug%"
+ *     debug_panel?: scalar|Param|null, // Let schema_org_debug() render its panel. Follows kernel.debug by default; set false to keep the Twig call in the template but render nothing. // Default: "%kernel.debug%"
+ *     auto_inject?: bool|Param, // Insert the JSON-LD before </head> on HTML responses instead of calling render_schema_org() in a template. For apps whose layout you would rather not edit. Off by default: an explicit Twig call is greppable, injected output is not. A template that calls render_schema_org() suppresses the injection, so enabling this can never double up. // Default: false
  * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
@@ -3139,9 +3139,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     live_component?: LiveComponentConfig,
  *     survos_search?: SurvosSearchConfig,
  *     survos_iiif?: SurvosIiifConfig,
- *     mitopp_schema_org?: MitoppSchemaOrgConfig,
  *     survos_fetch?: SurvosFetchConfig,
  *     survos_elastic?: SurvosElasticConfig,
+ *     survos_schema_org?: SurvosSchemaOrgConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -3193,9 +3193,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_search?: SurvosSearchConfig,
  *         survos_doc?: SurvosDocConfig,
  *         survos_iiif?: SurvosIiifConfig,
- *         mitopp_schema_org?: MitoppSchemaOrgConfig,
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
+ *         survos_schema_org?: SurvosSchemaOrgConfig,
  *     },
  *     "when@never"?: array{
  *         imports?: ImportsConfig,
@@ -3240,9 +3240,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_iiif?: SurvosIiifConfig,
- *         mitopp_schema_org?: MitoppSchemaOrgConfig,
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
+ *         survos_schema_org?: SurvosSchemaOrgConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -3288,9 +3288,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_iiif?: SurvosIiifConfig,
- *         mitopp_schema_org?: MitoppSchemaOrgConfig,
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
+ *         survos_schema_org?: SurvosSchemaOrgConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -3341,9 +3341,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_search?: SurvosSearchConfig,
  *         survos_doc?: SurvosDocConfig,
  *         survos_iiif?: SurvosIiifConfig,
- *         mitopp_schema_org?: MitoppSchemaOrgConfig,
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
+ *         survos_schema_org?: SurvosSchemaOrgConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

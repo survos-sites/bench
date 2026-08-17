@@ -1,14 +1,27 @@
 {% extends "@SurvosTabler/layout/base.html.twig" %}
 
-     {% block stylesheets %}
-{#         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/survosmeili/style.css') }}">#}
+{% block head %}
+    {{ parent() }}
 
-         {{ parent() }}
-     {% endblock %}
+    {# survos/schema-org-bundle: emits every node the request collected as one
+       JSON-LD @graph, or nothing at all when a page collected none. Rendered here
+       rather than per-template so any controller can contribute nodes. #}
+    {{ render_schema_org() }}
+{% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-{#    #}
-        {% endblock %}
+{% block stylesheets %}
+{#    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/survosmeili/style.css') }}">#}
 
+    {{ parent() }}
+{% endblock %}
 
+{% block javascripts %}
+    {% block importmap %}{{ importmap('app') }}{% endblock %}
+{% endblock %}
+
+{% block body_end %}
+    {{ parent() }}
+
+    {# No-op unless survos_schema_org.debug_panel is on (follows kernel.debug). #}
+    {{ schema_org_debug() }}
+{% endblock %}

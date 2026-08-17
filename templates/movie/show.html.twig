@@ -1,60 +1,56 @@
-<!DOCTYPE html>
-<html lang="{{ app.request.locale|default('en') }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ movie.title|default('Movie #' ~ movie.id) }}</title>
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ movie.title|default('Movie #' ~ movie.id) }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
     <link rel="canonical" href="{{ canonicalUrl }}">
-    <link rel="stylesheet" href="{{ asset('bundles/survostabler/tabler/styles.css') }}">
-    {{ render_schema_org() }}
-</head>
-<body>
-    <main class="container-xl py-4">
-        <article class="card shadow-sm">
-            <div class="row g-0">
-                {% if movie.posterUrl %}
-                    <div class="col-md-4 col-lg-3">
-                        <img
-                            src="{{ movie.posterUrl }}"
-                            alt="{{ movie.title|default('Movie poster') }}"
-                            class="img-fluid rounded-start w-100"
-                        >
-                    </div>
+{% endblock %}
+
+{% block content %}
+    <article class="card shadow-sm">
+        <div class="row g-0">
+            {% if movie.posterUrl %}
+                <div class="col-md-4 col-lg-3">
+                    <img
+                        src="{{ movie.posterUrl }}"
+                        alt="{{ movie.title|default('Movie poster') }}"
+                        class="img-fluid rounded-start w-100"
+                    >
+                </div>
+            {% endif %}
+
+            <div class="col p-4">
+                <h1>{{ movie.title|default('Movie #' ~ movie.id) }}</h1>
+
+                {% if movie.year or movie.director %}
+                    <p class="text-body-secondary">
+                        {% if movie.year %}{{ movie.year }}{% endif %}
+                        {% if movie.year and movie.director %} · {% endif %}
+                        {% if movie.director %}Directed by {{ movie.director }}{% endif %}
+                    </p>
                 {% endif %}
 
-                <div class="col p-4">
-                    <h1>{{ movie.title|default('Movie #' ~ movie.id) }}</h1>
+                {% if movie.overview %}
+                    <p>{{ movie.overview }}</p>
+                {% endif %}
 
-                    {% if movie.year or movie.director %}
-                        <p class="text-body-secondary">
-                            {% if movie.year %}{{ movie.year }}{% endif %}
-                            {% if movie.year and movie.director %} · {% endif %}
-                            {% if movie.director %}Directed by {{ movie.director }}{% endif %}
-                        </p>
-                    {% endif %}
+                {% if movie.genres %}
+                    <p>
+                        {% for genre in movie.genres %}
+                            <span class="badge bg-secondary-subtle text-secondary-emphasis">{{ genre }}</span>
+                        {% endfor %}
+                    </p>
+                {% endif %}
 
-                    {% if movie.overview %}
-                        <p>{{ movie.overview }}</p>
-                    {% endif %}
+                {% if movie.actors %}
+                    <p><strong>Cast:</strong> {{ movie.actors|join(', ') }}</p>
+                {% endif %}
 
-                    {% if movie.genres %}
-                        <p>
-                            {% for genre in movie.genres %}
-                                <span class="badge bg-secondary-subtle text-secondary-emphasis">{{ genre }}</span>
-                            {% endfor %}
-                        </p>
-                    {% endif %}
-
-                    {% if movie.actors %}
-                        <p><strong>Cast:</strong> {{ movie.actors|join(', ') }}</p>
-                    {% endif %}
-
-                    {% if movie.rating and movie.votes %}
-                        <p><strong>Rating:</strong> {{ movie.rating }}/10 from {{ movie.votes|number_format }} votes</p>
-                    {% endif %}
-                </div>
+                {% if movie.rating and movie.votes %}
+                    <p><strong>Rating:</strong> {{ movie.rating }}/10 from {{ movie.votes|number_format }} votes</p>
+                {% endif %}
             </div>
-        </article>
-    </main>
-</body>
-</html>
+        </div>
+    </article>
+{% endblock %}

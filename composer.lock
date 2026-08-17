@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfcfadac96be0372fec9166b940e0534",
+    "content-hash": "ba76c86a368bbac5ba8adf96c09d4a25",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -4055,99 +4055,6 @@
             "time": "2026-07-29T11:07:01+00:00"
         },
         {
-            "name": "mitopp/schema-org-bundle",
-            "version": "dev-agent/use-spatie-schema-org",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tacman/schema-org-bundle.git",
-                "reference": "24637c60c40a2ad76084e63af03ee2582f5064f9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tacman/schema-org-bundle/zipball/24637c60c40a2ad76084e63af03ee2582f5064f9",
-                "reference": "24637c60c40a2ad76084e63af03ee2582f5064f9",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.4",
-                "spatie/schema-org": "^5.0",
-                "symfony/http-kernel": "^7.4|^8.0",
-                "twig/twig": "^3.28"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.95",
-                "nyholm/symfony-bundle-test": "^3.1",
-                "phpstan/phpstan": "^2.2",
-                "phpstan/phpstan-symfony": "^2.0",
-                "phpunit/phpunit": "^11.5",
-                "rector/rector": "^2.5",
-                "symfony/console": "^8.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "symfony": {
-                    "require": "7.4.*"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mitopp\\SchemaOrgBundle\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Mitopp\\SchemaOrgBundle\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "check": [
-                    "@composer validate --strict",
-                    "@composer check-platform-reqs",
-                    "@composer audit",
-                    "@php:cs",
-                    "@rector",
-                    "@php:stan",
-                    "@php:unit"
-                ],
-                "php:cs": [
-                    "./vendor/bin/php-cs-fixer check --diff"
-                ],
-                "php:cs:fix": [
-                    "./vendor/bin/php-cs-fixer fix"
-                ],
-                "php:stan": [
-                    "./vendor/bin/phpstan analyse"
-                ],
-                "php:unit": [
-                    "./vendor/bin/phpunit"
-                ],
-                "rector": [
-                    "./vendor/bin/rector process --no-progress-bar --dry-run"
-                ],
-                "rector:fix": [
-                    "./vendor/bin/rector process"
-                ],
-                "auto-scripts": {
-                    "cache:clear": "symfony-cmd",
-                    "assets:install %PUBLIC_DIR%": "symfony-cmd"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Topp",
-                    "email": "michael.topp@outlook.de"
-                }
-            ],
-            "description": "A Builder for Schema.org Graph Types",
-            "support": {
-                "source": "https://github.com/tacman/schema-org-bundle/tree/agent/use-spatie-schema-org"
-            },
-            "time": "2026-08-14T11:54:20+00:00"
-        },
-        {
             "name": "monolog/monolog",
             "version": "3.10.0",
             "source": {
@@ -8074,6 +7981,71 @@
                 }
             ],
             "time": "2026-08-16T12:06:28+00:00"
+        },
+        {
+            "name": "survos/schema-org-bundle",
+            "version": "2.24.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/survos/schema-org-bundle.git",
+                "reference": "71a8d872d37b335e950403aea3b524ceca82879c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/survos/schema-org-bundle/zipball/71a8d872d37b335e950403aea3b524ceca82879c",
+                "reference": "71a8d872d37b335e950403aea3b524ceca82879c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.5",
+                "spatie/schema-org": "^5.0",
+                "survos/kit-bundle": "^2.6",
+                "symfony/config": "^8.1",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/event-dispatcher": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/http-kernel": "^8.1",
+                "twig/twig": "^3.21|^4.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^13.0",
+                "symfony/twig-bundle": "^8.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "require": "^8.1"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Survos\\SchemaOrgBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Symfony integration for spatie/schema-org: a request-scoped JSON-LD graph that any service can contribute nodes to, rendered as one @graph script tag, with a debug panel.",
+            "keywords": [
+                "JSON-LD",
+                "schema.org",
+                "seo",
+                "structured-data",
+                "symfony"
+            ],
+            "support": {
+                "issues": "https://github.com/survos/schema-org-bundle/issues",
+                "source": "https://github.com/survos/schema-org-bundle/tree/2.24.10"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kbond",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-08-17T10:01:45+00:00"
         },
         {
             "name": "survos/search-bundle",
@@ -21996,7 +21968,6 @@
         "api-platform/symfony": 15,
         "friendsofsymfony/jsrouting-bundle": 20,
         "meilisearch/meilisearch-php": 20,
-        "mitopp/schema-org-bundle": 20,
         "survos/api-grid-bundle": 20,
         "survos/code-bundle": 20,
         "survos/tui-extras-bundle": 20,

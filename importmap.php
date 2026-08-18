@@ -28,8 +28,6 @@ return [
     'meili' => ['path' => './assets/meili.js', 'entrypoint' => true],
     '@symfony/stimulus-bundle' => ['path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js'],
     '@survos/js-twig/generated/fos_routes.js' => ['path' => './var/js_twig_bundle/generated/fos_routes.js'],
-    '@mezcalito/ux-search' => ['path' => './vendor/tacman/ux-search/assets/dist/controller.js'],
-    '@mezcalito/ux-search/dist/default.min.css' => ['path' => './vendor/tacman/ux-search/assets/dist/default.min.css', 'type' => 'css'],
     '@symfony/ux-live-component' => ['path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js'],
     '@survos/search-bundle' => ['path' => './vendor/survos/search-bundle/assets/src/controller.js'],
     '@tacman1123/twig-browser' => ['version' => '1.0.0'],

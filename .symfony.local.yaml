@@ -1,4 +1,10 @@
 # .symfony.local.yaml
+http:
+    port: 8040  # pinned OUTSIDE the 8010-8024 band, which is reserved for projects a
+                # cloudflared ingress points at (see ~/.cloudflared/laptop-ssai.yml).
+                # Unpinned, the Symfony CLI's pool climbs from 8000 and this project
+                # took 8013 -- priceit's -- and then 8014, which is ddys's.
+
 workers:
   # built-in command that builds and watches front-end assets
 

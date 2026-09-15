@@ -18,7 +18,7 @@ class AppController extends AbstractController
     #[Route(path: '/', name: 'app_homepage', options: ['sitemap' => ['priority' => 1]])]
     public function homepage(): Response
     {
-        return $this->redirectToRoute('bench_search', ['code' => 'movie']);
+        return $this->redirectToRoute('bench_search_index');
     }
 
     #[Route('/simple', name: 'app_simple')]

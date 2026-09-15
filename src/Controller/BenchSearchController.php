@@ -18,7 +18,13 @@ final class BenchSearchController extends AbstractController
         'wcma' => ['label' => 'Museum collection', 'description' => 'Explore art across cultures, materials, and time.', 'facets' => ['classification' => 'Classification', 'department' => 'Department', 'culture' => 'Culture'], 'ranges' => []],
     ];
 
-    #[Route('/search/{code}', name: 'bench_search', defaults: ['code' => 'movie'], methods: ['GET'])]
+    #[Route('/search', name: 'bench_search_index', methods: ['GET'])]
+    public function index(): Response
+    {
+        return $this->render('search/index.html.twig', ['collections' => self::COLLECTIONS]);
+    }
+
+    #[Route('/search/{code}', name: 'bench_search', methods: ['GET'])]
     public function browse(string $code, SearchProvider $provider): Response
     {
         $collection = self::COLLECTIONS[$code] ?? throw $this->createNotFoundException();

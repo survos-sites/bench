@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}Collections · SearchBench{% endblock %}
+{% block page_title %}Search{% endblock %}
+{% block stylesheets %}{{ parent() }}<link rel="stylesheet" href="{{ asset('styles/bench-search.css') }}"><style>.bench-collections{margin-top:28px}.bench-collections a.bench-card{color:inherit;text-decoration:none}</style>{% endblock %}
+{% block page_content %}
+<div class="bench-shell">
+    <header class="bench-heading">
+        <div><div class="bench-eyebrow">SEARCHBENCH / COLLECTIONS</div><h1>Collections</h1><p>Pick a collection to search.</p></div>
+    </header>
+    <ul class="ais-Hits-list bench-collections">
+        {% for code, collection in collections %}
+            <li class="ais-Hits-item">
+                <a class="bench-card" href="{{ path('bench_search', {code: code}) }}">
+                    <div class="bench-card-body">
+                        <h2>{{ collection.label }}</h2>
+                        <p>{{ collection.description }}</p>
+                    </div>
+                    <footer class="bench-card-footer"><span>{{ code }}</span><span>Search <span aria-hidden="true">↗</span></span></footer>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

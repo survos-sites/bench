@@ -314,19 +314,6 @@
     "survos/media-bundle": {
         "version": "2.11.4"
     },
-    "survos/meili-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "2.0",
-            "ref": "203685352e56485cfb1d3b0fd2900e41d6bdc859"
-        },
-        "files": [
-            "config/packages/survos_meili.yaml",
-            "config/routes/survos_meili.yaml"
-        ]
-    },
     "survos/schema-org-bundle": {
         "version": "2.24.10"
     },

@@ -1,7 +1,7 @@
 when@dev: &dev
     survos_command:
         # expose app:my-command, etc.
-        namespaces: [workflow, meili, app]
+        namespaces: [workflow, elastic, app]
         routes_enabled: true
         route_prefix: /admin/commands
 

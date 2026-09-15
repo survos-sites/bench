@@ -10,10 +10,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\JeopardyRepository;
 use Doctrine\DBAL\Types\Types;
-use Survos\MeiliBundle\Metadata\Facet;
-use Survos\MeiliBundle\Metadata\Fields;
-use Survos\MeiliBundle\Metadata\Select;
-use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use function Symfony\Component\String\u;
@@ -29,12 +25,6 @@ use function Symfony\Component\String\u;
 )]
 // since no relations, this gets ALL the properties
 #[Groups(['instrument.read'])]
-//#[MeiliIndex(
-//    persisted: new Fields(
-//        groups: ['instrument.read', 'marking.read'],
-//    ),
-//    filterable: ['type', 'genres', 'countries']
-//)]
 class Instrument
 {
 
@@ -71,7 +61,6 @@ class Instrument
         }
 
     #[Map(if: false)]
-    #[Facet(format: 'flag', showMoreThreshold: 9)]
     #[ORM\Column(type: Types::JSON, options: ['jsonb' => true], nullable: true)]
     public array $countries = []; // really country codes
 

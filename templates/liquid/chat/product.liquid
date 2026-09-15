@@ -1,9 +1,0 @@
-SKU: {{ doc.sku }}
-Title: {{ doc.title }}
-{% if doc.brand %}Brand: {{ doc.brand }}{% endif %}
-{% if doc.category %}Category: {{ doc.category }}{% endif %}
-{% if doc.price %}Price: ${{ doc.price }}{% endif %}
-{% if doc.rating %}Rating: {{ doc.rating }}/5{% endif %}
-{% if doc.stock %}In stock: {{ doc.stock }} units{% endif %}
-{% if doc.tags and doc.tags.size > 0 %}Tags: {% for t in doc.tags %}{{ t }}{% unless forloop.last %}, {% endunless %}{% endfor %}{% endif %}
-{% if doc.description %}Description: {{ doc.description | truncate: 300 }}{% endif %}

@@ -10,9 +10,6 @@ use App\Repository\ImageRepository;
 use App\Workflow\IImageWorkflow;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Survos\MeiliBundle\Api\Filter\FacetsFieldSearchFilter;
-use Survos\MeiliBundle\Metadata\Fields;
-use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Survos\SaisBundle\Service\SaisClientService;
 use Survos\StateBundle\Traits\MarkingInterface;
 use Survos\StateBundle\Traits\MarkingTrait;
@@ -21,15 +18,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     normalizationContext: ['groups' => ['image.read','marking']],
 )]
-#[ApiFilter(FacetsFieldSearchFilter::class,
-    properties: ['marking', 'productSku'],
-    arguments: [ "searchParameterName" => "facet_filter"]
-)]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[Groups(['image.read'])]
-//#[MeiliIndex(
-//    persisted: new Fields(groups: ['image.read']),
-//)]
 class Image implements MarkingInterface, \Stringable
 {
     use MarkingTrait;

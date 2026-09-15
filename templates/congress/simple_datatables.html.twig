@@ -10,7 +10,7 @@
         The table is generated with Symfony's make:crud, the stimulus_controller <code>{{ _sc }}</code> controller is to the table element.
     </p>
 
-    <table class="table" {{ useStimulus|default(true) ? stimulus_controller(_sc, {perPage: app.request.get('perPage', 10)}) }}>
+    <table class="table" {{ useStimulus|default(true) ? stimulus_controller(_sc, {perPage: app.request.query.get('perPage', 10)}) }}>
         <thead>
             <tr>
                 <th>Id</th>

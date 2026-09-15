@@ -1992,93 +1992,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type SurvosCodeConfig = array{
  *     base_layout?: scalar|Param|null, // Default: "base.html.twig"
  * }
- * @psalm-type SurvosMeiliConfig = array{
- *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
- *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/meili"
- *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
- *     core_name?: scalar|Param|null, // Default: "core"
- *     enabled?: bool|Param, // Default: true
- *     meiliUiUrl?: scalar|Param|null, // Base URL of the Meilisearch UI (riccox). Used to generate per-index links. Override via MEILI_UI_URL env var. // Default: "http://127.0.0.1:24900/ins/0"
- *     host?: scalar|Param|null, // Default: "%env(default::MEILI_SERVER)%"
- *     apiKey?: scalar|Param|null, // Default: "%env(default::MEILI_ADMIN_KEY)%"
- *     transport?: scalar|Param|null, // Default: "%env(default::MEILI_TRANSPORT)%"
- *     searchKey?: scalar|Param|null, // Default: "%env(default::MEILI_SEARCH_KEY)%"
- *     meiliPrefix?: scalar|Param|null, // Default: "%env(default::MEILI_PREFIX)%"
- *     translationStyle?: scalar|Param|null, // Default: "simple"
- *     passLocale?: bool|Param, // Default: false
- *     multiLingual?: bool|Param, // turn on multi-lingual indexing // Default: false
- *     maxValuesPerFacet?: int|Param, // Default: 1000
- *     tools?: list<array{ // Default: []
- *         label?: scalar|Param|null,
- *         url?: scalar|Param|null,
- *     }>,
- *     embedders?: array<string, array{ // Default: []
- *         source?: scalar|Param|null,
- *         model?: scalar|Param|null,
- *         apiKey?: scalar|Param|null, // Default: null
- *         for?: scalar|Param|null, // Default: null
- *         template?: scalar|Param|null, // Default: null
- *         documentTemplateMaxBytes?: int|Param, // Default: 4096
- *         maxTokensPerDoc?: int|Param, // Default: null
- *         examples?: list<scalar|Param|null>,
- *     }>,
- *     pricing?: array{
- *         embedders?: array<string, scalar|Param|null>,
- *     },
- *     meili_settings?: array{
- *         typoTolerance?: array{
- *             enabled?: bool|Param, // Default: true
- *             oneTypo?: int|Param, // Default: 5
- *             twoTypos?: int|Param, // Default: 9
- *             disableOnWords?: list<scalar|Param|null>,
- *             disableOnAttributes?: list<scalar|Param|null>,
- *             disableOnNumbers?: bool|Param, // Default: false
- *         },
- *         faceting?: array{
- *             maxValuesPerFacet?: int|Param, // Default: 1000
- *             sortFacetValuesBy?: array<string, scalar|Param|null>,
- *         },
- *         pagination?: array{
- *             maxTotalHits?: int|Param, // Default: 1000
- *         },
- *         facetSearch?: bool|Param, // Default: true
- *         prefixSearch?: scalar|Param|null, // Default: "indexingTime"
- *     },
- *     entity_dirs?: list<scalar|Param|null>,
- *     file_proxy?: array{
- *         enabled?: bool|Param, // Default: true
- *         allow_hidden?: bool|Param, // Default: false
- *         cache_control?: scalar|Param|null, // Default: "private, max-age=60"
- *         roots?: list<scalar|Param|null>,
- *     },
- *     chat?: array{
- *         workspaces?: array<string, array{ // Default: []
- *             source?: scalar|Param|null, // LLM provider: openAi | azureOpenAi | mistral | gemini | vLlm // Default: "openAi"
- *             apiKey?: scalar|Param|null, // Provider API key (use %env(OPENAI_API_KEY)%) // Default: null
- *             model?: scalar|Param|null, // Model sent in each completion request (not stored in workspace settings) // Default: "gpt-4o-mini"
- *             baseUrl?: scalar|Param|null, // Default: null
- *             orgId?: scalar|Param|null, // Default: null
- *             projectId?: scalar|Param|null, // Default: null
- *             apiVersion?: scalar|Param|null, // Default: null
- *             deploymentId?: scalar|Param|null, // Default: null
- *             label?: scalar|Param|null, // Human-readable label used in dynamic prompts (defaults to indexName) // Default: null
- *             curatorName?: scalar|Param|null, // Optional explicit curator display name for this workspace template // Default: null
- *             curatorNameByIndex?: list<scalar|Param|null>,
- *             detailUrlPattern?: scalar|Param|null, // URL pattern for item detail pages; use {id} as placeholder e.g. /product/{id} // Default: null
- *             schemaUrl?: scalar|Param|null, // Optional OpenAPI schema URL used to explain field meanings in collection overview responses // Default: null
- *             examples?: list<scalar|Param|null>,
- *             examplesByIndex?: list<list<scalar|Param|null>>,
- *             prompts?: array{ // Static prompt overrides — these win over dynamic template rendering
- *                 system?: scalar|Param|null, // Default: null
- *                 searchFilterParam?: scalar|Param|null, // Default: null
- *                 searchDescription?: scalar|Param|null, // Default: null
- *                 searchQParam?: scalar|Param|null, // Default: null
- *                 searchIndexUidParam?: scalar|Param|null, // Pin the index UID — prevents Meilisearch generating a full enum of all indexes, which blows the OpenAI context limit. // Default: null
- *             },
- *             indexes?: list<scalar|Param|null>,
- *         }>,
- *     },
- * }
  * @psalm-type SurvosStateConfig = array{
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/state"
@@ -2154,7 +2067,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         serialize_payload_fields?: mixed, // Set to null to serialize all payload fields when a validation error is thrown, or set the fields you want to include explicitly. // Default: []
  *     },
  *     jsonapi?: array{
- *         use_iri_as_id?: bool|Param|null, // Set to false to use entity identifiers instead of IRIs as the "id" field in JSON:API responses. Defaults to true; this default will change to false in API Platform 5.0. // Default: null
+ *         use_iri_as_id?: bool|Param, // Set to true to use IRIs instead of entity identifiers as the "id" field in JSON:API responses. Defaults to false, which uses the entity identifier and exposes the IRI as "links.self". // Default: false
  *         allow_client_generated_id?: bool|Param, // Allow client-generated IDs on JSON:API POST per https://jsonapi.org/format/#crud-creating-client-ids. Off by default to prevent id spoofing on public endpoints. // Default: false
  *     },
  *     eager_loading?: bool|array{
@@ -2269,11 +2182,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ssl_ca_bundle?: scalar|Param|null, // Path to the SSL CA bundle file for Elasticsearch SSL verification. // Default: null
  *         ssl_verification?: bool|Param, // Enable or disable SSL verification for Elasticsearch connections. // Default: true
  *         client?: "elasticsearch"|"opensearch"|Param, // The search engine client to use: "elasticsearch" or "opensearch". // Default: "elasticsearch"
- *     },
- *     meilisearch?: bool|array{
- *         enabled?: bool|Param, // Default: false
- *         url?: scalar|Param|null, // The Meilisearch instance URL. // Default: "http://localhost:7700"
- *         api_key?: scalar|Param|null, // The Meilisearch API key. // Default: null
  *     },
  *     openapi?: array{
  *         contact?: array{
@@ -2390,6 +2298,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         policy?: mixed,
  *         middleware?: mixed,
  *         parameters?: array<string, array{ // Default: []
+ *             class?: scalar|Param|null, // The parameter class for a named global parameter entry.
  *             key?: mixed,
  *             schema?: mixed,
  *             open_api?: mixed,
@@ -2412,6 +2321,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             cast_fn?: mixed,
  *             default?: mixed,
  *             filter_class?: mixed,
+ *             operations?: mixed,
  *             ...<string, mixed>
  *         }>,
  *         strict_query_parameter_validation?: mixed,
@@ -2430,6 +2340,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         serialize?: mixed,
  *         content_negotiation?: mixed,
  *         priority?: mixed,
+ *         route_priority?: mixed,
  *         name?: mixed,
  *         allow_create?: mixed,
  *         item_uri_template?: mixed,
@@ -3124,7 +3035,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     liip_imagine?: LiipImagineConfig,
  *     ux_icons?: UxIconsConfig,
  *     inspector?: InspectorConfig,
- *     survos_meili?: SurvosMeiliConfig,
  *     survos_state?: SurvosStateConfig,
  *     zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *     survos_ez?: SurvosEzConfig,
@@ -3176,7 +3086,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine_diagram?: DoctrineDiagramConfig,
  *         inspector?: InspectorConfig,
  *         survos_code?: SurvosCodeConfig,
- *         survos_meili?: SurvosMeiliConfig,
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -3193,53 +3102,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_doc?: SurvosDocConfig,
- *         survos_iiif?: SurvosIiifConfig,
- *         survos_fetch?: SurvosFetchConfig,
- *         survos_elastic?: SurvosElasticConfig,
- *         survos_schema_org?: SurvosSchemaOrgConfig,
- *     },
- *     "when@never"?: array{
- *         imports?: ImportsConfig,
- *         parameters?: ParametersConfig,
- *         services?: ServicesConfig,
- *         framework?: FrameworkConfig,
- *         doctrine?: DoctrineConfig,
- *         doctrine_migrations?: DoctrineMigrationsConfig,
- *         twig?: TwigConfig,
- *         twig_extra?: TwigExtraConfig,
- *         security?: SecurityConfig,
- *         monolog?: MonologConfig,
- *         stimulus?: StimulusConfig,
- *         twig_component?: TwigComponentConfig,
- *         survos_core?: SurvosCoreConfig,
- *         knp_menu?: KnpMenuConfig,
- *         survos_html_prettify?: SurvosHtmlPrettifyConfig,
- *         nelmio_cors?: NelmioCorsConfig,
- *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
- *         survos_auth?: SurvosAuthConfig,
- *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
- *         survos_crawler?: SurvosCrawlerConfig,
- *         survos_wiki?: SurvosWikiConfig,
- *         flysystem?: FlysystemConfig,
- *         liip_imagine?: LiipImagineConfig,
- *         ux_icons?: UxIconsConfig,
- *         inspector?: InspectorConfig,
- *         survos_meili?: SurvosMeiliConfig,
- *         survos_state?: SurvosStateConfig,
- *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
- *         survos_ez?: SurvosEzConfig,
- *         survos_import?: SurvosImportConfig,
- *         survos_api_grid?: SurvosApiGridConfig,
- *         survos_js_twig?: SurvosJsTwigConfig,
- *         api_platform?: ApiPlatformConfig,
- *         ai?: AiConfig,
- *         survos_tabler?: SurvosTablerConfig,
- *         survos_field?: SurvosFieldConfig,
- *         survos_imgproxy?: SurvosImgproxyConfig,
- *         survos_media?: SurvosMediaConfig,
- *         live_component?: LiveComponentConfig,
- *         survos_search?: SurvosSearchConfig,
  *         survos_iiif?: SurvosIiifConfig,
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
@@ -3273,7 +3135,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         liip_imagine?: LiipImagineConfig,
  *         ux_icons?: UxIconsConfig,
  *         inspector?: InspectorConfig,
- *         survos_meili?: SurvosMeiliConfig,
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -3324,7 +3185,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine_diagram?: DoctrineDiagramConfig,
  *         inspector?: InspectorConfig,
  *         survos_code?: SurvosCodeConfig,
- *         survos_meili?: SurvosMeiliConfig,
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -3429,7 +3289,6 @@ namespace Symfony\Component\Routing\Loader\Configurator;
  * }
  * @psalm-type RoutesConfig = array{
  *     "when@dev"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
- *     "when@never"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
  *     "when@prod"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
  *     "when@test"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
  *     ...<string, RouteConfig|ImportConfig|AliasConfig>

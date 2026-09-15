@@ -7,3 +7,11 @@ survos_crawler:
     max_depth : 3
     routes_to_ignore :
         - 'app_logout'
+        # needs symfony/scheduler, which this app doesn't use
+        - 'zenstruck_messenger_monitor_schedule'
+        # survos/doc-bundle's screenshot page needs App\Tests\PantherTest
+        - 'app_screenshots'
+    paths_to_ignore:
+        - '^/_profiler'
+        # EasyAdmin autocomplete endpoints need originatingPage/propertyName from a form
+        - '^/admin/[a-z_]+/autocomplete$'

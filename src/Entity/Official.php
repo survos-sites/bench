@@ -21,8 +21,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Survos\FieldBundle\Attribute\RouteIdentity;
 use Survos\FieldBundle\Entity\RouteIdentityTrait;
 use Survos\FieldBundle\Entity\RouteParametersInterface;
-use Survos\MeiliBundle\Api\Filter\FacetsFieldSearchFilter;
-use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Survos\StateBundle\Traits\MarkingInterface;
 use Survos\StateBundle\Traits\MarkingTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -55,23 +53,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         ]),
     ],
 )]
-#[GetCollection(
-    name: 'meili-officials',
-    uriTemplate: "meili/officials",
-//    uriVariables: ["indexName"],
-    provider: MeiliSearchStateProvider::class,
-    normalizationContext: [
-        'groups' => ['official.read', 'tree', 'rp'],
-    ]
-)]
-#[ApiFilter(FacetsFieldSearchFilter::class,
-    properties: ['gender', 'currentParty','house','state','marking'])
-]
 #[Groups(['official.read'])]
 #[UniqueEntity(['id'])]
-#[MeiliIndex(
-    filterable: ['gender','house','currentParty','state','marking','imageCount'],
-)]
 #[RouteIdentity(field: 'id', key: 'id')]
 class Official implements RouteParametersInterface, MarkingInterface
 {

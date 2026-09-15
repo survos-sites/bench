@@ -1,7 +1,6 @@
 <?php
 
 use Castor\Attribute\AsTask;
-use Survos\MeiliBundle\Model\Dataset;
 
 use function Castor\{io, run, capture, import, http_download};
 
@@ -27,6 +26,22 @@ foreach ($autoloadCandidates as $autoload) {
     }
 }
 
+
+/** A demo dataset: where it downloads from, and the JSONL that import:convert writes. */
+final class Dataset
+{
+    public function __construct(
+        public readonly string $name,
+        public readonly ?string $url,
+        public readonly string $target,
+        public string|bool|null $jsonl = null, // false or blank: stop after download
+        public readonly ?string $afterDownload = null,
+    ) {
+        if ($this->jsonl === null) {
+            $this->jsonl = str_replace(pathinfo($this->target, PATHINFO_EXTENSION), 'jsonl', $this->target);
+        }
+    }
+}
 
 #[AsTask('congress:details', description: 'Fetch details from wikipedia')]
 function congress_details(): void

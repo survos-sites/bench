@@ -11,7 +11,6 @@ use ApiPlatform\Metadata\QueryParameter;
 use App\Repository\JeopardyRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use function Symfony\Component\String\u;
@@ -31,10 +30,6 @@ use function Symfony\Component\String\u;
 )]
 #[Groups(['jeopardy.read'])]
 #[ApiProperty(extraProperties: ['list' => ['label','category','value']])]
-#[MeiliIndex(
-    filterable: ['category', 'value', 'monthIndex', 'imageCount'],
-    sortable: ['value', 'monthIndex'],
-)]
 class Jeopardy implements \Stringable
 {
     public function __construct(

@@ -25,7 +25,6 @@
 return [
     'app' => ['path' => './assets/app.js', 'entrypoint' => true],
     'admin' => ['path' => './assets/admin.js', 'entrypoint' => true],
-    'meili' => ['path' => './assets/meili.js', 'entrypoint' => true],
     '@symfony/stimulus-bundle' => ['path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js'],
     '@survos/js-twig/generated/fos_routes.js' => ['path' => './var/js_twig_bundle/generated/fos_routes.js'],
     '@symfony/ux-live-component' => ['path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js'],
@@ -103,8 +102,6 @@ return [
     '@babel/runtime/helpers/defineProperty' => ['version' => '8.0.0'],
     '@babel/runtime/helpers/objectWithoutProperties' => ['version' => '8.0.0'],
     'htm' => ['version' => '3.1.1'],
-    '@meilisearch/instant-meilisearch' => ['version' => '0.31.3'],
-    'meilisearch' => ['version' => '0.60.0'],
     'pretty-print-json' => ['version' => '3.0.8'],
     'pretty-print-json/dist/css/pretty-print-json.min.css' => ['version' => '3.0.8', 'type' => 'css'],
     'instantsearch.css/themes/algolia.min.css' => ['version' => '8.19.0', 'type' => 'css'],

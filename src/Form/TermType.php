@@ -20,7 +20,7 @@ class TermType extends AbstractType
             ->add('startDate', DateType::class, ['widget' => 'single_text'])
             ->add('endDate', DateType::class, ['widget' => 'single_text'])
 
-            ->add('offical')
+            ->add('official')
         ;
     }
 

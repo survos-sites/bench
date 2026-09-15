@@ -23,11 +23,6 @@ use Survos\FieldBundle\Attribute\RouteIdentity;
 use Survos\FieldBundle\Entity\RouteIdentityTrait;
 use Survos\FieldBundle\Entity\RouteParametersInterface;
 use Survos\FieldBundle\Enum\Widget;
-use Survos\MeiliBundle\Metadata\Facet;
-use Survos\MeiliBundle\Metadata\FacetWidget;
-use Survos\MeiliBundle\Metadata\Fields;
-use Survos\MeiliBundle\Metadata\FieldSet;
-use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Survos\BabelBundle\Entity\Traits\BabelHooksTrait;
@@ -82,33 +77,16 @@ use Doctrine\ORM\Mapping\Column;
     normalizationContext: ['groups' => ['product.read', 'product.details','rp']],
 )]
 
-#[MeiliIndex(
-    // serialization groups for the JSON sent to the index
-    primaryKey: 'sku',
-    persisted: new Fields(
-        fields: ['sku', 'stock', 'price', 'title','brand', 'imageCount'],
-        groups: ['product.read', 'product.details', 'product.searchable']
-    ),
-    displayed: ['*'],
-    filterable: new Fields(
-        fields: [...self::FILTER_PROPS, ...self::RANGE_PROPS, 'price', 'imageCount'],
-//        groups: ['product.read','product.details']
-    ),
-    sortable: new Fields(
-        fields: [...self::SORT_PROPS, 'price'],
-    ),
-    embedders: ['product'],
-)]
 #[RouteIdentity(field: 'sku')]
 class Product implements RouteParametersInterface
 {
     use RouteIdentityTrait;
 
-    private const RANGE_PROPS = ['rating', 'stock']; // // meili will also add RANGE_PROPS as filterable
+    private const RANGE_PROPS = ['rating', 'stock'];
     private const FILTER_PROPS = ['category','brand']; // single values only without custom filter
-    private const FILTER_ARRAY_PROPS = ['tags']; // meili can handle these
+    private const FILTER_ARRAY_PROPS = ['tags'];
     private const SEARCH_PROPS = ['title', 'description'];
-    private const SORT_PROPS = ['rating']; // price for meili, , 'exactPrice' for doctrine
+    private const SORT_PROPS = ['rating']; // 'exactPrice' for doctrine
 
     public function __construct(
         #[ORM\Column(type: 'string', length: 255)]
@@ -139,14 +117,12 @@ class Product implements RouteParametersInterface
     // virtual property
     #[Groups(['product.read'])]
     #[ORM\Column(nullable: true)]
-    #[Facet(label: 'Category', showMoreThreshold: 12)]
     #[ApiProperty("category from extra, virtual but needs index")]
     #[Field(filterable: true, widget: Widget::Select, facet: true, order: 30)]
     public ?string $category;
 
     #[Groups(['product.read'])]
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    #[Facet(showMoreThreshold: 12)]
     #[ApiProperty("the registered brand name")]
     #[Field(filterable: true, widget: Widget::Select, facet: true, order: 40)]
     public ?string $brand;
@@ -159,7 +135,7 @@ class Product implements RouteParametersInterface
 
 
     #[Groups(['product.read'])]
-    #[ApiProperty("virtual price, int for meili slider")]
+    #[ApiProperty("virtual price, int for range sliders")]
     #[Field(visible: false)]
     public ?int $price {
         get => (int) round($this->data['price'] ?? 0);
@@ -176,21 +152,18 @@ class Product implements RouteParametersInterface
         min: 0,
         max: 5
     )]
-    #[Facet(widget: FacetWidget::RangeSlider)]
     #[Field(filterable: true, widget: Widget::Range, facet: true, order: 60)]
     public int $rating;
 
     #[Groups(['product.read'])]
     #[ApiProperty("rounded rating, for range slider")]
     #[ORM\Column(type: Types::INTEGER)]
-    #[Facet(returnInChat: false)]
     #[Field(filterable: true, widget: Widget::Range, facet: true, order: 70)]
     public int $stock;
 
     #[Groups(['product.read'])]
     #[ORM\Column(type: Types::JSON, nullable: true, options: ['jsonb' => true])]
     #[ApiProperty("array of tags")]
-    #[Facet()]
     public array $tags;
 
     /**

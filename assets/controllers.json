@@ -56,28 +56,6 @@
                 "autoimport": []
             }
         },
-        "@survos/meili-bundle": {
-            "insta": {
-                "enabled": true,
-                "fetch": "eager",
-                "autoimport": {
-                    "instantsearch.css/themes/algolia.min.css": true,
-                    "pretty-print-json/dist/css/pretty-print-json.min.css": true
-                }
-            },
-            "json": {
-                "enabled": true,
-                "fetch": "lazy",
-                "autoimport": []
-            },
-            "chat": {
-                "enabled": true,
-                "fetch": "lazy",
-                "autoimport": {
-                    "@survos/meili/styles/chat.css": true
-                }
-            }
-        },
         "@survos/search-bundle": {
             "ux-search": {
                 "enabled": true,

@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Browse Elected Officials</h1>
     <p>
-        This page uses the <code>api_grid</code> component, and the datatable's AJAX call using API Platform and meili
+        This page uses the <code>api_grid</code> component, and the datatable's AJAX call using API Platform and Doctrine
     </p>
 {#    {name: 'firstName', sortable: true},#}
 {#    {name: 'lastName', sortable: true},#}
@@ -26,7 +26,6 @@
     <twig:api_grid
             :class="class"
             :caller="_self"
-            :apiRoute="apiRoute"
             :columns="columns"
     >
         <twig:block name="_header">

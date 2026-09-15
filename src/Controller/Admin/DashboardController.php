@@ -7,14 +7,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use Survos\MeiliBundle\Service\MeiliService;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Controller\CrudControllerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\HttpFoundation\Response;
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private readonly MeiliService $meiliService,
+        /** @var iterable<CrudControllerInterface> */
+        #[AutowireIterator('ea.crud_controller')]
+        private readonly iterable $crudControllers,
     )
     {
     }
@@ -53,19 +56,12 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        foreach ($this->meiliService->indexedByClass() as $class => $indexes) {
-            $shortName = new \ReflectionClass($class)->getShortName();
-            yield MenuItem::linkToCrud($shortName, 'fas fa-database', $class)
+        foreach ($this->crudControllers as $controller) {
+            $class = $controller::getEntityFqcn();
+            yield MenuItem::linkTo($controller::class, new \ReflectionClass($class)->getShortName(), 'fas fa-database')
                 ->setBadge($this->entityManager->getRepository($class)->count());
-            foreach ($indexes as $indexName => $index) {
-                yield MenuItem::linkToRoute(
-                    $index['rawName'],
-                    'fas fa-search',
-                    'meili_insta',
-                    ['indexName' => $indexName])
-                    ->setLinkTarget('_blank');
-            }
         }
+        yield MenuItem::linkToRoute('Search', 'fas fa-search', 'bench_search_index');
         yield MenuItem::linkToRoute('Home', 'fas fa-home', 'app_homepage');
     }
 }

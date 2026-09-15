@@ -1,9 +1,9 @@
 {
     "name": "survos-sites/searchbench",
-    "description": "SearchBench: a Symfony application that demonstrates meili-bundle",
+    "description": "SearchBench: a Symfony application that compares search engines through survos/search-bundle",
     "keywords": [
         "symfony",
-        "meilisearch"
+        "elasticsearch"
     ],
     "type": "project",
     "license": "proprietary",
@@ -20,9 +20,8 @@
         "ext-sodium": "*",
         "ext-sqlite3": "*",
         "ext-zip": "*",
-        "api-platform/core": "dev-meilisearch as 5.0.0",
+        "api-platform/core": "5.0.x-dev as 5.0.0",
         "api-platform/doctrine-orm": "^5.0@alpha",
-        "api-platform/meilisearch": "^5.0@alpha",
         "api-platform/symfony": "^5.0@alpha",
         "doctrine/doctrine-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^4.0",
@@ -37,7 +36,6 @@
         "league/flysystem-bundle": "^3.3",
         "liip/imagine-bundle": "^2.12",
         "liquid/liquid": "^1.4",
-        "meilisearch/meilisearch-php": "dev-main as 2.0.0",
         "nelmio/cors-bundle": "^2.3.1",
         "openai-php/client": "^0.19.0",
         "phpdocumentor/reflection-docblock": "^5.2|^6.0",
@@ -61,7 +59,6 @@
         "survos/jsonl-bundle": "^2.0",
         "survos/lingua-core": "^2.0",
         "survos/media-bundle": "^2.7",
-        "survos/meili-bundle": "^2.0",
         "survos/schema-org-bundle": "^2.24",
         "survos/search-bundle": "^2.24",
         "survos/simple-datatables-bundle": "^2.0",
@@ -201,11 +198,6 @@
             "name": "schema-org-bundle",
             "type": "vcs",
             "url": "https://github.com/tacman/schema-org-bundle"
-        },
-        {
-            "name": "api-platform-core",
-            "type": "vcs",
-            "url": "https://github.com/tacman/core-1"
         }
     ]
 }

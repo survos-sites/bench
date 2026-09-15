@@ -9,10 +9,7 @@ use App\Repository\OfficialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemOperator;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Survos\ApiGrid\State\MeiliSearchStateProvider;
-use Survos\InspectionBundle\Services\InspectionService;
 use Survos\WikiBundle\Service\WikiService;
-use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,29 +42,12 @@ class CongressController extends AbstractController
         ]);
     }
 
-    #[Route('/grid', methods: ['GET'])]
-    #[Template('congress/grid.html.twig')]
-    public function grid(OfficialRepository $officialRepository): array
-    {
-        return  [
-            'data' => $officialRepository->findAll(),
-        ];
-    }
-
 
     #[Route('/api_grid',  name: 'congress_api_grid', methods: ['GET'], options: ['label' => "Browse (api_grid)"])]
-    public function api_grid(Request $request, InspectionService $inspectionService): Response
+    public function api_grid(): Response
     {
-        $class = Official::class;
-        $endpoints = $inspectionService->getAllUrlsForResource($class);
-        $apiRoute = $request->get('doctrine', false) ? 'doctrine-officials' : 'meili-officials';
-//        dd($endpoints);
-//        $apiCall = $endpoints[$useMeili ? MeiliSearchStateProvider::class : CollectionProvider::class];
-
         return $this->render('congress/browse.html.twig', [
             'class' => Official::class,
-            'apiRoute' => $apiRoute,
-            'apiCall' => $apiCall??null
         ]);
     }
 

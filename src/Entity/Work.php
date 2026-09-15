@@ -11,7 +11,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\JeopardyRepository;
 use Doctrine\DBAL\Types\Types;
-use Survos\MeiliBundle\Api\Filter\FacetsFieldSearchFilter;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
@@ -29,7 +28,6 @@ use function Symfony\Component\String\u;
         'groups' => ['work.read'],
     ]
 )]
-#[ApiFilter(FacetsFieldSearchFilter::class, properties: ['type'])]
 #[Groups(['work.read'])]
 class Work
 {

@@ -17,7 +17,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
-use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -34,13 +33,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
         'order[:property]' => new QueryParameter(filter: new SortFilter(), properties: self::SORTABLE_FIELDS),
         'filter[:property]' => new QueryParameter(filter: new ExactFilter(), properties: self::FILTERABLE_FIELDS),
     ],
-)]
-#[MeiliIndex(
-    ui: ['icon' => 'Wine'],
-	primaryKey: 'code',
-	filterable: self::FILTERABLE_FIELDS,
-	sortable: self::SORTABLE_FIELDS,
-	searchable: self::SEARCHABLE_FIELDS,
 )]
 final class Wine
 {

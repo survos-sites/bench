@@ -9,12 +9,10 @@ use App\Entity\Instrument;
 use App\Entity\Jeopardy;
 use App\Entity\Official;
 use Survos\FieldBundle\Registry\EntityMetaRegistry;
-use Survos\MeiliBundle\Registry\MeiliRegistry;
 use Survos\TablerBundle\Event\MenuEvent;
 use Survos\TablerBundle\Service\ContextService;
 use Survos\TablerBundle\Traits\KnpMenuHelperInterface;
 use Survos\TablerBundle\Traits\KnpMenuHelperTrait;
-use Survos\MeiliBundle\Service\MeiliService;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -22,19 +20,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 final class AppMenu implements KnpMenuHelperInterface
 {
     use KnpMenuHelperTrait;
-
-    /**
-     * Entities wired with a second, api-platform/meilisearch-backed GetCollection
-     * operation (api-platform/core#8443 proof of concept) -- keyed by
-     * EntityMetaRegistry code. Only Movie has one right now; add more here as
-     * more entities get a `new GetCollection(stateOptions: new
-     * \ApiPlatform\Meilisearch\State\Options(...))` operation.
-     *
-     * @var array<string, array{route: string, apiUrl: string}>
-     */
-    private const MEILI_GRID_DEMOS = [
-        'app_movie' => ['route' => 'demo_movie_meili_grid', 'apiUrl' => '/api/meilisearch/movies'],
-    ];
 
     private const ES_BROWSER_DEMOS = [
         'app_movie' => 'movie',
@@ -46,8 +31,6 @@ final class AppMenu implements KnpMenuHelperInterface
     public function __construct(
         private ContextService                 $contextService,
         #[Autowire('%kernel.environment%')] protected string $env,
-        private MeiliService $meiliService,
-        private MeiliRegistry $meiliRegistry,
         private IriConverterInterface $iriConverter,
         private EntityMetaRegistry $entityRegistry,
         private ?AuthorizationCheckerInterface $security = null,
@@ -59,16 +42,15 @@ final class AppMenu implements KnpMenuHelperInterface
     public function midNavbarMenu(MenuEvent $event): void
     {
         $menu = $event->getMenu();
-        foreach (['app_homepage', 'meili_admin'] as $route)
+        foreach (['app_homepage'] as $route)
         {
             $this->add($menu, $route); // label: u($route)->after('app_')
         }
         $this->add($menu, 'survos_workflow_entities', label: "*entities");
         // Per-entity dropdowns (#[EntityMeta]-annotated classes): every way we have
-        // to search/browse this entity's data, from fastest-to-set-up to
-        // richest-but-heaviest. InstantSearch/Meili-api-grid only appear when the
-        // class actually has that capability (MeiliIndex / MEILI_GRID_DEMOS);
-        // ux-search and Doctrine-api-grid are generic and always shown. The old
+        // to search/browse this entity's data. InstantSearch only appears for the
+        // Elasticsearch browser demos; ux-search and Doctrine-api-grid are generic
+        // and always shown. The old
         // single link to the EntityDashboardController "everything" page is now
         // the last item, not the entry point.
         foreach ($this->entityRegistry->getBrowsable() as $descriptor) {
@@ -78,25 +60,14 @@ final class AppMenu implements KnpMenuHelperInterface
                 $this->add($submenu, 'bench_search', ['code' => self::ES_BROWSER_DEMOS[$descriptor->code]], label: 'InstantSearch (Elasticsearch)');
             }
 
-            if (null !== $meiliBaseName = $this->meiliBaseNameFor($descriptor->class)) {
-                $this->add($submenu, 'meili_insta', ['indexName' => $this->meiliRegistry->uidFor($meiliBaseName)], label: 'InstantSearch (Meilisearch)');
-            }
 
             $this->add($submenu, 'survos_admin_browse', ['code' => $descriptor->code], label: 'Doctrine search (api-grid)');
 
-            if (isset(self::MEILI_GRID_DEMOS[$descriptor->code])) {
-                $this->add($submenu, self::MEILI_GRID_DEMOS[$descriptor->code]['route'], label: 'Meilisearch search (api-grid)');
-            }
 
             $this->add($submenu, 'survos_entity_ux_search', ['code' => $descriptor->code], label: 'Search (ux-search)', dividerAppend: true);
 
-            $hasMeiliGrid = isset(self::MEILI_GRID_DEMOS[$descriptor->code]);
-
             if (null !== $doctrineCollectionUrl = $this->doctrineCollectionUrl($descriptor->class)) {
-                $this->add($submenu, uri: $doctrineCollectionUrl, label: 'raw GetCollection (Doctrine)', external: true, icon: 'mdi:code-json', dividerAppend: !$hasMeiliGrid);
-            }
-            if ($hasMeiliGrid) {
-                $this->add($submenu, uri: self::MEILI_GRID_DEMOS[$descriptor->code]['apiUrl'], label: 'raw GetCollection (Meilisearch)', external: true, icon: 'mdi:code-json', dividerAppend: true);
+                $this->add($submenu, uri: $doctrineCollectionUrl, label: 'raw GetCollection (Doctrine)', external: true, icon: 'mdi:code-json', dividerAppend: true);
             }
 
             $this->add($submenu, 'survos_entity_dashboard', ['code' => $descriptor->code], label: 'Overview');
@@ -118,17 +89,6 @@ final class AppMenu implements KnpMenuHelperInterface
 //            $this->add($menu, $route, label: u($route)->after('app_'));
 //        }
         }
-
-    private function meiliBaseNameFor(string $class): ?string
-    {
-        foreach ($this->meiliRegistry->names() as $baseName) {
-            if ($this->meiliRegistry->classFor($baseName) === $class) {
-                return $baseName;
-            }
-        }
-
-        return null;
-    }
 
     private function doctrineCollectionUrl(string $class): ?string
     {
@@ -178,7 +138,6 @@ final class AppMenu implements KnpMenuHelperInterface
 
 
         $this->add($menu, 'app_homepage', label: "Home");
-        // app_simple?
 
         $this->add($menu, 'api_doc', label: 'API', external: true);
         // for nested menus, don't add a route, just a label, then use it for the argument to addMenuItem

@@ -6,12 +6,6 @@
 parameters:
 
 services:
-    # ES owns automatic indexing on this branch. Meili remains an explicit comparison path.
-    Survos\MeiliBundle\EventListener\DoctrineEventListener:
-        autowire: true
-        autoconfigure: true
-        calls:
-            - [disable, []]
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -21,36 +15,6 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
-
-    # --- api-platform/meilisearch proof of concept ---
-    # The client/providers/extensions themselves are wired by the api_platform.meilisearch
-    # bundle config (config/packages/api_platform.yaml) now that this app runs the fork's
-    # 5.0-alpha line. Only the two concrete, resource-scoped filter instances need
-    # declaring here, extending the bundle's abstract parents (same pattern as
-    # api-platform/elasticsearch's documented MatchFilter/TermFilter usage).
-    movie.meili_search_filter:
-        parent: 'api_platform.meilisearch.search_filter'
-        arguments: [['title']]
-        tags: ['api_platform.filter']
-        autowire: false
-        autoconfigure: false
-
-    # Must match Movie::FILTERABLE_FIELDS (the index's filterableAttributes) -- Meilisearch
-    # 400s on a filter targeting an undeclared attribute.
-    movie.meili_term_filter:
-        parent: 'api_platform.meilisearch.term_filter'
-        arguments: [['tags', 'genres', 'actors', 'characters', 'year', 'votes', 'budget']]
-        tags: ['api_platform.filter']
-        autowire: false
-        autoconfigure: false
-
-    # NOTE: FacetsFieldSearchFilter (survos/meili-bundle) stays on the deprecated
-    # #[ApiFilter] attribute for now, not QueryParameter -- migrating it silently
-    # broke filtering (wired correctly by every check, but never actually applied
-    # a WHERE clause; root cause not confirmed, tracked as a follow-up issue).
-    # FacetsFieldSearchFilter extends AbstractFilter, itself @deprecated since 4.4
-    # and removed in 6.0, so a real fix means implementing FilterInterface
-    # directly, not just swapping the attribute syntax.
 
     Aws\S3\S3Client:
         arguments:

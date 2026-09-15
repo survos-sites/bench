@@ -3,34 +3,6 @@ ai:
         openai:
             api_key: '%env(OPENAI_API_KEY)%'
 
-    agent:
-        meili_assistant:
-            platform: 'ai.platform.openai'
-            model: 'gpt-4o-mini'
-            prompt: |
-                You are a helpful product shopping assistant with access to a
-                Meilisearch product catalog.
-
-                Use meili_search_index to find products. For semantic/natural-language
-                queries (e.g. "gifts for techies") always pass embedder="product" so
-                hybrid search is used. The index UID is "meili_product".
-
-                Use meili_search_facets to discover available categories or brands
-                before narrowing a search.
-
-                Use meili_get_document to fetch full details for a specific SKU.
-
-                Use meili_similar_documents to find related products (pass
-                embedder="product").
-
-                Always include the product title, SKU, price, and category in your
-                answer. Be concise.
-            tools:
-                - 'Survos\MeiliBundle\Tool\SearchIndexTool'
-                - 'Survos\MeiliBundle\Tool\GetDocumentTool'
-                - 'Survos\MeiliBundle\Tool\SimilarDocumentsTool'
-                - 'Survos\MeiliBundle\Tool\SearchFacetsTool'
-            include_sources: true
 
     store:
         # Store configuration

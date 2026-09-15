@@ -1555,6 +1555,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     production_url_base?: scalar|Param|null, // Default: null
  *     user_provider?: scalar|Param|null, // Default: null
  *     user_class?: scalar|Param|null, // Default: "App\\Entity\\User"
+ *     dev_auto_login?: scalar|Param|null, // User identifier (usually an email) to auto-authenticate as. Registers DevAutoLoginAuthenticator, which must then be listed in a when@dev firewall's custom_authenticators. Ignored entirely outside debug mode — there is no production code path. Point it at an env var so it can be switched off without editing security.yaml. // Default: null
  * }
  * @psalm-type SurvosSimpleDatatablesConfig = array{
  *     stimulus_controller?: scalar|Param|null, // Default: "@survos/simple-datatables-bundle/table"
@@ -1998,10 +1999,20 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
  *     queue_prefix?: scalar|Param|null, // Default: ""
  *     base_layout?: scalar|Param|null, // Default: "base.html.twig"
- *     enable_dynamic_routing?: bool|Param, // Default: true
+ *     enable_dynamic_routing?: bool|Param, // Inert as of 2026-09-12: transition routing comes from AsyncQueueLocator::stamps() at the dispatch site, not from middleware. See SurvosStateBundle::loadExtension(). // Default: true
+ *     batch_size?: int|Param, // Default size for #[Transition(batch: true-ish)] groups; a transition's own batch: N wins // Default: 100
+ *     batch_idle_timeout?: int|Param, // Seconds of worker idleness after which a partial batch is flushed // Default: 5
+ *     batch_enabled?: bool|Param, // Off: #[Transition(batch: N)] transitions travel as plain TransitionMessages, one at a time, exactly as if unbatched. Env-able: '%env(bool:APP_BATCH)%' // Default: true
+ *     allow_force_place?: scalar|Param|null, // Default: "%kernel.debug%"
  *     workflow_paths?: list<scalar|Param|null>,
  *     async_transport_dsn?: scalar|Param|null, // Default: "doctrine://default"
  *     queue_driver?: "doctrine"|"rabbitmq"|Param, // Default: "doctrine"
+ *     retry_strategy?: array{
+ *         max_retries?: int|Param, // Default: 3
+ *         delay?: int|Param, // Default: 1000
+ *         multiplier?: float|Param, // Default: 2
+ *         max_delay?: int|Param, // Default: 0
+ *     },
  * }
  * @psalm-type ZenstruckMessengerMonitorConfig = array{
  *     storage?: array{
@@ -2848,6 +2859,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         logo_small?: scalar|Param|null, // Default: null
  *         homepage_route?: scalar|Param|null, // Default: null
  *         homepage_url?: scalar|Param|null, // Default: null
+ *         tunnel_host?: scalar|Param|null, // Default: "%env(default::TUNNEL_HOST)%"
+ *         local_host?: scalar|Param|null, // Default: "%env(default::APP_BASE_URL)%"
  *         links?: array{
  *             github?: scalar|Param|null, // Default: null
  *             docs?: scalar|Param|null, // Default: null
@@ -2951,6 +2964,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         options?: list<mixed>,
  *     }>,
  * }
+ * @psalm-type SurvosKitConfig = array{
+ *     webhook?: array{
+ *         http_client?: scalar|Param|null, // Default: null
+ *         transports?: list<scalar|Param|null>,
+ *     },
+ * }
  * @psalm-type LiveComponentConfig = array{
  *     secret?: scalar|Param|null, // The secret used to compute fingerprints and checksums // Default: "%kernel.secret%"
  *     fetch_credentials?: "same-origin"|"include"|"omit"|Param, // The default fetch credentials mode for all Live Components ('same-origin', 'include', 'omit') // Default: "same-origin"
@@ -3006,7 +3025,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * }
  * @psalm-type SurvosSchemaOrgConfig = array{
  *     pretty_print?: scalar|Param|null, // Indent the JSON-LD. Readable in dev, wasted bytes in prod, so it follows kernel.debug by default. Accepts a bool or a parameter reference. // Default: "%kernel.debug%"
- *     debug_panel?: scalar|Param|null, // Let schema_org_debug() render its panel. Follows kernel.debug by default; set false to keep the Twig call in the template but render nothing. // Default: "%kernel.debug%"
+ *     auto_inject?: bool|Param, // Insert the JSON-LD before </head> on HTML responses instead of calling render_schema_org() in a template. For apps whose layout you would rather not edit. Off by default: an explicit Twig call is greppable, injected output is not. A template that calls render_schema_org() suppresses the injection, so enabling this can never double up. // Default: false
  * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
@@ -3047,6 +3066,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     survos_field?: SurvosFieldConfig,
  *     survos_imgproxy?: SurvosImgproxyConfig,
  *     survos_media?: SurvosMediaConfig,
+ *     survos_kit?: SurvosKitConfig,
  *     live_component?: LiveComponentConfig,
  *     survos_search?: SurvosSearchConfig,
  *     survos_iiif?: SurvosIiifConfig,
@@ -3099,6 +3119,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_field?: SurvosFieldConfig,
  *         survos_imgproxy?: SurvosImgproxyConfig,
  *         survos_media?: SurvosMediaConfig,
+ *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_doc?: SurvosDocConfig,
@@ -3147,6 +3168,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_field?: SurvosFieldConfig,
  *         survos_imgproxy?: SurvosImgproxyConfig,
  *         survos_media?: SurvosMediaConfig,
+ *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_iiif?: SurvosIiifConfig,
@@ -3198,6 +3220,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_field?: SurvosFieldConfig,
  *         survos_imgproxy?: SurvosImgproxyConfig,
  *         survos_media?: SurvosMediaConfig,
+ *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_doc?: SurvosDocConfig,

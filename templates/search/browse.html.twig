@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ collection.label }} · SearchBench{% endblock %}
+{% block stylesheets %}{{ parent() }}<link rel="stylesheet" href="{{ asset('styles/bench-search.css') }}">{% endblock %}
+{% block page_content %}
+{% set sc = survos_stimulus('search-bundle', 'instantsearch') %}
+<div class="bench-shell" {{ stimulus_controller(sc, {endpoint: path('survos_search_instant'), name: name, template: path('bench_search_template'), sorts: sorts, context: {collectionCode: code}}) }}>
+    <header class="bench-heading">
+        <div><div class="bench-eyebrow">SEARCHBENCH / COLLECTIONS</div><h1>{{ collection.label }}</h1><p>{{ collection.description }}</p></div>
+        <span class="bench-live"><span></span> Live search</span>
+    </header>
+    <div class="bench-searchbox" {{ stimulus_target(sc, 'query') }}></div>
+    <div class="bench-error" hidden role="alert" {{ stimulus_target(sc, 'error') }}></div>
+    <div class="bench-workspace">
+        <aside class="bench-sidebar" aria-label="Search filters">
+            <div class="bench-filter-heading"><h2>Refine results</h2><div {{ stimulus_target(sc, 'clear') }}></div></div>
+            {% for field, label in collection.facets %}<section class="bench-facet"><h3>{{ label }}</h3><div data-field="{{ field }}" data-label="{{ label }}" {{ stimulus_target(sc, 'facet') }}></div></section>{% endfor %}
+            {% for field, label in collection.ranges %}<section class="bench-facet"><h3>{{ label }}</h3><div data-field="{{ field }}" data-label="{{ label }}" {{ stimulus_target(sc, 'range') }}></div></section>{% endfor %}
+        </aside>
+        <main class="bench-results">
+            <div class="bench-toolbar"><div aria-live="polite" {{ stimulus_target(sc, 'stats') }}></div><div aria-label="Sort results" {{ stimulus_target(sc, 'sort') }}></div></div>
+            <div class="bench-current" {{ stimulus_target(sc, 'current') }}></div>
+            <div {{ stimulus_target(sc, 'hits') }}></div>
+            <div class="bench-pagination" {{ stimulus_target(sc, 'pagination') }}></div>
+        </main>
+    </div>
+</div>
+{% endblock %}

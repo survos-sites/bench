@@ -1,0 +1,22 @@
+{% set title = hit.title|default(hit.name|default(hit.identificationId|default('Record ' ~ hit.id))) %}
+{% set description = hit.overview|default(hit.description|default(hit.maker|default(hit.identificationModelYear|default('')))) %}
+{% set poster = hit.posterUrl|default(hit.image|default(hit.thumbnail|default(''))) %}
+<article class="bench-card">
+    {% if collectionCode == 'movie' %}
+        <div class="bench-poster">
+            {% if poster %}<img src="{{ poster|e }}" alt="" loading="lazy" decoding="async" onerror="this.hidden=true">{% endif %}
+            <span class="bench-poster-fallback">{{ title|slice(0, 1)|e }}</span>
+            {% if hit.year %}<span class="bench-year">{{ hit.year|e }}</span>{% endif %}
+        </div>
+    {% endif %}
+    <div class="bench-card-body">
+        <h2>{% if hit._highlightResult.title is defined %}{{ hit._highlightResult.title.value|raw }}{% else %}{{ title|e }}{% endif %}</h2>
+        {% if hit.director %}<div class="bench-director">{{ hit.director|e }}</div>{% endif %}
+        <p>{{ description|e }}</p>
+        <div class="bench-tags">{% for genre in hit.genres|default([])|slice(0, 3) %}<span>{{ genre|e }}</span>{% endfor %}</div>
+    </div>
+    <footer class="bench-card-footer">
+        <span>{% if hit.rating %}★ {{ hit.rating|e }}{% elseif hit.accessionNumber %}{{ hit.accessionNumber|e }}{% else %}#{{ hit.id|default(hit.code)|e }}{% endif %}</span>
+        {% if collectionCode == 'movie' %}<a href="{{ path('movie_show', {id: hit.id}) }}">View movie <span aria-hidden="true">↗</span></a>{% endif %}
+    </footer>
+</article>

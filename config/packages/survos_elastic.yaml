@@ -1,4 +1,9 @@
+parameters:
+    env(ELASTIC_ASYNC): '1'
+
 survos_elastic:
+    # Doctrine changes are reconciled by the dedicated elastic Messenger worker.
+    async: '%env(bool:ELASTIC_ASYNC)%'
     # index.analysis is static — changing this needs `elastic:index:rebuild`, not a settings update.
     analysis:
         language: english

@@ -6,6 +6,9 @@ http:
                 # took 8013 -- priceit's -- and then 8014, which is ddys's.
 
 workers:
+  messenger_consume_elastic:
+    cmd: ['php', 'bin/console', 'messenger:consume', 'elastic', '--time-limit=3600', '--memory-limit=256M', '--no-debug']
+    watch: ['config', 'src', 'vendor/survos/elastic-bundle', 'vendor/survos/search-bundle']
   # built-in command that builds and watches front-end assets
 
 #   built-in command that starts messenger consumer

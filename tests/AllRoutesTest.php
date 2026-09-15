@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests;
 
-use Pierstoval\SmokeTesting\SmokeTestStaticRoutes;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class AllRoutesTest extends SmokeTestStaticRoutes
+final class AllRoutesTest extends WebTestCase
 {
-    // That's all!
+    public function testHomeOpensBrowserSearch(): void
+    {
+        self::createClient()->request('GET', '/');
+        self::assertResponseRedirects('/search');
+    }
 }

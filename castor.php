@@ -338,3 +338,39 @@ function entity_class_for_code(string $code): string
         default => ucfirst($code),
     };
 }
+
+#[AsTask('es:prepare-cars', description: 'Assign repeatable row IDs to the converted CORGIS cars dataset')]
+function es_prepare_cars(): void
+{
+    // Identification.ID has duplicates. Preserve every source row, including variants.
+    $writer = \Survos\JsonlBundle\IO\JsonlWriter::open('data/car-import.jsonl', 'w');
+    try {
+        $id = 0;
+        foreach (\Survos\JsonlBundle\IO\JsonlReader::open('data/car.jsonl') as $row) {
+            $row['id'] = ++$id;
+            $writer->write($row);
+        }
+    } finally {
+        $writer->close();
+    }
+    io()->success(sprintf('Prepared %d cars in data/car-import.jsonl', $id));
+}
+
+#[AsTask('es:load', description: 'Restore one lexical demo dataset and rebuild its Elasticsearch index')]
+function es_load(string $code = 'movie'): void
+{
+    if (!in_array($code, ['movie', 'car', 'marvel', 'wcma'], true)) {
+        throw new InvalidArgumentException('Use movie, car, marvel, or wcma.');
+    }
+    $dataset = demo_datasets()[$code];
+    if (!is_file($dataset->target)) { download($code); }
+    if ($code === 'movie' && !is_file('data/movies.csv')) { run(['gunzip', '-k', $dataset->target]); }
+    $input = $code === 'movie' ? 'data/movies.csv' : $dataset->target;
+    $output = 'data/'.$code.'.jsonl';
+    $command = ['php', 'bin/console', 'import:convert', $input, '--output='.$output, '--no-debug', '-n'];
+    if ($code === 'marvel') { $command[] = '--zip-path=marvel-search-master/records'; }
+    run($command);
+    if ($code === 'car') { es_prepare_cars(); $output = 'data/car-import.jsonl'; }
+    run(['php', 'bin/console', 'import:entities', ucfirst($code), $output, '--no-debug', '-n']);
+    run(['php', 'bin/console', 'elastic:index:rebuild', 'app_'.$code, '--no-debug', '-n']);
+}

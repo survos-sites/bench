@@ -1,9 +1,11 @@
+parameters:
+    env(SEARCH_INDEX_PREFIX): searchbench_es_
+
 survos_search:
-    # MUST be a literal, never %env(...)%: AutoEntitySearchPass resolves this against the
-    # adapters map at COMPILE time, when an env placeholder is still an unresolved string.
-    # The lookup misses, the DSN comes out NULL, and every auto-entity search silently falls
-    # back to the Doctrine adapter. Switch engines by editing this line.
+    # A fallback for searches without an explicit adapter selection.
     default_adapter: es
+    public_searches: [app_movie, app_car, app_marvel, app_wcma]
+    index_prefix: '%env(SEARCH_INDEX_PREFIX)%'
     adapters:
         # Generic Doctrine adapter (LIKE matching) used by the auto-entity searches.
         default: '%env(SURVOS_SEARCH_DEFAULT_DSN)%'

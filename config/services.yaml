@@ -6,6 +6,12 @@
 parameters:
 
 services:
+    # ES owns automatic indexing on this branch. Meili remains an explicit comparison path.
+    Survos\MeiliBundle\EventListener\DoctrineEventListener:
+        autowire: true
+        autoconfigure: true
+        calls:
+            - [disable, []]
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -54,4 +60,3 @@ services:
                 credentials:
                     key: '%env(AWS_S3_ACCESS_ID)%'
                     secret: '%env(AWS_S3_ACCESS_SECRET)%'
-

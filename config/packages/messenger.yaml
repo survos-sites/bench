@@ -25,7 +25,8 @@ framework:
             # 429 when its write queue saturates), and each can be consumed and stopped by
             # its own worker.
             elastic:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                # Same DB connection: jobs inside an outer transaction become visible on commit.
+                dsn: 'doctrine://default'
                 options:
                     queue_name: elastic
                 retry_strategy:

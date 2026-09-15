@@ -16,18 +16,9 @@ class AppController extends AbstractController
 {
 
     #[Route(path: '/', name: 'app_homepage', options: ['sitemap' => ['priority' => 1]])]
-    public function homepage(MeiliService $meiliService): Response
+    public function homepage(): Response
     {
-        // testing
-        return $this->render('app/homepage.html.twig', [
-            'indexName' => 'dtdemo_Instrument',
-            'server' => $meiliService->getHost(),
-            'apiKey' => $meiliService->getPublicApiKey(),
-            '_sc_locale' => 'displayh_local',
-            'embedder' => null,
-            'class' => Instrument::class,
-
-        ]);
+        return $this->redirectToRoute('bench_search', ['code' => 'movie']);
     }
 
     #[Route('/simple', name: 'app_simple')]

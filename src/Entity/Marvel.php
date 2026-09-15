@@ -29,7 +29,7 @@ use Survos\MeiliBundle\Metadata\MeiliIndex;
 #[MeiliIndex(
     ui: ['icon' => 'Marvel'],
 	primaryKey: 'code',
-	filterable: self::FILTERABLE_FIELDS,
+	filterable: self::MEILI_FILTERABLE_FIELDS,
 	sortable: self::SORTABLE_FIELDS,
 	searchable: self::SEARCHABLE_FIELDS,
 )]
@@ -38,17 +38,17 @@ final class Marvel
 	public const FILTERABLE_FIELDS = [
 		'aliases',
 		'authors',
-		'images',
 		'powers',
-		'ranking',
 		'secretIdentities',
 		'species',
 		'teams',
-		'urls',
 		'partners',
-		'mainColor',
 		'imageCount',
 	];
+
+	// Meili supports filtering nested object keys; keep that comparison capability.
+	// The shared flat facet list above contains scalar/list values only.
+	public const MEILI_FILTERABLE_FIELDS = [...self::FILTERABLE_FIELDS, 'images', 'ranking', 'urls', 'mainColor'];
 
 	public const SORTABLE_FIELDS = [];
 	public const SEARCHABLE_FIELDS = [];

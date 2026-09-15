@@ -17,13 +17,13 @@ See [baseline and evaluation plan](docs/search-baseline.md) and
   before further ES changes (source checkpoint with known test limitations).
 - [x] Inventory Mac data and tools: raw inputs present, Symfony/Castor boot, local SQLite
   only partly populated. Restore conversions/imports before re-fetching existing inputs.
-- [ ] Repair baseline test infrastructure and capture repeatable corpus/query fixtures.
-- [ ] Validate Movie through SearchBundle/ES: text, typo/prefix behavior, array facets,
+- [x] Repair baseline test infrastructure and capture repeatable corpus/query fixtures.
+- [x] Validate Movie through SearchBundle/ES: text, typo/prefix behavior, array facets,
   numeric ranges, sort, paging, highlights, and detail links.
-- [ ] Expand to Car, Marvel, and museum datasets; measure latency and indexing resources.
-- [ ] Implement reusable fixes in the bundles; preserve direct Meili demonstrations.
+- [x] Restore and index Car, Marvel, and WCMA; verify the shared browse UI.
+- [x] Implement reusable fixes in the bundles; preserve direct Meili demonstrations.
 - [ ] Apply lessons to KPA/packages and other consumers.
 - [ ] Follow with a separate Folio ES evaluation, including tenant scope and aggregation.
 
-No ES migration, reindex, database change, or embedding generation was performed during
-this baseline review.
+The baseline review is preserved in the release. Implementation and setup details are in
+[Elasticsearch evaluation](docs/elasticsearch.md). KPA/packages and Folio remain follow-up work.

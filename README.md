@@ -1,3 +1,6 @@
+> **Elasticsearch branch:** see [setup, architecture, and validation](docs/elasticsearch.md).
+> The [baseline release](https://github.com/survos-sites/bench/releases/tag/search-baseline-2026-09-15) preserves the previous source.
+
 # SearchBench
 
 A Symfony-based testbed for search and AI-context techniques — built on **Meilisearch**,

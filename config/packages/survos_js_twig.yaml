@@ -4,3 +4,4 @@ survos_js_twig:
             - '/app_.*/'
             - app_congress_show
             - app_congress_edit
+            - movie_show

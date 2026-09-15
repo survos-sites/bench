@@ -93,6 +93,10 @@
             "ux-search-range-slider": {
                 "enabled": true,
                 "fetch": "eager"
+            },
+            "instantsearch": {
+                "enabled": true,
+                "fetch": "eager"
             }
         },
         "@survos/simple-datatables-bundle": {

@@ -36,6 +36,13 @@ final class AppMenu implements KnpMenuHelperInterface
         'app_movie' => ['route' => 'demo_movie_meili_grid', 'apiUrl' => '/api/meilisearch/movies'],
     ];
 
+    private const ES_BROWSER_DEMOS = [
+        'app_movie' => 'movie',
+        'app_car' => 'car',
+        'app_marvel' => 'marvel',
+        'app_wcma' => 'wcma',
+    ];
+
     public function __construct(
         private ContextService                 $contextService,
         #[Autowire('%kernel.environment%')] protected string $env,
@@ -67,6 +74,10 @@ final class AppMenu implements KnpMenuHelperInterface
         foreach ($this->entityRegistry->getBrowsable() as $descriptor) {
             $submenu = $this->addSubmenu($menu, $descriptor->label, icon: $descriptor->icon);
 
+            if (isset(self::ES_BROWSER_DEMOS[$descriptor->code])) {
+                $this->add($submenu, 'bench_search', ['code' => self::ES_BROWSER_DEMOS[$descriptor->code]], label: 'InstantSearch (Elasticsearch)');
+            }
+
             if (null !== $meiliBaseName = $this->meiliBaseNameFor($descriptor->class)) {
                 $this->add($submenu, 'meili_insta', ['indexName' => $this->meiliRegistry->uidFor($meiliBaseName)], label: 'InstantSearch (Meilisearch)');
             }
@@ -77,7 +88,7 @@ final class AppMenu implements KnpMenuHelperInterface
                 $this->add($submenu, self::MEILI_GRID_DEMOS[$descriptor->code]['route'], label: 'Meilisearch search (api-grid)');
             }
 
-            $this->add($submenu, 'survos_entity_ux_search', ['code' => $descriptor->code], label: 'Search (ux-search / Doctrine LIKE)', dividerAppend: true);
+            $this->add($submenu, 'survos_entity_ux_search', ['code' => $descriptor->code], label: 'Search (ux-search)', dividerAppend: true);
 
             $hasMeiliGrid = isset(self::MEILI_GRID_DEMOS[$descriptor->code]);
 

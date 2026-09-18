@@ -20,9 +20,9 @@
         "ext-sodium": "*",
         "ext-sqlite3": "*",
         "ext-zip": "*",
-        "api-platform/core": "5.0.x-dev as 5.0.0",
-        "api-platform/doctrine-orm": "^5.0@alpha",
-        "api-platform/symfony": "^5.0@alpha",
+        "api-platform/core": "^5.0",
+        "api-platform/doctrine-orm": "^5.0",
+        "api-platform/symfony": "^5.0",
         "doctrine/doctrine-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.4.2",
@@ -43,7 +43,7 @@
         "phpstan/phpdoc-parser": "^2.3",
         "sentry/sentry-symfony": "^4.12|^5.0",
         "sunaoka/ndjson": "^1.1",
-        "survos/api-grid-bundle": "dev-main",
+        "survos/api-grid-bundle": "^2.31",
         "survos/atlas-bundle": "*",
         "survos/auth-bundle": "^2.0",
         "survos/command-bundle": "^2.10",
@@ -64,7 +64,7 @@
         "survos/simple-datatables-bundle": "^2.0",
         "survos/state-bundle": "^2.0",
         "survos/tabler-bundle": "^2.0",
-        "survos/tui-extras-bundle": "dev-main",
+        "survos/tui-extras-bundle": "^2.31",
         "survos/wiki-bundle": "^2.0",
         "symfony/ai-agent": "^0.12",
         "symfony/ai-bundle": "^0.12",
@@ -178,7 +178,7 @@
         "phpunit/phpunit": "^13.0",
         "rector/rector": "^2.0",
         "spaze/phpstan-disallowed-calls": "^4.0",
-        "survos/code-bundle": "dev-main",
+        "survos/code-bundle": "^2.31",
         "survos/deployment-bundle": "^2.0",
         "survos/doc-bundle": "^2.8",
         "symfony/browser-kit": "^8.0",
@@ -194,6 +194,15 @@
         "yethee/tiktoken": "^1.0"
     },
     "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.survos.com",
+            "only": [
+                "survos/api-grid-bundle",
+                "survos/code-bundle",
+                "survos/tui-extras-bundle"
+            ]
+        },
         {
             "name": "schema-org-bundle",
             "type": "vcs",

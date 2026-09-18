@@ -16,3 +16,10 @@ when@dev:
             default.storage:
                 local:
                     directory: '%kernel.project_dir%/public/images'
+
+when@test:
+    flysystem:
+        storages:
+            default.storage:
+                local:
+                    directory: '%kernel.cache_dir%/test-storage'

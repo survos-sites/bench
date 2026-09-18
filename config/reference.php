@@ -679,7 +679,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  *     webhook?: bool|array{ // Webhook configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *         message_bus?: scalar|Param|null, // The message bus to use. // Default: "messenger.default_bus"
  *         event_header_name?: scalar|Param|null, // Default: "Webhook-Event"
  *         id_header_name?: scalar|Param|null, // Default: "Webhook-Id"
@@ -687,11 +687,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         signing_algorithm?: scalar|Param|null, // Default: "sha256"
  *         routing?: array<string, array{ // Default: []
  *             service?: scalar|Param|null,
- *             secret?: scalar|Param|null, // Default: ""
+ *             secret?: scalar|Param|null, // The secret used to verify incoming request signatures. It must be set in production: with an empty value, requests from any sender are accepted. // Default: ""
  *         }>,
  *     },
- *     remote-event?: bool|array{ // RemoteEvent configuration
- *         enabled?: bool|Param, // Default: false
+ *     remote_event?: bool|array{ // RemoteEvent configuration
+ *         enabled?: bool|Param, // Default: true
  *     },
  *     json_streamer?: bool|array{ // JSON streamer configuration
  *         enabled?: bool|Param, // Default: false
@@ -1107,7 +1107,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             limiter?: scalar|Param|null, // A service id implementing "Symfony\Component\HttpFoundation\RateLimiter\RequestRateLimiterInterface".
  *             max_attempts?: int|Param, // Default: 5
  *             interval?: scalar|Param|null, // Default: "1 minute"
- *             lock_factory?: scalar|Param|null, // The service ID of the lock factory used by the login rate limiter (or null to disable locking). // Default: null
+ *             lock_factory?: scalar|Param|null, // The service ID of the lock factory used by the login rate limiter ("auto" to use the default one when the Lock component is configured, or null to disable locking). // Default: "auto"
  *             cache_pool?: string|Param, // The cache pool to use for storing the limiter state // Default: "cache.rate_limiter"
  *             storage_service?: string|Param, // The service ID of a custom storage implementation, this precedes any configured "cache_pool" // Default: null
  *         },
@@ -1297,7 +1297,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             lifetime?: int|Param, // Default: 31536000
  *             path?: scalar|Param|null, // Default: "/"
  *             domain?: scalar|Param|null, // Default: null
- *             secure?: true|false|"auto"|Param, // Default: null
+ *             secure?: true|false|"auto"|Param, // Default: "auto"
  *             httponly?: bool|Param, // Default: true
  *             samesite?: null|"lax"|"strict"|"none"|Param, // Default: "lax"
  *             always_remember_me?: bool|Param, // Default: false
@@ -2007,6 +2007,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     workflow_paths?: list<scalar|Param|null>,
  *     async_transport_dsn?: scalar|Param|null, // Default: "doctrine://default"
  *     queue_driver?: "doctrine"|"rabbitmq"|Param, // Default: "doctrine"
+ *     max_priority?: int|Param, // Default: null
+ *     prefetch_count?: int|Param, // Default: null
+ *     queue_options?: array<string, array{ // Default: []
+ *         max_priority?: int|Param,
+ *         prefetch_count?: int|Param,
+ *     }>,
  *     retry_strategy?: array{
  *         max_retries?: int|Param, // Default: 3
  *         delay?: int|Param, // Default: 1000
@@ -2045,7 +2051,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     meiliHost?: scalar|Param|null, // Default: "%env(MEILI_SERVER)%"
  *     meiliKey?: scalar|Param|null, // Default: "%env(MEILI_API_KEY)%"
  *     meiliPrefix?: scalar|Param|null, // Default: "%env(MEILI_PREFIX)%"
- *     meili_provider?: bool|Param, // Register MeiliSearchStateProvider as a global api_platform.state_provider. Only enable when Meili is configured and entities should be served from it. // Default: false
+ *     meili_provider?: bool|Param, // Legacy option retained for configuration compatibility. Explicit operation providers are always registered; Doctrine remains the default. // Default: false
  *     passLocale?: bool|Param, // Default: false
  *     maxValuesPerFacet?: int|Param, // https://www.meilisearch.com/docs/reference/api/settings#faceting-object // Default: 1000
  * }
@@ -2876,6 +2882,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         },
  *         header?: array{
  *             locale_switcher?: bool|Param, // Default: true
+ *             layout?: "stacked"|"compact"|Param, // stacked: NAVBAR_MENU gets its own row under the brand. compact: brand, every nav slot and the right-hand tools share one row. // Default: "stacked"
  *             container?: scalar|Param|null, // Default: "container-fluid"
  *             auth?: array{
  *                 enabled?: bool|Param, // Default: true
@@ -3011,13 +3018,15 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     spool_enabled?: bool|Param, // Turn the Doctrine listener off for bulk imports that reindex explicitly afterwards. // Default: true
  *     async?: bool|Param, // Dispatch reindex work through Messenger. With this off (or with no bus installed) the listener writes a JSONL spool for elastic:spool:flush instead -- the right mode for bulk imports. // Default: true
  *     batch_size?: int|Param, // Ids per message. One huge flush becomes several bounded jobs. // Default: 500
+ *     handler_batch_size?: int|Param, // ReindexDocuments messages the worker collects before reconciling them in one query and bulk request per class. // Default: 50
+ *     handler_idle_timeout?: int|Param, // Seconds of worker idleness after which a partial batch is reconciled. 0 waits for a full batch. // Default: 1
  *     analysis?: array{ // Text analysis. Without it every text field uses the "standard" analyzer, which does no stemming and no accent folding -- searches work but are markedly worse, and any comparison against Meilisearch is unfair. index.analysis is a STATIC setting, so changing this needs elastic:index:rebuild.
  *         language?: scalar|Param|null, // Elasticsearch stemmer language: english, hungarian, spanish, german, french, ... Null leaves the default analyzer in place. // Default: null
  *         ascii_folding?: bool|Param, // Fold accents so "Kovacs" matches "Kovács". Applies only when a language is set. // Default: true
  *     },
  *     index_pattern?: scalar|Param|null, // Which cluster indices the admin page considers this app's, e.g. "kpa_*". The cluster index namespace is flat and shared by every app pointed at the node, so this is how the page finds indices this app owns but never declared -- a leftover from a rename, a locale variant. Defaults to survos_search.index_prefix + "*", so it tracks exactly what this app writes; set it only to widen or narrow that deliberately. // Default: null
  *     elasticvue_url?: scalar|Param|null, // Elasticvue (https://elasticvue.com) — the closest equivalent to the riccox Meilisearch UI. Point this at a self-hosted instance (docker run -p 8080:8080 cars10/elasticvue) or https://app.elasticvue.com. Null hides the menu link. Note that Elasticvue talks to Elasticsearch from the browser, so the node needs http.cors.enabled unless it is proxied. // Default: null
- *     kibana_url?: scalar|Param|null, // Kibana, if one is running. Null hides the menu link. // Default: null
+ *     kibana_url?: scalar|Param|null, // Browser-facing Kibana base URL (including any space/base path). In debug, null defaults to localhost:5601 only when all ES connections are loopback; otherwise the link is hidden. // Default: null
  *     server_url?: scalar|Param|null, // The Elasticsearch node itself, for a direct link in the admin menu. Null hides it. // Default: null
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/admin/elastic"

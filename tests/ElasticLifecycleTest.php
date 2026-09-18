@@ -44,6 +44,8 @@ final class ElasticLifecycleTest extends KernelTestCase
         $io = new SymfonyStyle(new ArrayInput([]), new BufferedOutput());
         $drain = static fn () => $spool->drain(Movie::class, static fn (array $ids) => $service->indexIds(Movie::class, $ids));
         $title = static function () use ($client, $alias): ?string {
+            // Incremental writes become searchable on refresh, not immediately after bulk.
+            $client->refresh($alias);
             return $client->search($alias, ['query' => ['ids' => ['values' => ['900001']]]])['hits']['hits'][0]['_source']['title'] ?? null;
         };
         try {
@@ -99,6 +101,7 @@ final class ElasticLifecycleTest extends KernelTestCase
             }
             $em->flush();
             $drain();
+            $client->refresh($alias);
             $gateway = $container->get(\Survos\SearchBundle\Http\InstantSearchGateway::class);
             $response = $gateway->search([
                 ['indexName' => 'app_movie::year:desc', 'params' => ['query' => 'batmn', 'facetFilters' => [['genres:Action', 'genres:Drama']], 'numericFilters' => ['year>=1980', 'year<=2000']]],

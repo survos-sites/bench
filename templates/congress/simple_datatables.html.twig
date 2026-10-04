@@ -3,44 +3,29 @@
 {% block title %}Official index{% endblock %}
 
 {% block body %}
-    <h1>Using simple-datatables</h1>
+    {% set enhanced = useStimulus is defined ? useStimulus : true %}
+    <h1>{{ enhanced ? 'Using Grid' : 'Plain HTML table' }}</h1>
 
-    {% set _sc = '@survos/simple-datatables-bundle/table' %}
-    <p>
-        The table is generated with Symfony's make:crud, the stimulus_controller <code>{{ _sc }}</code> controller is to the table element.
-    </p>
-
-    <table class="table" {{ useStimulus|default(true) ? stimulus_controller(_sc, {perPage: app.request.query.get('perPage', 10)}) }}>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>OfficialName</th>
-                <th>Birthday</th>
-                <th>Gender</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for official in officials %}
-            <tr>
-                <td>{{ official.id }}</td>
-                <td>{{ official.firstName }}</td>
-                <td>{{ official.lastName }}</td>
-                <td>{{ official.officialName }}</td>
-                <td>{{ official.birthday ? official.birthday|date('Y-m-d') : '' }}</td>
-                <td>{{ official.gender }}</td>
-                <td>
-                    <a href="{{ path('app_congress_show', {'id': official.id}) }}">show</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    <twig:grid
+        :data="officials"
+        :columns="[
+            {name: 'id', title: 'Id'},
+            {name: 'firstName', title: 'FirstName'},
+            {name: 'lastName', title: 'LastName'},
+            {name: 'officialName', title: 'OfficialName'},
+            {name: 'birthday', title: 'Birthday'},
+            {name: 'gender', title: 'Gender'},
+            {name: 'actions', title: 'actions'}
+        ]"
+        :pageLength="max(1, app.request.query.getInt('perPage', 10))"
+        :useDatatables="enhanced"
+        :trans="false"
+        scrollY=""
+        :options="{columnDefs: [{targets: -1, orderable: false, searchable: false}]}"
+    >
+        <twig:block name="birthday">{{ row.birthday ? row.birthday|date('Y-m-d') : '' }}</twig:block>
+        <twig:block name="actions">
+            <a href="{{ path('app_congress_show', row.rp) }}">show</a>
+        </twig:block>
+    </twig:grid>
 {% endblock %}

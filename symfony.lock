@@ -287,6 +287,9 @@
     "survos/field-bundle": {
         "version": "dev-main"
     },
+    "survos/grid-bundle": {
+        "version": "2.34.39"
+    },
     "survos/html-prettify-bundle": {
         "version": "dev-main"
     },
@@ -319,9 +322,6 @@
     },
     "survos/search-bundle": {
         "version": "2.10.27"
-    },
-    "survos/simple-datatables-bundle": {
-        "version": "dev-main"
     },
     "survos/sitemap-parser-bundle": {
         "version": "1.5.133"

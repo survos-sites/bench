@@ -687,7 +687,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         signing_algorithm?: scalar|Param|null, // Default: "sha256"
  *         routing?: array<string, array{ // Default: []
  *             service?: scalar|Param|null,
- *             secret?: scalar|Param|null, // The secret used to verify incoming request signatures. It must be set in production: with an empty value, requests from any sender are accepted. // Default: ""
+ *             secret?: scalar|Param|null, // The secret used to verify incoming request signatures. It must be set in production: with an empty value, depending on the parser, requests from any sender are accepted or every request is rejected. // Default: ""
  *         }>,
  *     },
  *     remote_event?: bool|array{ // RemoteEvent configuration
@@ -1297,9 +1297,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             lifetime?: int|Param, // Default: 31536000
  *             path?: scalar|Param|null, // Default: "/"
  *             domain?: scalar|Param|null, // Default: null
- *             secure?: true|false|"auto"|Param, // Default: "auto"
+ *             secure?: true|false|"auto"|Param, // Defaults to the value of "framework.session.cookie_secure", or to "auto".
  *             httponly?: bool|Param, // Default: true
- *             samesite?: null|"lax"|"strict"|"none"|Param, // Default: "lax"
+ *             samesite?: null|"lax"|"strict"|"none"|Param, // Defaults to the value of "framework.session.cookie_samesite", or to "lax".
  *             always_remember_me?: bool|Param, // Default: false
  *             remember_me_parameter?: scalar|Param|null, // Default: "_remember_me"
  *         },
@@ -1321,6 +1321,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * }
  * @psalm-type MonologConfig = array{
  *     use_microseconds?: scalar|Param|null, // Default: true
+ *     timezone?: string|Param, // The timezone used for the timestamp of every log record (e.g. "UTC" or "Europe/Paris"). Defaults to the PHP default timezone. // Default: null
  *     channels?: list<scalar|Param|null>,
  *     handlers?: array<string, array{ // Default: []
  *         type?: scalar|Param|null,
@@ -1332,6 +1333,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         interactive_only?: bool|Param, // Default: false
  *         app_name?: scalar|Param|null, // Default: null
  *         include_stacktraces?: bool|Param, // Default: false
+ *         base_path?: scalar|Param|null, // Default: null
  *         process_psr_3_messages?: array{
  *             enabled?: bool|Param|null, // Default: null
  *             date_format?: scalar|Param|null,
@@ -1343,7 +1345,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         use_locking?: bool|Param, // Default: false
  *         filename_format?: scalar|Param|null, // Default: "{filename}-{date}"
  *         date_format?: scalar|Param|null, // Default: "Y-m-d"
- *         ident?: scalar|Param|null, // Default: false
+ *         ident?: scalar|Param|null, // Default: "php"
  *         logopts?: scalar|Param|null, // Default: 1
  *         facility?: scalar|Param|null, // Default: "user"
  *         max_files?: scalar|Param|null, // Default: 0
@@ -1380,6 +1382,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         title?: scalar|Param|null, // Default: null
  *         host?: scalar|Param|null, // Default: null
  *         port?: scalar|Param|null, // Default: 514
+ *         rfc?: scalar|Param|null, // Default: 1
  *         config?: list<scalar|Param|null>,
  *         members?: list<scalar|Param|null>,
  *         connection_string?: scalar|Param|null,
@@ -1390,6 +1393,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         connection_timeout?: scalar|Param|null,
  *         persistent?: bool|Param,
  *         message_type?: scalar|Param|null, // Default: 0
+ *         expand_newlines?: bool|Param, // Default: false
  *         parse_mode?: scalar|Param|null, // Default: null
  *         disable_webpage_preview?: bool|Param|null, // Default: null
  *         disable_notification?: bool|Param|null, // Default: null
@@ -1436,7 +1440,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             database?: scalar|Param|null, // Default: 0
  *             key_name?: scalar|Param|null, // Default: "monolog_redis"
  *         },
- *         predis?: Param|string|array{
+ *         predis?: Param|string|array{ // Deprecated: The "predis" option is deprecated and ignored, use the "redis" option to configure the Predis client.
  *             id?: scalar|Param|null,
  *             host?: scalar|Param|null,
  *         },
@@ -1445,6 +1449,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         subject?: scalar|Param|null,
  *         content_type?: scalar|Param|null, // Default: null
  *         headers?: list<scalar|Param|null>,
+ *         parameters?: list<scalar|Param|null>,
  *         mailer?: scalar|Param|null, // Default: null
  *         email_prototype?: Param|string|array{
  *             id?: scalar|Param|null,
@@ -1551,18 +1556,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         redirect_params?: list<scalar|Param|null>,
  *         use_state?: bool|Param|null, // Default: null
  *     }>,
+ *     login_route?: scalar|Param|null, // Default: "app_login"
  *     new_user_redirect_route?: scalar|Param|null, // Default: "oauth_profile"
  *     production_url_base?: scalar|Param|null, // Default: null
  *     user_provider?: scalar|Param|null, // Default: null
  *     user_class?: scalar|Param|null, // Default: "App\\Entity\\User"
  *     dev_auto_login?: scalar|Param|null, // User identifier (usually an email) to auto-authenticate as. Registers DevAutoLoginAuthenticator, which must then be listed in a when@dev firewall's custom_authenticators. Ignored entirely outside debug mode — there is no production code path. Point it at an env var so it can be switched off without editing security.yaml. // Default: null
- * }
- * @psalm-type SurvosSimpleDatatablesConfig = array{
- *     backend?: "simple"|"ux"|Param, // Default: "simple"
- *     stimulus_controller?: scalar|Param|null, // Default: "@survos/simple-datatables-bundle/table"
- *     per_page?: int|Param, // Default: 10
- *     searchable?: bool|Param, // Default: true
- *     fixed_height?: scalar|Param|null, // Default: true
  * }
  * @psalm-type SentryConfig = array{
  *     dsn?: scalar|Param|null, // If this value is not provided, the SDK will try to read it from the SENTRY_DSN environment variable. If that variable also does not exist, the SDK will not send any events.
@@ -1745,7 +1744,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             timeout?: int|Param, // Connection timeout in seconds // Default: 90
  *             ignore_passive_address?: scalar|Param|null, // Ignore passive address // Default: null
  *             utf8?: bool|Param, // Enable UTF8 mode // Default: false
- *             transfer_mode?: scalar|Param|null, // Transfer mode (FTP_ASCII or FTP_BINARY constante on ftp extension) // Default: null
+ *             transfer_mode?: scalar|Param|null, // Transfer mode (FTP_ASCII or FTP_BINARY constant on ftp extension) // Default: null
  *             system_type?: null|"windows"|"unix"|Param, // FTP system type // Default: null
  *             timestamps_on_unix_listings_enabled?: bool|Param, // Enable timestamps on Unix listings // Default: false
  *             recurse_manually?: bool|Param, // Recurse directories manually // Default: true
@@ -1840,8 +1839,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         disable_asserts?: bool|Param, // Deprecated: The "disable_asserts" option is deprecated and will be removed in 4.0. // Default: false
  *         public_url?: list<scalar|Param|null>,
  *         path_normalizer?: scalar|Param|null, // Path normalizer service name (should implement League\Flysystem\PathNormalizer) // Default: null
- *         public_url_generator?: scalar|Param|null, // For adapter that do not provide public URLs or override adapter capabilities and public_url option, a public URL generator service name can be configured in the main Filesystem configuration (should implement League\Flysystem\PublicUrlGenerator) // Default: null
- *         temporary_url_generator?: scalar|Param|null, // For adapter that do not provide public URLs or override adapter capabilities, a temporary URL generator service name can be configured in the main Filesystem configuration (should implement League\Flysystem\TemporaryUrlGenerator) // Default: null
+ *         public_url_generator?: scalar|Param|null, // For adapter that do not provide public URLs or override adapter capabilities and public_url option, a public URL generator service name can be configured in the main Filesystem configuration (should implement League\Flysystem\UrlGeneration\PublicUrlGenerator) // Default: null
+ *         temporary_url_generator?: scalar|Param|null, // For adapter that do not provide public URLs or override adapter capabilities, a temporary URL generator service name can be configured in the main Filesystem configuration (should implement League\Flysystem\UrlGeneration\TemporaryUrlGenerator) // Default: null
  *         read_only?: bool|Param, // Converts a file system to read-only // Default: false
  *     }>,
  * }
@@ -1916,6 +1915,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         filter_action?: scalar|Param|null, // Default: "Liip\\ImagineBundle\\Controller\\ImagineController::filterAction"
  *         filter_runtime_action?: scalar|Param|null, // Default: "Liip\\ImagineBundle\\Controller\\ImagineController::filterRuntimeAction"
  *         redirect_response_code?: int|Param, // Default: 302
+ *         debug?: bool|Param|null, // Whether to report images that can not be generated as an error. Defaults to the kernel debug mode. When disabled, the default image is served instead, if one is configured. // Default: null
  *     },
  *     filter_sets?: array<string, array{ // Default: []
  *         quality?: scalar|Param|null,
@@ -1974,6 +1974,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         size?: "mini"|"midi"|"maxi"|Param, // Default: "midi"
  *         theme?: scalar|Param|null, // Default: "_none_"
  *         connection?: scalar|Param|null, // Default: null
+ *         include?: list<scalar|Param|null>,
  *         exclude?: list<scalar|Param|null>,
  *     },
  *     class?: array{
@@ -1981,6 +1982,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         size?: "mini"|"midi"|"maxi"|Param, // Default: "midi"
  *         theme?: scalar|Param|null, // Default: "_none_"
  *         em?: scalar|Param|null, // Default: null
+ *         include?: list<scalar|Param|null>,
  *         exclude?: list<scalar|Param|null>,
  *     },
  *     convert?: array{
@@ -2059,6 +2061,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * }
  * @psalm-type SurvosImportConfig = array{
  *     dir?: scalar|Param|null, // Default directory for data files // Default: "data"
+ *     work_compression?: scalar|Param|null, // Dataset stage output (normalize, enrich, ai): false writes <core>.jsonl; 0-9 writes <core>.jsonl.gz at that gzip level // Default: false
  *     dto_namespace_roots?: list<scalar|Param|null>,
  *     dto_mappings?: array<string, scalar|Param|null>,
  * }
@@ -2066,7 +2069,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: ""
  *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
- *     stimulus_controller?: scalar|Param|null, // The stimulus controller to use, should extend @survos/api-grid/api-grid // Default: "@survos/api-grid/api-grid"
+ *     stimulus_controller?: scalar|Param|null, // The stimulus controller to use, should extend survos--api-grid-bundle--api-grid // Default: "survos--api-grid-bundle--api-grid"
  *     meiliHost?: scalar|Param|null, // Default: "%env(MEILI_SERVER)%"
  *     meiliKey?: scalar|Param|null, // Default: "%env(MEILI_API_KEY)%"
  *     meiliPrefix?: scalar|Param|null, // Default: "%env(MEILI_PREFIX)%"
@@ -2410,7 +2413,15 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
  *         }>,
  *         bedrock?: array<string, array{ // Default: []
- *             bedrock_runtime_client?: string|Param, // Service ID of the Bedrock runtime client to use // Default: null
+ *             api?: "invoke_model"|"completions"|"responses"|"messages"|Param, // Inference engine and protocol: the SDK-based InvokeModel API, or one of the Bedrock Mantle routes // Default: "invoke_model"
+ *             bedrock_runtime_client?: string|Param, // Service ID of the Bedrock runtime client to use; only valid with "api: invoke_model" // Default: null
+ *             api_key?: string|Param, // Bedrock API key; when omitted, requests are signed with AWS SigV4. Mantle only
+ *             region?: string|Param, // AWS region the Mantle base URL is derived from, defaults to "us-west-2". Mantle only
+ *             credential_provider?: string|Param, // Service ID of the AsyncAws credential provider used for SigV4 signing. Mantle only
+ *             http_client?: string|Param, // Service ID of the HTTP client to use, defaults to "http_client". Mantle only
+ *             path?: string|Param, // Overrides the Mantle request path, for models served on the other path prefix
+ *             cache_retention?: "none"|"short"|"long"|Param, // Anthropic Messages prompt-cache retention, defaults to "short"; only valid with "api: messages"
+ *             workspace?: string|Param, // Bedrock Mantle workspace ID sent with Anthropic Messages requests; only valid with "api: messages"
  *             model_catalog?: string|Param, // Default: null
  *         }>,
  *         cache?: array<string, array{ // Default: []
@@ -2450,6 +2461,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             host_url?: string|Param, // Default: "http://127.0.0.1:12434"
  *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
  *         },
+ *         edenai?: array{
+ *             api_key?: string|Param,
+ *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
+ *         },
  *         elevenlabs?: array{
  *             api_key?: string|Param,
  *             endpoint?: string|Param, // Default: "https://api.elevenlabs.io/v1/"
@@ -2459,6 +2474,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             platforms?: list<scalar|Param|null>,
  *             rate_limiter?: string|Param,
  *         }>,
+ *         fireworks?: array{
+ *             api_key?: string|Param,
+ *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
+ *         },
  *         gemini?: array{
  *             api_key?: string|Param,
  *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
@@ -2473,6 +2492,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             completions_path?: string|Param, // Default: "/v1/chat/completions"
  *             embeddings_path?: string|Param, // Default: "/v1/embeddings"
  *         }>,
+ *         higgsfield?: array{
+ *             api_key?: string|Param,
+ *             api_secret?: string|Param,
+ *             base_url?: string|Param, // Base URL of the Higgsfield API. Defaults to "https://platform.higgsfield.ai" when null.
+ *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
+ *             model_catalog?: string|Param, // Service ID of the model catalog to use
+ *         },
  *         huggingface?: array{
  *             api_key?: string|Param,
  *             provider?: string|Param, // Default: "hf-inference"
@@ -2524,7 +2550,21 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             api_key?: scalar|Param|null,
  *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
  *         },
+ *         together?: array{
+ *             api_key?: string|Param,
+ *             endpoint?: string|Param, // Base endpoint for the Together API. Defaults to "https://api.together.xyz" when null.
+ *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
+ *         },
  *         transformersphp?: array<mixed>,
+ *         typesafe?: array{
+ *             api_key?: string|Param,
+ *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
+ *         },
+ *         venice?: array{
+ *             api_key?: string|Param,
+ *             endpoint?: string|Param, // Default: "https://api.venice.ai/api/v1/"
+ *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
+ *         },
  *         vertexai?: array{
  *             location?: string|Param, // Required for the project-scoped endpoint. Must be set together with "project_id". // Default: null
  *             project_id?: string|Param, // Required for the project-scoped endpoint. Must be set together with "location". // Default: null
@@ -2553,15 +2593,18 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         },
  *         tools?: bool|array{ // Tools are opt-in: set to true to inject all services tagged with "ai.tool", or configure an explicit list of tools. When the option is omitted (or set to null or false), no tools are registered.
  *             enabled?: bool|Param, // Default: false
+ *             execution_strategy?: scalar|Param|null, // The tool execution strategy. Built-in options are "sequential" (default) and "fiber". A custom service ID implementing ToolExecutorInterface can also be provided. // Default: null
  *             services?: list<Param|string|array{ // Default: []
  *                 service?: string|Param,
  *                 agent?: string|Param,
+ *                 mcp_server?: string|Param, // A remote MCP server whose tools are exposed to this agent, as "<client>.<server>" referencing a connection configured under "mcp.clients".
  *                 name?: string|Param,
  *                 description?: string|Param,
  *                 method?: string|Param,
+ *                 prefix?: string|Param, // Only with "mcp_server": prefix put in front of every remote tool name. Defaults to "<server>_".
  *             }>,
  *         },
- *         keep_tool_messages?: bool|Param, // Keep tool messages in the conversation history // Default: false
+ *         exclude_tool_messages?: bool|Param, // Exclude tool messages from the conversation history // Default: false
  *         include_sources?: bool|Param, // Include sources exposed by tools as part of the tool result metadata // Default: false
  *         max_tool_calls?: scalar|Param|null, // Maximum number of tool calls per agent call, null to disable // Default: 50
  *         fault_tolerant_toolbox?: bool|Param, // Continue the agent run even if a tool call fails // Default: true
@@ -2597,6 +2640,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         chromadb?: array<string, array{ // Default: []
  *             client?: string|Param, // Default: "Codewithkyrian\\ChromaDB\\Client"
  *             collection?: string|Param,
+ *             embedding_function?: string|Param, // Service id of a Codewithkyrian\ChromaDB\Embeddings\EmbeddingFunction, required to query the store with a TextQuery.
  *         }>,
  *         clickhouse?: array<string, array{ // Default: []
  *             dsn?: string|Param,
@@ -2619,7 +2663,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             vectors_field?: string|Param, // Default: "_vectors"
  *             dimensions?: int|Param, // Default: 1536
  *             similarity?: string|Param, // Default: "cosine"
- *             http_client?: string|Param, // Default: "http_client"
+ *             http_client?: string|Param,
  *         }>,
  *         manticoresearch?: array<string, array{ // Default: []
  *             endpoint?: string|Param,
@@ -2629,6 +2673,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             similarity?: string|Param, // Default: "cosine"
  *             dimensions?: int|Param, // Default: 1536
  *             quantization?: string|Param,
+ *             http_client?: string|Param,
  *         }>,
  *         mariadb?: array<string, array{ // Default: []
  *             connection?: string|Param,
@@ -2661,6 +2706,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             vector_field?: string|Param, // Default: "_vectors"
  *             dimensions?: int|Param, // Default: 1536
  *             metric_type?: string|Param, // Default: "COSINE"
+ *             http_client?: string|Param,
  *         }>,
  *         mongodb?: array<string, array{ // Default: []
  *             client?: string|Param, // Default: "MongoDB\\Client"
@@ -2684,6 +2730,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             dimensions?: int|Param, // Default: 1536
  *             distance?: string|Param, // Default: "cosine"
  *             quantization?: bool|Param,
+ *             http_client?: string|Param,
  *         }>,
  *         opensearch?: array<string, array{ // Default: []
  *             endpoint?: string|Param,
@@ -2691,7 +2738,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             vectors_field?: string|Param, // Default: "_vectors"
  *             dimensions?: int|Param, // Default: 1536
  *             space_type?: string|Param, // Default: "l2"
- *             http_client?: string|Param, // Default: "http_client"
+ *             http_client?: string|Param,
  *         }>,
  *         pinecone?: array<string, array{ // Default: []
  *             client?: string|Param, // Default: "Probots\\Pinecone\\Client"
@@ -2734,10 +2781,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *         s3vectors?: array<string, array{ // Default: []
  *             client?: string|Param, // Service reference to an existing S3VectorsClient
- *             configuration?: array<mixed>,
+ *             configuration?: list<scalar|Param|null>,
  *             vector_bucket_name?: string|Param,
  *             index_name?: string|Param,
- *             filter?: array<mixed>,
+ *             filter?: list<mixed>,
  *             top_k?: int|Param, // Default number of results to return // Default: 3
  *         }>,
  *         sqlite?: array<string, array{ // Default: []
@@ -2750,7 +2797,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             vector_dimension?: int|Param, // Default: 1536
  *         }>,
  *         supabase?: array<string, array{ // Default: []
- *             http_client?: string|Param, // Service ID of the HTTP client to use // Default: "http_client"
+ *             http_client?: string|Param, // Service ID of the HTTP client to use
  *             url?: string|Param,
  *             api_key?: string|Param,
  *             table?: string|Param,
@@ -3055,6 +3102,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     pretty_print?: scalar|Param|null, // Indent the JSON-LD. Readable in dev, wasted bytes in prod, so it follows kernel.debug by default. Accepts a bool or a parameter reference. // Default: "%kernel.debug%"
  *     auto_inject?: bool|Param, // Insert the JSON-LD before </head> on HTML responses instead of calling render_schema_org() in a template. For apps whose layout you would rather not edit. Off by default: an explicit Twig call is greppable, injected output is not. A template that calls render_schema_org() suppresses the injection, so enabling this can never double up. // Default: false
  * }
+ * @psalm-type SurvosGridConfig = array{
+ *     stimulus_controller?: scalar|Param|null, // Default: "survos--grid-bundle--grid"
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -3074,7 +3124,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     nelmio_cors?: NelmioCorsConfig,
  *     knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *     survos_auth?: SurvosAuthConfig,
- *     survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *     fos_js_routing?: FosJsRoutingConfig,
  *     survos_crawler?: SurvosCrawlerConfig,
  *     survos_wiki?: SurvosWikiConfig,
@@ -3102,6 +3151,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     survos_fetch?: SurvosFetchConfig,
  *     survos_elastic?: SurvosElasticConfig,
  *     survos_schema_org?: SurvosSchemaOrgConfig,
+ *     survos_grid?: SurvosGridConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -3124,7 +3174,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         nelmio_cors?: NelmioCorsConfig,
  *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         survos_auth?: SurvosAuthConfig,
- *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_crawler?: SurvosCrawlerConfig,
  *         survos_command?: SurvosCommandConfig,
@@ -3157,6 +3206,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
  *         survos_schema_org?: SurvosSchemaOrgConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -3177,7 +3227,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         nelmio_cors?: NelmioCorsConfig,
  *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         survos_auth?: SurvosAuthConfig,
- *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         sentry?: SentryConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_crawler?: SurvosCrawlerConfig,
@@ -3206,6 +3255,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
  *         survos_schema_org?: SurvosSchemaOrgConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -3227,7 +3277,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         nelmio_cors?: NelmioCorsConfig,
  *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         survos_auth?: SurvosAuthConfig,
- *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_crawler?: SurvosCrawlerConfig,
  *         survos_command?: SurvosCommandConfig,
@@ -3260,6 +3309,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
  *         survos_schema_org?: SurvosSchemaOrgConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

@@ -37,7 +37,7 @@
         "liip/imagine-bundle": "^2.12",
         "liquid/liquid": "^1.4",
         "nelmio/cors-bundle": "^2.3.1",
-        "openai-php/client": "^0.19.0",
+        "openai-php/client": "^0.21",
         "phpdocumentor/reflection-docblock": "^5.2|^6.0",
         "phpmetrics/phpmetrics": "^3.0",
         "phpstan/phpdoc-parser": "^2.3",
@@ -61,14 +61,13 @@
         "survos/media-bundle": "^2.7",
         "survos/schema-org-bundle": "^2.24",
         "survos/search-bundle": "^2.24",
-        "survos/simple-datatables-bundle": "^2.0",
         "survos/state-bundle": "^2.0",
         "survos/tabler-bundle": "^2.0",
         "survos/tui-extras-bundle": "^2.31",
         "survos/wiki-bundle": "^2.0",
-        "symfony/ai-agent": "^0.12",
-        "symfony/ai-bundle": "^0.12",
-        "symfony/ai-open-ai-platform": "^0.12",
+        "symfony/ai-agent": "^0.14",
+        "symfony/ai-bundle": "^0.14",
+        "symfony/ai-open-ai-platform": "^0.14",
         "symfony/asset": "^8.0",
         "symfony/asset-mapper": "^8.0",
         "symfony/console": "^8.0",
@@ -107,7 +106,8 @@
         "twig/intl-extra": "^3.8",
         "twig/markdown-extra": "^3.8",
         "twig/twig": "^3.13",
-        "zenstruck/messenger-monitor-bundle": "^0.6.0"
+        "zenstruck/messenger-monitor-bundle": "^0.6.0",
+        "survos/grid-bundle": "^2.34.39"
     },
     "config": {
         "allow-plugins": {
@@ -172,7 +172,7 @@
         "dbrekelmans/bdi": "^1.4",
         "doctrine/doctrine-fixtures-bundle": "^3.4.4||^4.0",
         "friendsofphp/php-cs-fixer": "^3.70",
-        "jawira/doctrine-diagram-bundle": "^1.0",
+        "jawira/doctrine-diagram-bundle": "^2.0",
         "nette/php-generator": "^4.1",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^13.0",
@@ -190,7 +190,7 @@
         "symfony/stopwatch": "^8.0",
         "symfony/web-profiler-bundle": "^8.0",
         "symplify/easy-coding-standard": "^13.0",
-        "vincentlanglet/twig-cs-fixer": "^3.0",
+        "vincentlanglet/twig-cs-fixer": "^4.1",
         "yethee/tiktoken": "^1.0"
     },
     "repositories": [

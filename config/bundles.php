@@ -20,7 +20,6 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle::class => ['all' => true],
     Survos\AuthBundle\SurvosAuthBundle::class => ['all' => true],
-    Survos\SimpleDatatables\SurvosSimpleDatatablesBundle::class => ['all' => true],
     Sentry\SentryBundle\SentryBundle::class => ['prod' => true],
     FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
     Survos\CrawlerBundle\SurvosCrawlerBundle::class => ['all' => true],
@@ -58,4 +57,5 @@ return [
     Survos\FetchBundle\SurvosFetchBundle::class => ['all' => true],
     Survos\ElasticBundle\SurvosElasticBundle::class => ['all' => true],
     Survos\SchemaOrgBundle\SurvosSchemaOrgBundle::class => ['all' => true],
+    Survos\Grid\SurvosGridBundle::class => ['all' => true],
 ];

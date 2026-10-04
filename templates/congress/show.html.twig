@@ -7,27 +7,12 @@
 
     <a class="btn btn-danger" href="{{ path('congress_refresh', official.rp) }}">Refresh </a>
 
-{#    {{ dump(official) }}#}
-    <h3>
-        {{ official.imageCount }} Image(s)
-    </h3>
-    <ul>
-
-        {% for code, imageData in official.imageCodes %}
-            {% for filter, size in imageData %}
-                    {% set thumb = code|survos_image_filter(filter) %}
-                    <div class="item">
-                        <a href="{{ thumb }}" target="_blank">
-                            <img src="{{ thumb }}" title="{{ thumb }}" alt="{{ thumb }}" class="img-{{ filter }}" />
-                        </a>
-                        <br />{{ filter }} {{ (size/1024)|number_format(1) }}kb
-                    </div>
-            {% endfor %}
-        {% endfor %}
-
-
-    </ul>
-
+    {% if official.originalImageUrl %}
+        <h3>Image</h3>
+        <a href="{{ official.originalImageUrl }}" target="_blank" rel="noopener">
+            <img src="{{ media_resize(official.originalImageUrl, 'thumb') }}" alt="{{ official.officialName }}" />
+        </a>
+    {% endif %}
 
     <h3>twig:item_grid (wikidata)</h3>
     <twig:item_grid :data="official.wikidata">

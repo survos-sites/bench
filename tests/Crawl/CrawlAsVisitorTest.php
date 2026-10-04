@@ -73,7 +73,7 @@ class CrawlAsVisitorTest extends WebTestCase
 	#[TestWith(['', '/admin/wine/render-filters', 200])]
 	#[TestWith(['', '/js/routing', 200])]
 	#[TestWith(['', '/auth/login', 200])]
-	#[TestWith(['', '/auth/profile', 401])]
+	#[TestWith(['', '/auth/profile', 302])]
 	#[TestWith(['', '/auth/providers', 200])]
 	#[TestWith(['', '/auth/register', 200])]
 	#[TestWith(['', '/crawler/crawlerdata', 200])]

@@ -195,15 +195,6 @@
     },
     "repositories": [
         {
-            "type": "composer",
-            "url": "https://satis.survos.com",
-            "only": [
-                "survos/api-grid-bundle",
-                "survos/code-bundle",
-                "survos/tui-extras-bundle"
-            ]
-        },
-        {
             "name": "schema-org-bundle",
             "type": "vcs",
             "url": "https://github.com/tacman/schema-org-bundle"

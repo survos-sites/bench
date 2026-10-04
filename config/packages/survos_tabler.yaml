@@ -8,8 +8,6 @@ survos_tabler:
         menu_slots: false
     options:
         theme: tabler
-    menu_options:
-        tenant: null
 
     app:
         code: searchbench

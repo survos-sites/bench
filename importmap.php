@@ -101,7 +101,6 @@ return [
     'htm' => ['version' => '3.1.1'],
     'pretty-print-json' => ['version' => '3.0.8'],
     'pretty-print-json/dist/css/pretty-print-json.min.css' => ['version' => '3.0.8', 'type' => 'css'],
-    'instantsearch.css/themes/algolia.min.css' => ['version' => '8.19.0', 'type' => 'css'],
     '@stimulus-components/dialog' => ['version' => '1.0.1'],
     '@andypf/json-viewer' => ['version' => '2.8.0'],
     'side-channel' => ['version' => '1.1.1'],

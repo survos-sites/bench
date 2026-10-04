@@ -1558,8 +1558,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     dev_auto_login?: scalar|Param|null, // User identifier (usually an email) to auto-authenticate as. Registers DevAutoLoginAuthenticator, which must then be listed in a when@dev firewall's custom_authenticators. Ignored entirely outside debug mode — there is no production code path. Point it at an env var so it can be switched off without editing security.yaml. // Default: null
  * }
  * @psalm-type SurvosSimpleDatatablesConfig = array{
+ *     backend?: "simple"|"ux"|Param, // Default: "simple"
  *     stimulus_controller?: scalar|Param|null, // Default: "@survos/simple-datatables-bundle/table"
- *     per_page?: bool|Param, // Default: 10
+ *     per_page?: int|Param, // Default: 10
  *     searchable?: bool|Param, // Default: true
  *     fixed_height?: scalar|Param|null, // Default: true
  * }
@@ -1687,6 +1688,21 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     subdomain_variable?: scalar|Param|null, // Default: "subdomain"
  *     track?: bool|Param, // Record each (namespaced) command run as a CommandProcess row for monitoring. // Default: true
  *     namespaces?: list<scalar|Param|null>,
+ *     agent_tools?: list<Param|string|array{ // Default: []
+ *         command?: scalar|Param|null,
+ *         name?: scalar|Param|null, // Default: null
+ *         description?: scalar|Param|null, // Agent-facing description; default: the command's one-line description (its CLI help is never sent) // Default: null
+ *         title?: scalar|Param|null, // Default: null
+ *         readOnly?: bool|Param, // Default: false
+ *         destructive?: bool|Param, // Default: false
+ *         idempotent?: bool|Param, // Default: false
+ *         public?: bool|Param, // no sign-in needed; readOnly tools only // Default: false
+ *         role?: scalar|Param|null, // checked unless public; null = ROLE_ADMIN // Default: null
+ *     }>,
+ *     agent?: array{ // Bearer-token sign-in for /mcp (see Survos\CommandBundle\Security\AgentTokenHandler).
+ *         token?: scalar|Param|null, // e.g. %env(default::AGENT_TOKEN)%; unset = no token accepted // Default: null
+ *         user?: scalar|Param|null, // user identifier the token signs in as, e.g. an admin email // Default: null
+ *     },
  * }
  * @psalm-type SurvosWikiConfig = array{
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
@@ -2034,6 +2050,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * }
  * @psalm-type SurvosEzConfig = array{
  *     enabled?: bool|Param, // Default: true
+ * }
+ * @psalm-type SurvosJsonlConfig = array{
+ *     compression_level?: int|Param, // Default: 1
  * }
  * @psalm-type SurvosDeploymentConfig = array{
  *     enabled?: bool|Param, // Default: true
@@ -3066,6 +3085,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     survos_state?: SurvosStateConfig,
  *     zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *     survos_ez?: SurvosEzConfig,
+ *     survos_jsonl?: SurvosJsonlConfig,
  *     survos_import?: SurvosImportConfig,
  *     survos_api_grid?: SurvosApiGridConfig,
  *     survos_js_twig?: SurvosJsTwigConfig,
@@ -3118,6 +3138,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
+ *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_deployment?: SurvosDeploymentConfig,
  *         survos_import?: SurvosImportConfig,
  *         survos_api_grid?: SurvosApiGridConfig,
@@ -3168,6 +3189,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
+ *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_import?: SurvosImportConfig,
  *         survos_api_grid?: SurvosApiGridConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
@@ -3219,6 +3241,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
+ *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_deployment?: SurvosDeploymentConfig,
  *         survos_import?: SurvosImportConfig,
  *         survos_api_grid?: SurvosApiGridConfig,

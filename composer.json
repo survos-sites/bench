@@ -28,7 +28,6 @@
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.4.2",
         "easycorp/easyadmin-bundle": "^5.0",
-        "friendsofsymfony/jsrouting-bundle": "dev-master",
         "halaxa/json-machine": "^1.2",
         "inspector-apm/inspector-symfony": "^1.8",
         "league/commonmark": "^2.8",

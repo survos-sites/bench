@@ -679,7 +679,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  *     webhook?: bool|array{ // Webhook configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *         message_bus?: scalar|Param|null, // The message bus to use. // Default: "messenger.default_bus"
  *         event_header_name?: scalar|Param|null, // Default: "Webhook-Event"
  *         id_header_name?: scalar|Param|null, // Default: "Webhook-Id"
@@ -691,7 +691,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  *     remote-event?: bool|array{ // RemoteEvent configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *     },
  *     json_streamer?: bool|array{ // JSON streamer configuration
  *         enabled?: bool|Param, // Default: false
@@ -1551,14 +1551,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         redirect_params?: list<scalar|Param|null>,
  *         use_state?: bool|Param|null, // Default: null
  *     }>,
+ *     login_route?: scalar|Param|null, // Default: "app_login"
  *     new_user_redirect_route?: scalar|Param|null, // Default: "oauth_profile"
  *     production_url_base?: scalar|Param|null, // Default: null
  *     user_provider?: scalar|Param|null, // Default: null
  *     user_class?: scalar|Param|null, // Default: "App\\Entity\\User"
+ *     dev_auto_login?: scalar|Param|null, // User identifier (usually an email) to auto-authenticate as. Registers DevAutoLoginAuthenticator, which must then be listed in a when@dev firewall's custom_authenticators. Ignored entirely outside debug mode — there is no production code path. Point it at an env var so it can be switched off without editing security.yaml. // Default: null
  * }
  * @psalm-type SurvosSimpleDatatablesConfig = array{
  *     stimulus_controller?: scalar|Param|null, // Default: "@survos/simple-datatables-bundle/table"
- *     per_page?: bool|Param, // Default: 10
+ *     per_page?: int|Param, // Default: 10
  *     searchable?: bool|Param, // Default: true
  *     fixed_height?: scalar|Param|null, // Default: true
  * }
@@ -1646,19 +1648,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         },
  *     },
  * }
- * @psalm-type FosJsRoutingConfig = array{
- *     serializer?: scalar|Param|null,
- *     routes_to_expose?: list<scalar|Param|null>,
- *     router?: scalar|Param|null, // Default: "router"
- *     request_context_base_url?: scalar|Param|null, // Default: null
- *     cache_control?: array{
- *         public?: bool|Param, // Default: false
- *         expires?: scalar|Param|null, // Default: null
- *         maxage?: scalar|Param|null, // Default: null
- *         smaxage?: scalar|Param|null, // Default: null
- *         vary?: list<scalar|Param|null>,
- *     },
- * }
  * @psalm-type SurvosCrawlerConfig = array{
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/crawler"
@@ -1686,6 +1675,21 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     subdomain_variable?: scalar|Param|null, // Default: "subdomain"
  *     track?: bool|Param, // Record each (namespaced) command run as a CommandProcess row for monitoring. // Default: true
  *     namespaces?: list<scalar|Param|null>,
+ *     agent_tools?: list<Param|string|array{ // Default: []
+ *         command?: scalar|Param|null,
+ *         name?: scalar|Param|null, // Default: null
+ *         description?: scalar|Param|null, // Agent-facing description; default: the command's one-line description (its CLI help is never sent) // Default: null
+ *         title?: scalar|Param|null, // Default: null
+ *         readOnly?: bool|Param, // Default: false
+ *         destructive?: bool|Param, // Default: false
+ *         idempotent?: bool|Param, // Default: false
+ *         public?: bool|Param, // no sign-in needed; readOnly tools only // Default: false
+ *         role?: scalar|Param|null, // checked unless public; null = ROLE_ADMIN // Default: null
+ *     }>,
+ *     agent?: array{ // Bearer-token sign-in for /mcp (see Survos\CommandBundle\Security\AgentTokenHandler).
+ *         token?: scalar|Param|null, // e.g. %env(default::AGENT_TOKEN)%; unset = no token accepted // Default: null
+ *         user?: scalar|Param|null, // user identifier the token signs in as, e.g. an admin email // Default: null
+ *     },
  * }
  * @psalm-type SurvosWikiConfig = array{
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
@@ -2085,10 +2089,26 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
  *     queue_prefix?: scalar|Param|null, // Default: ""
  *     base_layout?: scalar|Param|null, // Default: "base.html.twig"
- *     enable_dynamic_routing?: bool|Param, // Default: true
+ *     enable_dynamic_routing?: bool|Param, // Inert as of 2026-09-12: transition routing comes from AsyncQueueLocator::stamps() at the dispatch site, not from middleware. See SurvosStateBundle::loadExtension(). // Default: true
+ *     batch_size?: int|Param, // Default size for #[Transition(batch: true-ish)] groups; a transition's own batch: N wins // Default: 100
+ *     batch_idle_timeout?: int|Param, // Seconds of worker idleness after which a partial batch is flushed // Default: 5
+ *     batch_enabled?: bool|Param, // Off: #[Transition(batch: N)] transitions travel as plain TransitionMessages, one at a time, exactly as if unbatched. Env-able: '%env(bool:APP_BATCH)%' // Default: true
+ *     allow_force_place?: scalar|Param|null, // Default: "%kernel.debug%"
  *     workflow_paths?: list<scalar|Param|null>,
  *     async_transport_dsn?: scalar|Param|null, // Default: "doctrine://default"
  *     queue_driver?: "doctrine"|"rabbitmq"|Param, // Default: "doctrine"
+ *     max_priority?: int|Param, // Default: null
+ *     prefetch_count?: int|Param, // Default: null
+ *     queue_options?: array<string, array{ // Default: []
+ *         max_priority?: int|Param,
+ *         prefetch_count?: int|Param,
+ *     }>,
+ *     retry_strategy?: array{
+ *         max_retries?: int|Param, // Default: 3
+ *         delay?: int|Param, // Default: 1000
+ *         multiplier?: float|Param, // Default: 2
+ *         max_delay?: int|Param, // Default: 0
+ *     },
  * }
  * @psalm-type ZenstruckMessengerMonitorConfig = array{
  *     storage?: array{
@@ -2105,11 +2125,15 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type SurvosEzConfig = array{
  *     enabled?: bool|Param, // Default: true
  * }
+ * @psalm-type SurvosJsonlConfig = array{
+ *     compression_level?: int|Param, // Default: 1
+ * }
  * @psalm-type SurvosDeploymentConfig = array{
  *     enabled?: bool|Param, // Default: true
  * }
  * @psalm-type SurvosImportConfig = array{
  *     dir?: scalar|Param|null, // Default directory for data files // Default: "data"
+ *     work_compression?: scalar|Param|null, // Dataset stage output (normalize, enrich, ai): false writes <core>.jsonl; 0-9 writes <core>.jsonl.gz at that gzip level // Default: false
  *     dto_namespace_roots?: list<scalar|Param|null>,
  *     dto_mappings?: array<string, scalar|Param|null>,
  * }
@@ -2117,11 +2141,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: ""
  *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
- *     stimulus_controller?: scalar|Param|null, // The stimulus controller to use, should extend @survos/api-grid/api-grid // Default: "@survos/api-grid/api-grid"
+ *     stimulus_controller?: scalar|Param|null, // The stimulus controller to use, should extend survos--api-grid-bundle--api-grid // Default: "survos--api-grid-bundle--api-grid"
  *     meiliHost?: scalar|Param|null, // Default: "%env(MEILI_SERVER)%"
  *     meiliKey?: scalar|Param|null, // Default: "%env(MEILI_API_KEY)%"
  *     meiliPrefix?: scalar|Param|null, // Default: "%env(MEILI_PREFIX)%"
- *     meili_provider?: bool|Param, // Register MeiliSearchStateProvider as a global api_platform.state_provider. Only enable when Meili is configured and entities should be served from it. // Default: false
+ *     meili_provider?: bool|Param, // Legacy option retained for configuration compatibility. Explicit operation providers are always registered; Doctrine remains the default. // Default: false
  *     passLocale?: bool|Param, // Default: false
  *     maxValuesPerFacet?: int|Param, // https://www.meilisearch.com/docs/reference/api/settings#faceting-object // Default: 1000
  * }
@@ -2937,6 +2961,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         logo_small?: scalar|Param|null, // Default: null
  *         homepage_route?: scalar|Param|null, // Default: null
  *         homepage_url?: scalar|Param|null, // Default: null
+ *         tunnel_host?: scalar|Param|null, // Default: "%env(default::TUNNEL_HOST)%"
+ *         local_host?: scalar|Param|null, // Default: "%env(default::APP_BASE_URL)%"
  *         links?: array{
  *             github?: scalar|Param|null, // Default: null
  *             docs?: scalar|Param|null, // Default: null
@@ -2952,6 +2978,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         },
  *         header?: array{
  *             locale_switcher?: bool|Param, // Default: true
+ *             layout?: "stacked"|"compact"|Param, // stacked: NAVBAR_MENU gets its own row under the brand. compact: brand, every nav slot and the right-hand tools share one row. // Default: "stacked"
  *             container?: scalar|Param|null, // Default: "container-fluid"
  *             auth?: array{
  *                 enabled?: bool|Param, // Default: true
@@ -2992,6 +3019,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         dark_mode?: bool|Param, // Default: false
  *         show_locale_dropdown?: bool|Param, // Default: true
  *     },
+ *     auto_breadcrumbs?: bool|Param, // Build the BREADCRUMB slot from the page's entities: each object option whose class has a #[RouteMeta(entity:, purpose: Show)] route becomes a crumb. See BreadcrumbMenuSubscriber. // Default: false
  *     menu_options?: array<string, scalar|Param|null>,
  *     impersonate?: array<string, scalar|Param|null>,
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
@@ -3040,6 +3068,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         options?: list<mixed>,
  *     }>,
  * }
+ * @psalm-type SurvosKitConfig = array{
+ *     webhook?: array{
+ *         http_client?: scalar|Param|null, // Default: null
+ *         transports?: list<scalar|Param|null>,
+ *     },
+ * }
  * @psalm-type LiveComponentConfig = array{
  *     secret?: scalar|Param|null, // The secret used to compute fingerprints and checksums // Default: "%kernel.secret%"
  *     fetch_credentials?: "same-origin"|"include"|"omit"|Param, // The default fetch credentials mode for all Live Components ('same-origin', 'include', 'omit') // Default: "same-origin"
@@ -3049,6 +3083,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: ""
  *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
  *     default_adapter?: scalar|Param|null, // Default: "default"
+ *     public_searches?: list<scalar|Param|null>,
+ *     entity_adapters?: array<string, scalar|Param|null>,
  *     index_prefix?: scalar|Param|null, // Prefix applied to every Elasticsearch index name, once, by ElasticIndexNameResolver. Reuses MEILI_PREFIX so one app has one index namespace across both engines. Leaving it unset is an error the first time a name is resolved: bare index names share a flat cluster namespace with every other app on the node. Set it to an empty string to share deliberately. // Default: "%env(default::MEILI_PREFIX)%"
  *     adapters?: array<string, Param|string|array{ // Default: {"default":{"dsn":"doctrine://default"}}
  *         dsn?: scalar|Param|null,
@@ -3079,13 +3115,15 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     spool_enabled?: bool|Param, // Turn the Doctrine listener off for bulk imports that reindex explicitly afterwards. // Default: true
  *     async?: bool|Param, // Dispatch reindex work through Messenger. With this off (or with no bus installed) the listener writes a JSONL spool for elastic:spool:flush instead -- the right mode for bulk imports. // Default: true
  *     batch_size?: int|Param, // Ids per message. One huge flush becomes several bounded jobs. // Default: 500
+ *     handler_batch_size?: int|Param, // ReindexDocuments messages the worker collects before reconciling them in one query and bulk request per class. // Default: 50
+ *     handler_idle_timeout?: int|Param, // Seconds of worker idleness after which a partial batch is reconciled. 0 waits for a full batch. // Default: 1
  *     analysis?: array{ // Text analysis. Without it every text field uses the "standard" analyzer, which does no stemming and no accent folding -- searches work but are markedly worse, and any comparison against Meilisearch is unfair. index.analysis is a STATIC setting, so changing this needs elastic:index:rebuild.
  *         language?: scalar|Param|null, // Elasticsearch stemmer language: english, hungarian, spanish, german, french, ... Null leaves the default analyzer in place. // Default: null
  *         ascii_folding?: bool|Param, // Fold accents so "Kovacs" matches "Kovács". Applies only when a language is set. // Default: true
  *     },
  *     index_pattern?: scalar|Param|null, // Which cluster indices the admin page considers this app's, e.g. "kpa_*". The cluster index namespace is flat and shared by every app pointed at the node, so this is how the page finds indices this app owns but never declared -- a leftover from a rename, a locale variant. Defaults to survos_search.index_prefix + "*", so it tracks exactly what this app writes; set it only to widen or narrow that deliberately. // Default: null
  *     elasticvue_url?: scalar|Param|null, // Elasticvue (https://elasticvue.com) — the closest equivalent to the riccox Meilisearch UI. Point this at a self-hosted instance (docker run -p 8080:8080 cars10/elasticvue) or https://app.elasticvue.com. Null hides the menu link. Note that Elasticvue talks to Elasticsearch from the browser, so the node needs http.cors.enabled unless it is proxied. // Default: null
- *     kibana_url?: scalar|Param|null, // Kibana, if one is running. Null hides the menu link. // Default: null
+ *     kibana_url?: scalar|Param|null, // Browser-facing Kibana base URL (including any space/base path). In debug, null defaults to localhost:5601 only when all ES connections are loopback; otherwise the link is hidden. // Default: null
  *     server_url?: scalar|Param|null, // The Elasticsearch node itself, for a direct link in the admin menu. Null hides it. // Default: null
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/admin/elastic"
@@ -3093,7 +3131,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * }
  * @psalm-type SurvosSchemaOrgConfig = array{
  *     pretty_print?: scalar|Param|null, // Indent the JSON-LD. Readable in dev, wasted bytes in prod, so it follows kernel.debug by default. Accepts a bool or a parameter reference. // Default: "%kernel.debug%"
- *     debug_panel?: scalar|Param|null, // Let schema_org_debug() render its panel. Follows kernel.debug by default; set false to keep the Twig call in the template but render nothing. // Default: "%kernel.debug%"
+ *     auto_inject?: bool|Param, // Insert the JSON-LD before </head> on HTML responses instead of calling render_schema_org() in a template. For apps whose layout you would rather not edit. Off by default: an explicit Twig call is greppable, injected output is not. A template that calls render_schema_org() suppresses the injection, so enabling this can never double up. // Default: false
+ * }
+ * @psalm-type SurvosGridConfig = array{
+ *     stimulus_controller?: scalar|Param|null, // Default: "survos--grid-bundle--grid"
  * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
@@ -3115,7 +3156,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *     survos_auth?: SurvosAuthConfig,
  *     survos_simple_datatables?: SurvosSimpleDatatablesConfig,
- *     fos_js_routing?: FosJsRoutingConfig,
  *     survos_crawler?: SurvosCrawlerConfig,
  *     survos_wiki?: SurvosWikiConfig,
  *     flysystem?: FlysystemConfig,
@@ -3126,6 +3166,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     survos_state?: SurvosStateConfig,
  *     zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *     survos_ez?: SurvosEzConfig,
+ *     survos_jsonl?: SurvosJsonlConfig,
  *     survos_import?: SurvosImportConfig,
  *     survos_api_grid?: SurvosApiGridConfig,
  *     survos_js_twig?: SurvosJsTwigConfig,
@@ -3135,12 +3176,14 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     survos_field?: SurvosFieldConfig,
  *     survos_imgproxy?: SurvosImgproxyConfig,
  *     survos_media?: SurvosMediaConfig,
+ *     survos_kit?: SurvosKitConfig,
  *     live_component?: LiveComponentConfig,
  *     survos_search?: SurvosSearchConfig,
  *     survos_iiif?: SurvosIiifConfig,
  *     survos_fetch?: SurvosFetchConfig,
  *     survos_elastic?: SurvosElasticConfig,
  *     survos_schema_org?: SurvosSchemaOrgConfig,
+ *     survos_grid?: SurvosGridConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -3164,7 +3207,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         survos_auth?: SurvosAuthConfig,
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_crawler?: SurvosCrawlerConfig,
  *         survos_command?: SurvosCommandConfig,
  *         survos_wiki?: SurvosWikiConfig,
@@ -3178,6 +3220,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
+ *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_deployment?: SurvosDeploymentConfig,
  *         survos_import?: SurvosImportConfig,
  *         survos_api_grid?: SurvosApiGridConfig,
@@ -3188,6 +3231,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_field?: SurvosFieldConfig,
  *         survos_imgproxy?: SurvosImgproxyConfig,
  *         survos_media?: SurvosMediaConfig,
+ *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_doc?: SurvosDocConfig,
@@ -3195,6 +3239,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
  *         survos_schema_org?: SurvosSchemaOrgConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     "when@never"?: array{
  *         imports?: ImportsConfig,
@@ -3216,7 +3261,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         survos_auth?: SurvosAuthConfig,
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_crawler?: SurvosCrawlerConfig,
  *         survos_wiki?: SurvosWikiConfig,
  *         flysystem?: FlysystemConfig,
@@ -3227,6 +3271,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
+ *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_import?: SurvosImportConfig,
  *         survos_api_grid?: SurvosApiGridConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
@@ -3236,12 +3281,14 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_field?: SurvosFieldConfig,
  *         survos_imgproxy?: SurvosImgproxyConfig,
  *         survos_media?: SurvosMediaConfig,
+ *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_iiif?: SurvosIiifConfig,
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
  *         survos_schema_org?: SurvosSchemaOrgConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -3264,7 +3311,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_auth?: SurvosAuthConfig,
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         sentry?: SentryConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_crawler?: SurvosCrawlerConfig,
  *         survos_wiki?: SurvosWikiConfig,
  *         flysystem?: FlysystemConfig,
@@ -3275,6 +3321,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
+ *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_import?: SurvosImportConfig,
  *         survos_api_grid?: SurvosApiGridConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
@@ -3284,12 +3331,14 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_field?: SurvosFieldConfig,
  *         survos_imgproxy?: SurvosImgproxyConfig,
  *         survos_media?: SurvosMediaConfig,
+ *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_iiif?: SurvosIiifConfig,
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
  *         survos_schema_org?: SurvosSchemaOrgConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -3312,7 +3361,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         survos_auth?: SurvosAuthConfig,
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_crawler?: SurvosCrawlerConfig,
  *         survos_command?: SurvosCommandConfig,
  *         survos_wiki?: SurvosWikiConfig,
@@ -3326,6 +3374,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_state?: SurvosStateConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         survos_ez?: SurvosEzConfig,
+ *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_deployment?: SurvosDeploymentConfig,
  *         survos_import?: SurvosImportConfig,
  *         survos_api_grid?: SurvosApiGridConfig,
@@ -3336,6 +3385,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_field?: SurvosFieldConfig,
  *         survos_imgproxy?: SurvosImgproxyConfig,
  *         survos_media?: SurvosMediaConfig,
+ *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         survos_search?: SurvosSearchConfig,
  *         survos_doc?: SurvosDocConfig,
@@ -3343,6 +3393,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_fetch?: SurvosFetchConfig,
  *         survos_elastic?: SurvosElasticConfig,
  *         survos_schema_org?: SurvosSchemaOrgConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

@@ -1,2 +1,0 @@
-fos_js_routing:
-  routes_to_expose: [ '/app_.*/', app_congress_show, app_congress_edit ]

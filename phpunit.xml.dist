@@ -6,7 +6,6 @@
          backupGlobals="false"
          colors="true"
          bootstrap="tests/bootstrap.php"
-         convertDeprecationsToExceptions="false"
 >
     <php>
         <ini name="display_errors" value="1" />
@@ -27,15 +26,11 @@
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <source>
         <include>
             <directory suffix=".php">src</directory>
         </include>
-    </coverage>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
+    </source>
 
     <extensions>
         <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension">
@@ -43,6 +38,5 @@
             <parameter name="dns-mock-namespaces" value="App" />
         </bootstrap>
         <bootstrap class="Symfony\Component\Panther\ServerExtension" />
-        <extension class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
 </phpunit>

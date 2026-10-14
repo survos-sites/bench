@@ -52,11 +52,10 @@ bin/console init:congress --limit 50
 # not needed!  meili automatically updated, but need to consume the meili queue
 bin/console meili:index Official
 # this loads the wiki data.
-bin/console workflow:iterate Official --marking=new --transition=fetch_wiki
-# dispatch the resize
-bin/console workflow:iterate App\\Entity\\Official --marking=details --transition=resize
+bin/console state:iterate Official --marking=new --transition=fetch_wiki
+# Fetches register Wikidata images with media-bundle; no Official resize transition.
 
-bin/console mess:consume async  
+bin/console messenger:consume official_fetch_wiki
 
 bin/console meili:index App\\Entity\\Official
 symfony server:start -d
@@ -99,3 +98,14 @@ or https://github.com/jwolle1/jeopardy_clue_dataset/archive/refs/heads/main.zip
 
 or kaggle, but can't find direct download link
 
+
+## Workflow and menu integration
+
+Symfony 8.2 discovers `OfficialWorkflow` through native attributes extended by
+workflow-extras. `OfficialPlace` defines the existing `new` and `details` values;
+the database marking column remains a string, so this upgrade does not rewrite data.
+workflow-messenger queues `fetch_wiki` on the Doctrine `official_fetch_wiki` transport.
+Use `state:iterate Official --marking=new --transition=fetch_wiki --sync` to run it inline.
+State-bundle remains enabled for media-bundle and the legacy Image marking.
+
+Application menus use `AsMenuListener` with `MenuSlot` and the Survos renderer.

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Menu;
 
 use ApiPlatform\Metadata\GetCollection;
@@ -12,16 +14,16 @@ use Survos\FieldBundle\Registry\EntityMetaRegistry;
 use Survos\MeiliBundle\Registry\MeiliRegistry;
 use Survos\TablerBundle\Event\MenuEvent;
 use Survos\TablerBundle\Service\ContextService;
-use Survos\TablerBundle\Traits\KnpMenuHelperInterface;
-use Survos\TablerBundle\Traits\KnpMenuHelperTrait;
+use Survos\TablerBundle\Menu\MenuBuilderTrait;
 use Survos\MeiliBundle\Service\MeiliService;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Survos\MenuBundle\Attribute\AsMenuListener;
+use Survos\MenuBundle\MenuSlot;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final class AppMenu implements KnpMenuHelperInterface
+final class AppMenu
 {
-    use KnpMenuHelperTrait;
+    use MenuBuilderTrait;
 
     /**
      * Entities wired with a second, api-platform/meilisearch-backed GetCollection
@@ -48,7 +50,7 @@ final class AppMenu implements KnpMenuHelperInterface
     {
     }
 
-    #[AsEventListener(event: MenuEvent::NAVBAR_MENU)]
+    #[AsMenuListener(MenuSlot::NAVBAR_MENU)]
     public function midNavbarMenu(MenuEvent $event): void
     {
         $menu = $event->getMenu();
@@ -56,7 +58,7 @@ final class AppMenu implements KnpMenuHelperInterface
         {
             $this->add($menu, $route); // label: u($route)->after('app_')
         }
-        $this->add($menu, 'survos_workflow_entities', label: "*entities");
+        $this->add($menu, 'survos_workflow_extras', ['flowCode' => \App\Workflow\OfficialWorkflow::WORKFLOW_NAME], label: 'Official workflow');
         // Per-entity dropdowns (#[EntityMeta]-annotated classes): every way we have
         // to search/browse this entity's data, from fastest-to-set-up to
         // richest-but-heaviest. InstantSearch/Meili-api-grid only appear when the
@@ -77,15 +79,15 @@ final class AppMenu implements KnpMenuHelperInterface
                 $this->add($submenu, self::MEILI_GRID_DEMOS[$descriptor->code]['route'], label: 'Meilisearch search (api-grid)');
             }
 
-            $this->add($submenu, 'survos_entity_ux_search', ['code' => $descriptor->code], label: 'Search (ux-search / Doctrine LIKE)', dividerAppend: true);
+            $this->add($submenu, 'survos_entity_ux_search', ['code' => $descriptor->code], label: 'Search (ux-search / Doctrine LIKE)', dividerAfter: true);
 
             $hasMeiliGrid = isset(self::MEILI_GRID_DEMOS[$descriptor->code]);
 
             if (null !== $doctrineCollectionUrl = $this->doctrineCollectionUrl($descriptor->class)) {
-                $this->add($submenu, uri: $doctrineCollectionUrl, label: 'raw GetCollection (Doctrine)', external: true, icon: 'mdi:code-json', dividerAppend: !$hasMeiliGrid);
+                $this->add($submenu, uri: $doctrineCollectionUrl, label: 'raw GetCollection (Doctrine)', external: true, icon: 'mdi:code-json', dividerAfter: !$hasMeiliGrid);
             }
             if ($hasMeiliGrid) {
-                $this->add($submenu, uri: self::MEILI_GRID_DEMOS[$descriptor->code]['apiUrl'], label: 'raw GetCollection (Meilisearch)', external: true, icon: 'mdi:code-json', dividerAppend: true);
+                $this->add($submenu, uri: self::MEILI_GRID_DEMOS[$descriptor->code]['apiUrl'], label: 'raw GetCollection (Meilisearch)', external: true, icon: 'mdi:code-json', dividerAfter: true);
             }
 
             $this->add($submenu, 'survos_entity_dashboard', ['code' => $descriptor->code], label: 'Overview');
@@ -146,7 +148,7 @@ final class AppMenu implements KnpMenuHelperInterface
         foreach ($this->contextService->getConfig()['app']['social'] ?? [] as $platform => $value) {
             $this->add($menu, uri: $value, label: $platform, external: true, icon: 'bi:' . $platform);
         }
-        $this->add($menu, label: ' ', dividerAppend: true);
+        $this->add($menu, label: ' ', dividerAfter: true);
 
         if (0) {
             $nested = $this->addSubmenu($menu, 'github', icon: 'bi:github');
@@ -192,7 +194,7 @@ final class AppMenu implements KnpMenuHelperInterface
     {
     }
 
-    #[AsEventListener(event: MenuEvent::FOOTER)]
+    #[AsMenuListener(MenuSlot::FOOTER)]
     public function footerMenu(MenuEvent $event): void
     {
         $menu = $event->getMenu();

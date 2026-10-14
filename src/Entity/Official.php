@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\SortFilter;
@@ -13,7 +15,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\QueryParameter;
 use App\Repository\OfficialRepository;
-use App\Workflow\OfficialWorkflowInterface;
+use App\Workflow\OfficialPlace;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -23,8 +25,6 @@ use Survos\FieldBundle\Entity\RouteIdentityTrait;
 use Survos\FieldBundle\Entity\RouteParametersInterface;
 use Survos\MeiliBundle\Api\Filter\FacetsFieldSearchFilter;
 use Survos\MeiliBundle\Metadata\MeiliIndex;
-use Survos\StateBundle\Traits\MarkingInterface;
-use Survos\StateBundle\Traits\MarkingTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
@@ -73,10 +73,24 @@ use Symfony\Component\Validator\Constraints as Assert;
     filterable: ['gender','house','currentParty','state','marking','imageCount'],
 )]
 #[RouteIdentity(field: 'id', key: 'id')]
-class Official implements RouteParametersInterface, MarkingInterface
+class Official implements RouteParametersInterface
 {
     use RouteIdentityTrait;
-    use MarkingTrait;
+    #[ORM\Column(type: 'string', length: 32, nullable: true)]
+    #[Groups(['transition', 'minimum', 'marking', 'searchable'])]
+    public ?string $marking = null;
+
+    public function getMarking(): ?string
+    {
+        return $this->marking;
+    }
+
+    public function setMarking(?string $marking, array $context = []): self
+    {
+        $this->marking = $marking;
+        return $this;
+    }
+
     public const GENDERS = ['M', 'F']; // @todo: map to string?
 
     #[ORM\Id]
@@ -156,7 +170,7 @@ class Official implements RouteParametersInterface, MarkingInterface
     public function __construct(string $id)
     {
         $this->id = $id;
-        $this->marking = OfficialWorkflowInterface::PLACE_NEW;
+        $this->marking = OfficialPlace::New->value;
         $this->terms = new ArrayCollection();
     }
 

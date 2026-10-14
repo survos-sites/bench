@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Workflow;
 
 use App\Entity\Official;
-use App\Workflow\OfficialWorkflowInterface as WF;
+use Survos\WorkflowExtrasBundle\Attribute\AsWorkflow;
+use Survos\WorkflowMessengerBundle\Attribute\Transition;
 use Survos\MediaBundle\Service\MediaRegistry;
 use Survos\WikiBundle\Service\WikidataService;
 use Symfony\Component\Workflow\Attribute\AsGuardListener;
@@ -15,8 +18,14 @@ use Symfony\Component\Workflow\Event\TransitionEvent;
 
 // See events at https://symfony.com/doc/current/workflow.html#using-events
 
+#[AsWorkflow(supports: [Official::class], name: self::WORKFLOW_NAME, places: OfficialPlace::class, description: 'Enrich officials with Wikidata and register their images')]
 final class OfficialWorkflow
 {
+    public const WORKFLOW_NAME = 'OfficialWorkflow';
+
+    #[Transition(OfficialPlace::New, OfficialPlace::Details, 'Fetch Wikidata and register P18 images as media', async: true, transport: 'official_fetch_wiki')]
+    public const TRANSITION_FETCH_WIKI = 'fetch_wiki';
+
 
     public function __construct(
         private readonly WikidataService $wikiService,
@@ -29,7 +38,7 @@ final class OfficialWorkflow
         /** @var Official */ return $event->getSubject();
     }
 
-    #[AsGuardListener(WF::WORKFLOW_NAME, WF::TRANSITION_FETCH_WIKI)]
+    #[AsGuardListener(self::WORKFLOW_NAME, self::TRANSITION_FETCH_WIKI)]
     public function onGuard(GuardEvent $event): void
     {
         // @todo: move to guard: in workflow
@@ -38,7 +47,7 @@ final class OfficialWorkflow
         }
     }
 
-    #[AsTransitionListener(WF::WORKFLOW_NAME, WF::TRANSITION_FETCH_WIKI)]
+    #[AsTransitionListener(self::WORKFLOW_NAME, self::TRANSITION_FETCH_WIKI)]
     public function onFetchWiki(TransitionEvent $event): void
     {
         $official = $this->getOfficial($event);

@@ -318,6 +318,9 @@
             "config/routes/survos_meili.yaml"
         ]
     },
+    "survos/menu-bundle": {
+        "version": "2.42.7"
+    },
     "survos/schema-org-bundle": {
         "version": "2.24.10"
     },
@@ -341,6 +344,12 @@
     },
     "survos/wiki-bundle": {
         "version": "1.5.124"
+    },
+    "survos/workflow-extras-bundle": {
+        "version": "2.42.8"
+    },
+    "survos/workflow-messenger-bundle": {
+        "version": "2.42.9"
     },
     "symfony/ai-bundle": {
         "version": "0.6",

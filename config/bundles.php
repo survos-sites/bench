@@ -59,4 +59,7 @@ return [
     Survos\ElasticBundle\SurvosElasticBundle::class => ['all' => true],
     Survos\SchemaOrgBundle\SurvosSchemaOrgBundle::class => ['all' => true],
     Survos\Grid\SurvosGridBundle::class => ['all' => true],
+    Survos\MenuBundle\SurvosMenuBundle::class => ['all' => true],
+    Survos\WorkflowExtrasBundle\SurvosWorkflowExtrasBundle::class => ['all' => true],
+    Survos\WorkflowMessengerBundle\SurvosWorkflowMessengerBundle::class => ['all' => true],
 ];

@@ -1,4 +1,9 @@
 survos_tabler:
+    menu_renderer: survos
+    icons:
+        aliases:
+            auth: tabler:user-circle
+            add_user: tabler:user-plus
     routes:
         login: app_login
         logout: app_logout

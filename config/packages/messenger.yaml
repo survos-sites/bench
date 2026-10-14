@@ -3,6 +3,8 @@ framework:
         failure_transport: failed
 
         transports:
+            official_fetch_wiki:
+                dsn: 'doctrine://default?queue_name=official_fetch_wiki'
 #            _base_rabbitmq: &base_rabbitmq
 #                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
 ##                serializer: messenger.transport.symfony_serializer

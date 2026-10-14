@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiFilter;
@@ -14,8 +16,6 @@ use Survos\MeiliBundle\Api\Filter\FacetsFieldSearchFilter;
 use Survos\MeiliBundle\Metadata\Fields;
 use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Survos\SaisBundle\Service\SaisClientService;
-use Survos\StateBundle\Traits\MarkingInterface;
-use Survos\StateBundle\Traits\MarkingTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -30,9 +30,24 @@ use Symfony\Component\Serializer\Attribute\Groups;
 //#[MeiliIndex(
 //    persisted: new Fields(groups: ['image.read']),
 //)]
-class Image implements MarkingInterface, \Stringable
+class Image implements \Stringable
 {
-    use MarkingTrait;
+    #[ORM\Column(type: 'string', length: 32, nullable: true)]
+    #[Groups(['transition', 'minimum', 'marking', 'searchable'])]
+    public ?string $marking = null;
+
+    public function getMarking(): ?string
+    {
+        return $this->marking;
+    }
+
+    public function setMarking(?string $marking, array $context = []): self
+    {
+        $this->marking = $marking;
+
+        return $this;
+    }
+
     public function __construct(
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(referencedColumnName: 'sku', nullable: false)]

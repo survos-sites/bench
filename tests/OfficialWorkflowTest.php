@@ -15,6 +15,8 @@ final class OfficialWorkflowTest extends WebTestCase
     public function testNativeWorkflowPreservesPlacesAndBlocksMissingWikidata(): void
     {
         self::bootKernel();
+        self::assertArrayNotHasKey('SurvosStateBundle', self::$kernel->getBundles());
+        self::assertArrayHasKey('SurvosMenuBundle', self::$kernel->getBundles());
         $official = new Official('workflow-test');
         $workflow = self::getContainer()->get(Registry::class)->get($official, OfficialWorkflow::WORKFLOW_NAME);
 

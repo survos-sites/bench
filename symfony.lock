@@ -333,9 +333,6 @@
     "survos/sitemap-parser-bundle": {
         "version": "1.5.133"
     },
-    "survos/state-bundle": {
-        "version": "1.5.600"
-    },
     "survos/tabler-bundle": {
         "version": "2.0.117"
     },

@@ -1,0 +1,32 @@
+{
+	frankenphp {
+		num_threads {$FRANKENPHP_NUM_THREADS:2}
+		max_threads {$FRANKENPHP_MAX_THREADS:8}
+		max_wait_time 15s
+	}
+}
+
+:{$PORT:80} {
+	root * /app/public
+	request_body {
+		max_size 128MB
+	}
+	handle /favicon.ico {
+		@missing not file
+		respond @missing 204
+		file_server
+	}
+	handle {
+		php_server {
+			# Only this demo keeps a kernel alive. Other playground routes use classic mode.
+			worker {
+				file /app/public/duckdb-worker.php
+				match /demo/product-duckdb
+				name bench-duckdb
+				num {$FRANKENPHP_NUM_WORKERS:2}
+				env FRANKENPHP_LOOP_MAX {$FRANKENPHP_LOOP_MAX:500}
+				env FRANKENPHP_RESET_KERNEL {$FRANKENPHP_RESET_KERNEL:0}
+			}
+		}
+	}
+}

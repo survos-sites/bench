@@ -1,59 +1,77 @@
 {% extends '@SurvosTabler/layout/base.html.twig' %}
-{% block title %}Product semantic search · DuckDB{% endblock %}
+{% block title %}{{ dataset|title }} semantic search · DuckDB{% endblock %}
 {% block body %}
     <div class="mb-4">
-        <div class="text-secondary text-uppercase small mb-2">SearchBench · DuckDB + Nomic</div>
-        <h1>Find products by what you mean</h1>
-        <p class="text-secondary">Try a gift idea, a task, or something you need. Search runs against a local product snapshot.</p>
+        <div class="text-secondary text-uppercase small mb-2">SearchBench · DuckDB on S3</div>
+        <h1>Find {{ dataset }} by what you mean</h1>
+        <p class="text-secondary">Search a shared snapshot directly from object storage. Compare OpenAI and Nomic with the same query.</p>
     </div>
-    {% if snapshot is null %}
-        <div class="alert alert-info">No product snapshot yet. Run <code>php bin/console app:duckdb:products:index</code> with Ollama running.</div>
-    {% else %}
-        <form method="get" class="card card-body mb-3">
-            <div class="row g-3 align-items-end">
-                <div class="col-md-7">
-                    <label class="form-label" for="product-query">What are you looking for?</label>
-                    <input id="product-query" name="q" value="{{ query }}" maxlength="512" class="form-control form-control-lg" placeholder="gifts for a techie" required>
-                </div>
-                <div class="col-md-3">
+    <form method="get" class="card card-body mb-3">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-6">
+                <label class="form-label" for="product-query">What are you looking for?</label>
+                <input id="product-query" name="q" value="{{ query }}" maxlength="512" class="form-control form-control-lg" placeholder="{{ suggestions[0] }}" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" for="embedding-profile">Embedding model</label>
+                <select id="embedding-profile" name="profile" class="form-select form-select-lg">
+                    <option value="openai" {{ profile == 'openai' ? 'selected' : '' }}>OpenAI</option>
+                    <option value="nomic" {{ profile == 'nomic' ? 'selected' : '' }}>Nomic (Ollama)</option>
+                </select>
+            </div>
+            <div class="col-md-2"><button class="btn btn-primary btn-lg w-100">Search</button></div>
+            {% if dataset == 'products' and snapshot %}
+                <div class="col-md-4">
                     <label class="form-label" for="product-category">Category</label>
-                    <select id="product-category" name="category" class="form-select form-select-lg">
+                    <select id="product-category" name="category" class="form-select">
                         <option value="">All categories</option>
                         {% for item in snapshot.categories %}<option value="{{ item }}" {{ item == category ? 'selected' : '' }}>{{ item|replace({'-': ' '})|title }}</option>{% endfor %}
                     </select>
                 </div>
-                <div class="col-md-2"><button class="btn btn-primary btn-lg w-100">Search</button></div>
-            </div>
-            <div class="mt-3 d-flex flex-wrap gap-2">
-                {% for suggestion in ['gifts for a techie', 'something for a camping trip', 'a nice scent for an evening out', 'a laptop for work'] %}
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ path('demo_product_duckdb', {q: suggestion}) }}">{{ suggestion }}</a>
-                {% endfor %}
-            </div>
-        </form>
-        <div class="text-secondary small mb-4">{{ snapshot.count }} products · {{ snapshot.model }} · snapshot {{ snapshot.created|date('M j, Y H:i') }} UTC</div>
+            {% endif %}
+        </div>
+        <div class="mt-3 d-flex flex-wrap gap-2">
+            {% for suggestion in suggestions %}
+                <a class="btn btn-sm btn-outline-secondary" href="{{ path(app.request.attributes.get('_route'), {q: suggestion, profile: profile}) }}">{{ suggestion }}</a>
+            {% endfor %}
+        </div>
+    </form>
+    {% if snapshot %}
+        <div class="text-secondary small mb-4">{{ snapshot.count|number_format }} {{ dataset }} · {{ snapshot.model }} · {{ snapshot.dimensions }} dimensions · {{ snapshot.created|date('M j, Y H:i') }} UTC
+            <details class="mt-2"><summary>Snapshot source</summary><code class="text-break">{{ snapshot.uri }}</code></details>
+        </div>
+    {% elseif not error %}
+        <div class="alert alert-info">This dataset has not been published with {{ profile }} yet.</div>
     {% endif %}
     {% if error %}<div class="alert alert-warning" role="alert">{{ error }}</div>{% endif %}
     {% if result is not null %}
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="h3 mb-0">Closest matches</h2>
-            <span class="text-secondary small">DuckDB {{ result.searchMs|number_format(1) }} ms · total {{ result.totalMs|number_format(0) }} ms</span>
+            <span class="text-secondary small">Remote DuckDB {{ result.searchMs|number_format(0) }} ms · total {{ result.totalMs|number_format(0) }} ms</span>
         </div>
         <div class="row g-3">
             {% for hit in result.results %}
-                {% set product = hit.product %}
+                {% set record = hit.record %}
+                {% set image = dataset == 'products' ? record.thumbnail|default(null) : record.posterUrl|default(null) %}
                 <div class="col-sm-6 col-lg-4">
                     <article class="card h-100">
-                        <img src="{{ product.thumbnail }}" alt="{{ product.title }}" loading="lazy" class="card-img-top" style="height:180px;object-fit:contain;background:#f8fafc;padding:12px">
+                        {% if image %}<img src="{{ image }}" alt="{{ record.title }}" loading="lazy" class="card-img-top" style="height:180px;object-fit:contain;background:#f8fafc;padding:12px">{% endif %}
                         <div class="card-body">
-                            <div class="text-secondary small mb-1">{{ product.category|replace({'-': ' '})|title }}</div>
-                            <h3 class="card-title">{{ product.title }}</h3>
-                            <div class="fw-bold mb-2">${{ product.price|number_format(2) }}</div>
-                            <p class="text-secondary">{{ product.description }}</p>
+                            <h3 class="card-title">{{ record.title }}</h3>
+                            {% if dataset == 'products' %}
+                                <div class="text-secondary small mb-1">{{ record.category|replace({'-': ' '})|title }}</div>
+                                <div class="fw-bold mb-2">${{ record.price|number_format(2) }}</div>
+                                <p class="text-secondary">{{ record.description }}</p>
+                            {% else %}
+                                <div class="text-secondary small mb-2">{{ record.year }} · {{ record.genres|default([])|join(', ') }}</div>
+                                <p class="text-secondary">{{ record.overview }}</p>
+                                <div class="small">{{ record.director }}</div>
+                            {% endif %}
                         </div>
                         <div class="card-footer small text-secondary">Cosine distance {{ hit.distance|number_format(3) }} · lower is closer</div>
                     </article>
                 </div>
-            {% else %}<p>No products match this category.</p>{% endfor %}
+            {% else %}<p>No matches found.</p>{% endfor %}
         </div>
     {% endif %}
 {% endblock %}

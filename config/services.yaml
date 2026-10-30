@@ -5,6 +5,12 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     env(OLLAMA_HOST): "http://127.0.0.1:11434"
+    env(S3_ENDPOINT): 'https://s3.amazonaws.com'
+    env(AWS_S3_REGION): 'us-east-1'
+    env(DUCKDB_S3_PREFIX): 'bench/duckdb'
+    env(DUCKDB_EMBEDDING_PROFILE): 'openai'
+    env(DUCKDB_OPENAI_MODEL): 'text-embedding-3-large'
+    env(DUCKDB_OPENAI_DIMENSIONS): '3072'
 
 services:
     # default configuration for services in *this* file
@@ -16,6 +22,26 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+
+    App\Search\SnapshotRepositoryInterface: '@App\Search\S3SnapshotRepository'
+    App\Search\RemoteDuckDbConnectionInterface: '@App\Search\RemoteDuckDb'
+
+    App\Search\DuckDbSearch:
+        lazy: true
+
+    App\Search\OpenAiEmbedder:
+        lazy: true
+
+    bench.duckdb.s3:
+        class: Aws\S3\S3Client
+        arguments:
+            - version: '2006-03-01'
+              region: '%env(AWS_S3_REGION)%'
+              endpoint: '%env(S3_ENDPOINT)%'
+              use_path_style_endpoint: true
+              credentials:
+                  key: '%env(AWS_S3_ACCESS_ID)%'
+                  secret: '%env(AWS_S3_ACCESS_SECRET)%'
 
     # --- api-platform/meilisearch proof of concept ---
     # The client/providers/extensions themselves are wired by the api_platform.meilisearch

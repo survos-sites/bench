@@ -8,7 +8,7 @@ use Survos\FetchBundle\Cache\SqliteCachePoolFactory;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class NomicEmbedder
+final class NomicEmbedder implements EmbedderInterface
 {
     public const MODEL = 'nomic-embed-text';
     public const DIMENSIONS = 768;
@@ -33,8 +33,19 @@ final class NomicEmbedder
         throw new \RuntimeException('Install nomic-embed-text in Ollama before indexing or searching.');
     }
 
+    public function model(): string
+    {
+        return self::MODEL;
+    }
+
+    public function dimensions(): int
+    {
+        return self::DIMENSIONS;
+    }
+
     /**
      * @param list<string> $texts
+     *
      * @return list<list<float>>
      */
     public function embed(array $texts, string $digest, bool $query = false): array
@@ -57,6 +68,7 @@ final class NomicEmbedder
                     throw new \RuntimeException('Nomic must return 768-dimensional vectors.');
                 }
             }
+
             return $vectors;
         });
     }

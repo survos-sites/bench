@@ -8262,16 +8262,16 @@
         },
         {
             "name": "survos/search-bundle",
-            "version": "2.45.7",
+            "version": "2.45.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/search-bundle.git",
-                "reference": "59735ee935fc5e552c5e7cb0dad5355c12a916eb"
+                "reference": "7cad94d826e43bca6aa0653f39499b99ca477a14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/search-bundle/zipball/59735ee935fc5e552c5e7cb0dad5355c12a916eb",
-                "reference": "59735ee935fc5e552c5e7cb0dad5355c12a916eb",
+                "url": "https://api.github.com/repos/survos/search-bundle/zipball/7cad94d826e43bca6aa0653f39499b99ca477a14",
+                "reference": "7cad94d826e43bca6aa0653f39499b99ca477a14",
                 "shasum": ""
             },
             "require": {
@@ -8351,7 +8351,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/search-bundle/issues",
-                "source": "https://github.com/survos/search-bundle/tree/2.45.7"
+                "source": "https://github.com/survos/search-bundle/tree/2.45.10"
             },
             "funding": [
                 {
@@ -8359,7 +8359,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-30T14:29:44+00:00"
+            "time": "2026-10-30T20:11:27+00:00"
         },
         {
             "name": "survos/simple-datatables-bundle",

@@ -22,7 +22,7 @@ This project serves as:
 
 ## Requirements
 
-* PHP 8.4 with Sqlite
+* PHP 8.5 with SQLite (and native `pdo_duckdb` for the DuckDB demo)
 * composer
 * MeiliSearch
 * Symfony CLI
@@ -62,7 +62,28 @@ symfony server:start -d
 symfony open:local --path /congress/simple_datatables
 ```
 
-## Adding New Datasets
+## DuckDB semantic product search
+
+The `/demo/product-duckdb` playground searches DummyJSON products using local
+Ollama `nomic-embed-text` embeddings and exact cosine distance in DuckDB.
+Start Ollama with that model installed, then build the local snapshot:
+
+```bash
+php bin/console app:duckdb:products:index
+# Explicitly refresh the cached product download:
+php bin/console app:duckdb:products:index --refresh
+```
+
+`OLLAMA_HOST` defaults to `http://127.0.0.1:11434`. Fetch-bundle caches the download;
+embeddings are cached by model digest and input. Repeating the import reuses both
+caches. The exported `products.json`, versioned DuckDB files, and current snapshot
+manifest live under `var/data/duckdb-products/`. A successful import atomically
+replaces the manifest, so a failed rebuild leaves the previous snapshot searchable.
+Search requests open the published database read-only and can filter by category.
+Rebuild after changing the installed model: document and query vectors must use
+the same model digest. Old snapshots are retained for local experimentation.
+
+## Adding Meilisearch Datasets
 
 A common goal of this project is to quickly prototype new Meilisearch datasets.
 The typical workflow looks like this:

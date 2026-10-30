@@ -54,6 +54,7 @@ final class AppMenu
     public function midNavbarMenu(MenuEvent $event): void
     {
         $menu = $event->getMenu();
+        $this->add($menu, 'demo_product_duckdb', label: 'DuckDB products');
         foreach (['app_homepage', 'meili_admin'] as $route)
         {
             $this->add($menu, $route); // label: u($route)->after('app_')

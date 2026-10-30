@@ -9030,7 +9030,7 @@
                                         "transfer_mode": {
                                             "$ref": "#/$defs/types/scalar",
                                             "default": null,
-                                            "description": "Transfer mode (FTP_ASCII or FTP_BINARY constante on ftp extension)"
+                                            "description": "Transfer mode (FTP_ASCII or FTP_BINARY constant on ftp extension)"
                                         },
                                         "system_type": {
                                             "anyOf": [
@@ -9519,12 +9519,12 @@
                                 "public_url_generator": {
                                     "$ref": "#/$defs/types/scalar",
                                     "default": null,
-                                    "description": "For adapter that do not provide public URLs or override adapter capabilities and public_url option, a public URL generator service name can be configured in the main Filesystem configuration (should implement League\\Flysystem\\PublicUrlGenerator)"
+                                    "description": "For adapter that do not provide public URLs or override adapter capabilities and public_url option, a public URL generator service name can be configured in the main Filesystem configuration (should implement League\\Flysystem\\UrlGeneration\\PublicUrlGenerator)"
                                 },
                                 "temporary_url_generator": {
                                     "$ref": "#/$defs/types/scalar",
                                     "default": null,
-                                    "description": "For adapter that do not provide public URLs or override adapter capabilities, a temporary URL generator service name can be configured in the main Filesystem configuration (should implement League\\Flysystem\\TemporaryUrlGenerator)"
+                                    "description": "For adapter that do not provide public URLs or override adapter capabilities, a temporary URL generator service name can be configured in the main Filesystem configuration (should implement League\\Flysystem\\UrlGeneration\\TemporaryUrlGenerator)"
                                 },
                                 "read_only": {
                                     "$ref": "#/$defs/types/boolean",
@@ -16374,7 +16374,7 @@
                                                 "resource": {
                                                     "$ref": "#/$defs/types/scalar",
                                                     "default": null,
-                                                    "description": "The resource identifier of this firewall: an HTTPS URL, without a fragment (e.g. \"https://api.example.com\" or \"https://example.com/api\"). Its path component is inserted after the well-known path, as RFC 9728, Section 3.1 prescribes, so that one host can serve the metadata of several protected resources. Defaults to the origin the document is served from, which is what a firewall covering a whole application wants."
+                                                    "description": "The resource identifier of this firewall: an HTTPS URL without a fragment (e.g. \"https://example.com/api\"), read when the container is compiled, or a path (e.g. \"/api\") resolved against the origin of the request. Its path is inserted after the well-known path, as RFC 9728, Section 3.1 prescribes. Defaults to the origin of the request, which is what a firewall covering a whole application wants."
                                                 },
                                                 "authorization_servers": {
                                                     "anyOf": [
@@ -17513,6 +17513,11 @@
                         "$ref": "#/$defs/types/boolean",
                         "default": true
                     },
+                    "register_monolog_handler": {
+                        "$ref": "#/$defs/types/boolean",
+                        "default": false,
+                        "description": "EXPERIMENT: automatically push a Sentry handler onto every Monolog channel (requires MonologBundle)."
+                    },
                     "logger": {
                         "$ref": "#/$defs/types/scalar",
                         "default": null,
@@ -17536,7 +17541,7 @@
                                 "default": [
                                     "%kernel.project_dir%",
                                     ".",
-                                    "/opt/homebrew/Cellar/php/8.5.10/share/php/pear"
+                                    "/opt/homebrew/Cellar/php/8.5.12_1/share/php/pear"
                                 ]
                             },
                             "sample_rate": {
@@ -17667,6 +17672,10 @@
                             "send_default_pii": {
                                 "$ref": "#/$defs/types/boolean"
                             },
+                            "data_collection": {
+                                "$ref": "#/$defs/types/variable",
+                                "description": "Opts into the data collection options, which replace legacy options such as \"send_default_pii\". An empty array applies the default of every option, null keeps the legacy options even if an earlier config file opted in."
+                            },
                             "max_value_length": {
                                 "$ref": "#/$defs/types/integer",
                                 "minimum": 0
@@ -17771,7 +17780,7 @@
                                         "default": [
                                             "%kernel.project_dir%",
                                             ".",
-                                            "/opt/homebrew/Cellar/php/8.5.10/share/php/pear"
+                                            "/opt/homebrew/Cellar/php/8.5.12_1/share/php/pear"
                                         ]
                                     }
                                 ]
@@ -17783,7 +17792,7 @@
                             "prefixes": [
                                 "%kernel.project_dir%",
                                 ".",
-                                "/opt/homebrew/Cellar/php/8.5.10/share/php/pear"
+                                "/opt/homebrew/Cellar/php/8.5.12_1/share/php/pear"
                             ],
                             "log_flush_threshold": null,
                             "enable_metrics": true,

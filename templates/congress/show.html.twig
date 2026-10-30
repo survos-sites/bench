@@ -15,7 +15,7 @@
 
         {% for code, imageData in official.imageCodes %}
             {% for filter, size in imageData %}
-                    {% set thumb = code|survos_image_filter(filter) %}
+                    {% set thumb = code|imagine_filter(filter) %}
                     <div class="item">
                         <a href="{{ thumb }}" target="_blank">
                             <img src="{{ thumb }}" title="{{ thumb }}" alt="{{ thumb }}" class="img-{{ filter }}" />

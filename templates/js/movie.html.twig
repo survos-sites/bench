@@ -250,7 +250,7 @@
                     {% endif %}
 
                     {% if show %}
-                        {% set isUrl = value is string and (value starts with 'http://' or value starts with 'https://') %}
+                        {% set isUrl = ('' ~ value) starts with 'http://' or ('' ~ value) starts with 'https://' %}
                         <dt class="col-4" style="overflow-wrap:anywhere;word-break:break-word;">{{ key }}</dt>
                         <dd class="col-8" style="white-space:normal;overflow-wrap:anywhere;word-break:break-word;">
                             {% if isUrl %}

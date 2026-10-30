@@ -1458,7 +1458,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                 },
  *             },
  *             resource_metadata?: array{ // Declaring this node serves the RFC 9728 protected resource metadata document of the firewall at "/.well-known/oauth-protected-resource" and advertises its URL in the "resource_metadata" parameter of the "WWW-Authenticate" header, which is how a client discovers where to get a token this firewall accepts. The route is declared by the "security.route_loader" service, which the application must import. Make sure the route is reachable without a token.
- *                 resource?: scalar|Param|null, // The resource identifier of this firewall: an HTTPS URL, without a fragment (e.g. "https://api.example.com" or "https://example.com/api"). Its path component is inserted after the well-known path, as RFC 9728, Section 3.1 prescribes, so that one host can serve the metadata of several protected resources. Defaults to the origin the document is served from, which is what a firewall covering a whole application wants. // Default: null
+ *                 resource?: scalar|Param|null, // The resource identifier of this firewall: an HTTPS URL without a fragment (e.g. "https://example.com/api"), read when the container is compiled, or a path (e.g. "/api") resolved against the origin of the request. Its path is inserted after the well-known path, as RFC 9728, Section 3.1 prescribes. Defaults to the origin of the request, which is what a firewall covering a whole application wants. // Default: null
  *                 authorization_servers?: Param|string|list<scalar|Param|null>,
  *                 jwks_uri?: scalar|Param|null, // URL of the JWK Set holding the keys this resource signs its own responses with. Unrelated to the keys the access tokens are verified against, which belong to the authorization server. // Default: null
  *                 scopes_supported?: Param|string|list<scalar|Param|null>,
@@ -1784,6 +1784,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     dsn?: scalar|Param|null, // If this value is not provided, the SDK will try to read it from the SENTRY_DSN environment variable. If that variable also does not exist, the SDK will not send any events.
  *     register_error_listener?: bool|Param, // Default: true
  *     register_error_handler?: bool|Param, // Default: true
+ *     register_monolog_handler?: bool|Param, // EXPERIMENT: automatically push a Sentry handler onto every Monolog channel (requires MonologBundle). // Default: false
  *     logger?: scalar|Param|null, // The service ID of the PSR-3 logger used to log messages coming from the SDK client. Be aware that setting the same logger of the application may create a circular loop when an event fails to be sent. // Default: null
  *     options?: array{
  *         integrations?: mixed, // Default: []
@@ -1824,6 +1825,41 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         in_app_exclude?: list<scalar|Param|null>,
  *         in_app_include?: list<scalar|Param|null>,
  *         send_default_pii?: bool|Param,
+ *         data_collection?: array{ // Opts into the data collection options, which replace legacy options such as "send_default_pii". An empty array applies the default of every option, null keeps the legacy options even if an earlier config file opted in.
+ *             user_info?: bool|Param,
+ *             cookies?: array{
+ *                 mode?: "off"|"denyList"|"allowList"|Param,
+ *                 terms?: list<scalar|Param|null>,
+ *             },
+ *             http_headers?: array{
+ *                 request?: array{
+ *                     mode?: "off"|"denyList"|"allowList"|Param,
+ *                     terms?: list<scalar|Param|null>,
+ *                 },
+ *                 response?: array{
+ *                     mode?: "off"|"denyList"|"allowList"|Param,
+ *                     terms?: list<scalar|Param|null>,
+ *                 },
+ *                 ...<string, mixed>
+ *             },
+ *             http_bodies?: list<"incomingRequest"|"outgoingRequest"|"incomingResponse"|"outgoingResponse"|Param>,
+ *             url_query_params?: array{
+ *                 mode?: "off"|"denyList"|"allowList"|Param,
+ *                 terms?: list<scalar|Param|null>,
+ *             },
+ *             gen_ai?: array{
+ *                 inputs?: bool|Param,
+ *                 outputs?: bool|Param,
+ *             },
+ *             database_query_data?: bool|Param,
+ *             queues?: bool|Param,
+ *             stack_frame_variables?: bool|array{
+ *                 mode?: "off"|"denyList"|"allowList"|Param,
+ *                 terms?: list<scalar|Param|null>,
+ *             },
+ *             frame_context_lines?: int|Param,
+ *             ...<string, mixed>
+ *         },
  *         max_value_length?: int|Param,
  *         transport?: scalar|Param|null,
  *         http_client?: scalar|Param|null,
@@ -1948,7 +1984,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             timeout?: int|Param, // Connection timeout in seconds // Default: 90
  *             ignore_passive_address?: scalar|Param|null, // Ignore passive address // Default: null
  *             utf8?: bool|Param, // Enable UTF8 mode // Default: false
- *             transfer_mode?: scalar|Param|null, // Transfer mode (FTP_ASCII or FTP_BINARY constante on ftp extension) // Default: null
+ *             transfer_mode?: scalar|Param|null, // Transfer mode (FTP_ASCII or FTP_BINARY constant on ftp extension) // Default: null
  *             system_type?: null|"windows"|"unix"|Param, // FTP system type // Default: null
  *             timestamps_on_unix_listings_enabled?: bool|Param, // Enable timestamps on Unix listings // Default: false
  *             recurse_manually?: bool|Param, // Recurse directories manually // Default: true
@@ -2043,8 +2079,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         disable_asserts?: bool|Param, // Deprecated: The "disable_asserts" option is deprecated and will be removed in 4.0. // Default: false
  *         public_url?: list<scalar|Param|null>,
  *         path_normalizer?: scalar|Param|null, // Path normalizer service name (should implement League\Flysystem\PathNormalizer) // Default: null
- *         public_url_generator?: scalar|Param|null, // For adapter that do not provide public URLs or override adapter capabilities and public_url option, a public URL generator service name can be configured in the main Filesystem configuration (should implement League\Flysystem\PublicUrlGenerator) // Default: null
- *         temporary_url_generator?: scalar|Param|null, // For adapter that do not provide public URLs or override adapter capabilities, a temporary URL generator service name can be configured in the main Filesystem configuration (should implement League\Flysystem\TemporaryUrlGenerator) // Default: null
+ *         public_url_generator?: scalar|Param|null, // For adapter that do not provide public URLs or override adapter capabilities and public_url option, a public URL generator service name can be configured in the main Filesystem configuration (should implement League\Flysystem\UrlGeneration\PublicUrlGenerator) // Default: null
+ *         temporary_url_generator?: scalar|Param|null, // For adapter that do not provide public URLs or override adapter capabilities, a temporary URL generator service name can be configured in the main Filesystem configuration (should implement League\Flysystem\UrlGeneration\TemporaryUrlGenerator) // Default: null
  *         read_only?: bool|Param, // Converts a file system to read-only // Default: false
  *     }>,
  * }
@@ -2119,6 +2155,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         filter_action?: scalar|Param|null, // Default: "Liip\\ImagineBundle\\Controller\\ImagineController::filterAction"
  *         filter_runtime_action?: scalar|Param|null, // Default: "Liip\\ImagineBundle\\Controller\\ImagineController::filterRuntimeAction"
  *         redirect_response_code?: int|Param, // Default: 302
+ *         debug?: bool|Param|null, // Whether to report images that can not be generated as an error. Defaults to the kernel debug mode. When disabled, the default image is served instead, if one is configured. // Default: null
  *     },
  *     filter_sets?: array<string, array{ // Default: []
  *         quality?: scalar|Param|null,

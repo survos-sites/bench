@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AppController extends AbstractController
 {
@@ -31,9 +32,10 @@ class AppController extends AbstractController
     }
 
     #[Route('/simple', name: 'app_simple')]
-    public function simple(): Response
+    public function simple(HttpClientInterface $httpClient): Response
     {
         return $this->render('app/simple.html.twig', [
+            'posts' => $httpClient->request('GET', 'https://jsonplaceholder.typicode.com/posts')->toArray(),
             'controllerClass' => self::class
         ]);
     }
@@ -110,9 +112,10 @@ class AppController extends AbstractController
     }
 
     #[Route('/grid', name: 'app_grid')]
-    public function grid_example(): Response
+    public function grid_example(HttpClientInterface $httpClient): Response
     {
         return $this->render('app/grid.html.twig', [
+            'data' => array_slice($httpClient->request('GET', 'https://jsonplaceholder.typicode.com/posts')->toArray(), 0, 4),
             'controllerClass' => self::class
         ]);
     }

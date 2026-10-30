@@ -45,6 +45,7 @@ final class AppMenu
         private MeiliRegistry $meiliRegistry,
         private IriConverterInterface $iriConverter,
         private EntityMetaRegistry $entityRegistry,
+        private \App\Search\EntityDuckDbLinks $duckDbLinks,
         private ?AuthorizationCheckerInterface $security = null,
     )
     {
@@ -82,6 +83,10 @@ final class AppMenu
             }
 
             $this->add($submenu, 'survos_entity_ux_search', ['code' => $descriptor->code], label: 'Search (ux-search / Doctrine LIKE)', dividerAfter: true);
+
+            if (null !== $duckDb = $this->duckDbLinks->forEntity($descriptor->code)) {
+                $this->add($submenu, $duckDb['route'], $duckDb['parameters'], label: 'DuckDB search', icon: 'tabler:database-search');
+            }
 
             $hasMeiliGrid = isset(self::MEILI_GRID_DEMOS[$descriptor->code]);
 

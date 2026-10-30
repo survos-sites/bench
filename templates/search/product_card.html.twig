@@ -1,0 +1,8 @@
+<article class="card h-100">
+    <img src="{{ record.thumbnail }}" alt="" class="card-img-top" style="height: 160px; object-fit: contain" loading="lazy">
+    <div class="card-body">
+        <h2 class="h4">{{ record.title }}</h2>
+        <p class="text-muted">{{ record.category }} · ${{ record.price|number_format(2) }}</p>
+        <p>{{ record.description }}</p>
+    </div>
+</article>

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block title %}Products · Search and Smart Search{% endblock %}
+{% block page_content %}
+    <div class="container-xl py-3">
+        <h1>Products</h1>
+        <p class="text-muted">Search by keyword, or try “tech gifts” with Smart Search. Use the facets to narrow your results.</p>
+        <twig:Survos:Search:Layout name="local_products" :urlRewriting="true" />
+    </div>
+{% endblock %}

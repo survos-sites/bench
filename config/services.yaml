@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    env(PRODUCT_SEARCH_MIN_SIMILARITY): '0.3'
     env(OLLAMA_HOST): "http://127.0.0.1:11434"
     env(S3_ENDPOINT): 'https://s3.amazonaws.com'
     env(AWS_S3_REGION): 'us-east-1'

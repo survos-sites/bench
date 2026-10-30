@@ -249,3 +249,33 @@ OpenAI product search took 4.78 s end to end; repeated requests took 0.25 s and
 query reused the connection (25 ms SQL) while paying for its new query embedding.
 The classic home page, category filtering, and compiled asset also returned 200.
 These are local measurements, not a production latency guarantee.
+
+## Local faceted product search
+
+With the development search-bundle linked from mono, run:
+
+```console
+php bin/console app:duckdb:products:local
+```
+
+This builds a fresh local immutable snapshot under `var/data/product-search`,
+using cached product data and embeddings. It adds a real DuckDB FTS index.
+Requires the native driver plus its matching `fts` extension (`INSTALL fts` once
+on the development machine). `--embedder=nomic` builds the alternate profile;
+the reader always uses the profile recorded in the local manifest. No S3 writes
+or production deployment are involved.
+
+Open `/demo/products/search`, or **Products** in the menu.
+The page uses search-bundle's shared LiveComponent layout. Search uses keyword
+FTS; Smart Search uses exact cosine similarity and a configurable minimum score.
+The button is offered only when the local table contains vectors. Category,
+brand, price range, sorting, and pagination operate on the same matching set.
+Query, mode, cutoff, filters and page are preserved in the URL. Changing a filter,
+mode or cutoff resets the page.
+
+Set `PRODUCT_SEARCH_MIN_SIMILARITY` in `.env.local` to change the default (0.3).
+This cutoff is model-dependent, not a percentage confidence. At the default,
+“tech gifts” currently yields 23 products; setting maximum price 1200 yields 19,
+with 12 on page one and 7 on page two. Query embeddings use the existing local
+cache; database retrieval is local. The `/demo/product-duckdb` S3 demo remains
+available separately.

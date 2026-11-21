@@ -218,7 +218,7 @@ Application menus use `AsMenuListener` with `MenuSlot` and the Survos renderer.
 ## FrankenPHP runtime
 
 `Dockerfile` builds PHP 8.5 ZTS with FrankenPHP 1.13.1, native PDO DuckDB
-2.0.0.0-beta2, and its matching `httpfs` extension. Composer dependencies and
+2.0.1.0, and its matching `httpfs` extension. Composer dependencies and
 AssetMapper assets are built into the image; credentials and local databases are
 excluded. Build with `docker build --load -t bench-frankenphp .`.
 

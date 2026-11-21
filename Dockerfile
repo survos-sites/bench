@@ -5,7 +5,7 @@ FROM dunglas/frankenphp:${FRANKENPHP_VERSION}-php${PHP_VERSION} AS base
 WORKDIR /app
 COPY --from=ghcr.io/php/pie:bin /pie /usr/local/bin/pie
 RUN install-php-extensions gd imagick intl zip pdo_pgsql redis apcu \
-    && pie install thomas-0816/pdo-duckdb-php:2.0.0.0-beta2 \
+    && pie install thomas-0816/pdo-duckdb-php:2.0.1.0 \
     && rm /usr/local/bin/pie \
     && php -r '$p = new PDO("duckdb::memory:"); $p->exec("INSTALL httpfs; LOAD httpfs"); echo $p->query("SELECT version()")->fetchColumn();'
 COPY --chmod=755 docker/predeploy.sh /usr/local/bin/bench-predeploy

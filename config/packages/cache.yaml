@@ -7,10 +7,8 @@ framework:
         # The data in this cache should persist between deploys.
         # Other options include:
 
-#         Redis
-#        app: cache.adapter.filesystem
-        app: cache.adapter.redis
-        default_redis_provider: '%env(REDIS)%'
+        # Filesystem: the app cache only holds short-lived lookups, so it needs no Redis.
+        app: cache.adapter.filesystem
 
         # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
         #app: cache.adapter.apcu

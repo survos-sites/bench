@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Search;
 
 use Survos\SearchBundle\Adapter\DuckDb\DuckDbConnectionProviderInterface;
-use Survos\SearchBundle\Adapter\DuckDb\DuckDbQueryEmbedderInterface;
+use Survos\SearchBundle\Contract\QueryEmbedderInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /** Local development snapshot, independent of S3 and Doctrine. */
-final class LocalProductCatalog implements SnapshotRepositoryInterface, DuckDbConnectionProviderInterface, DuckDbQueryEmbedderInterface
+final class LocalProductCatalog implements SnapshotRepositoryInterface, DuckDbConnectionProviderInterface, QueryEmbedderInterface
 {
     public function __construct(
         #[Autowire('%kernel.project_dir%/var/data/product-search')]

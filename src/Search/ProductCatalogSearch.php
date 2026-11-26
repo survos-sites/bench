@@ -24,12 +24,12 @@ final class ProductCatalogSearch extends AbstractSearch implements HitTemplateSe
         $this->addFacet('price', 'Price', RangeInput::class);
         $this->setAvailableHitsPerPage([12, 24, 48]);
         $this->addAvailableSort(null, 'Relevance');
-        $this->addAvailableSort('price_asc', 'Price: low to high');
+        $this->addAvailableSort('price:asc', 'Price: low to high');
         $p = [
             'table' => 'products', 'selectColumns' => ['d.id', "d.metadata->>'title' AS title", "d.metadata->>'description' AS description", "d.metadata->>'thumbnail' AS thumbnail", "d.metadata->>'category' AS category", "TRY_CAST(d.metadata->>'price' AS DOUBLE) AS price"],
             'facetColumns' => ['category' => "d.metadata->>'category'", 'brand' => "d.metadata->>'brand'", 'price' => "TRY_CAST(d.metadata->>'price' AS DOUBLE)"],
             'rangeFacets' => ['price'], 'ftsFunction' => 'fts_main_products.match_bm25',
-            'sortColumns' => ['price_asc' => "TRY_CAST(d.metadata->>'price' AS DOUBLE) ASC"],
+            'sortColumns' => ['price:asc' => "TRY_CAST(d.metadata->>'price' AS DOUBLE) ASC"],
         ];
         if ($this->catalog->hasVectors()) {
             $p += ['vectorColumn' => 'd.embedding', 'vectorDimensions' => $this->catalog->manifest()['dimensions'],

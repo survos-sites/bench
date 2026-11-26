@@ -1758,6 +1758,17 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/auth"
  *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
+ *     authorities?: array<string, array{ // Default: []
+ *         issuer?: string|Param,
+ *     }>,
+ *     resources?: array<string, array{ // Default: []
+ *         enabled?: bool|Param, // Default: true
+ *         authority?: string|Param,
+ *         path?: string|Param,
+ *         resource?: string|Param,
+ *         audiences?: list<string|Param>,
+ *         required_scopes?: list<string|Param>,
+ *     }>,
  *     providers?: array<string, array{ // Default: []
  *         type?: scalar|Param|null, // Default: null
  *         client_id?: scalar|Param|null, // Default: null
@@ -1939,6 +1950,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         role?: scalar|Param|null, // checked unless public; null = ROLE_ADMIN // Default: null
  *     }>,
  *     agent?: array{ // Bearer-token sign-in for /mcp (see Survos\CommandBundle\Security\AgentTokenHandler).
+ *         enabled?: bool|Param, // Register command tools with MCP. Disable for external corpus-only servers; console commands remain available. // Default: true
  *         token?: scalar|Param|null, // e.g. %env(default::AGENT_TOKEN)%; unset = no token accepted // Default: null
  *         user?: scalar|Param|null, // user identifier the token signs in as, e.g. an admin email // Default: null
  *     },
@@ -2349,7 +2361,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  * }
  * @psalm-type SurvosEzConfig = array{
- *     enabled?: bool|Param, // Default: true
+ *     localePlacement?: "header"|"settings"|Param, // Default: "header"
  * }
  * @psalm-type SurvosJsonlConfig = array{
  *     compression_level?: int|Param, // Default: 1
@@ -3814,6 +3826,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     index_pattern?: scalar|Param|null, // Which cluster indices the admin page considers this app's, e.g. "kpa_*". The cluster index namespace is flat and shared by every app pointed at the node, so this is how the page finds indices this app owns but never declared -- a leftover from a rename, a locale variant. Defaults to survos_search.index_prefix + "*", so it tracks exactly what this app writes; set it only to widen or narrow that deliberately. // Default: null
  *     elasticvue_url?: scalar|Param|null, // Elasticvue (https://elasticvue.com) — the closest equivalent to the riccox Meilisearch UI. Point this at a self-hosted instance (docker run -p 8080:8080 cars10/elasticvue) or https://app.elasticvue.com. Null hides the menu link. Note that Elasticvue talks to Elasticsearch from the browser, so the node needs http.cors.enabled unless it is proxied. // Default: null
  *     kibana_url?: scalar|Param|null, // Browser-facing Kibana base URL (including any space/base path). In debug, null defaults to localhost:5601 only when all ES connections are loopback; otherwise the link is hidden. // Default: null
+ *     transport_dsn?: scalar|Param|null, // Declare the "elastic" Messenger transport that ReindexDocuments and RemoveDocuments are routed to with this DSN. Null declares it as sync://: the messages are handled where they are dispatched. // Default: null
+ *     driver?: "doctrine"|"amqp"|"phpamqplib"|Param, // Options shape of the declared transport: a queue_name of the Doctrine table, one AMQP exchange and queue (amqp), or a jwage/phpamqplib-messenger DSN path segment (phpamqplib). Explicit because the DSN is usually an unresolved env placeholder. // Default: "doctrine"
+ *     queue_name?: scalar|Param|null, // Queue (and AMQP exchange) behind the "elastic" transport. Prefix it on a broker shared by several applications, e.g. "myapp.elastic". // Default: "elastic"
+ *     transport_options?: mixed, // Options added to the declared transport, e.g. prefetch_count. // Default: []
+ *     retry_strategy?: mixed, // Retry strategy of the declared transport; Messenger defaults when empty. // Default: []
  *     server_url?: scalar|Param|null, // The Elasticsearch node itself, for a direct link in the admin menu. Null hides it. // Default: null
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/admin/elastic"
@@ -3834,6 +3851,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type SurvosWorkflowMessengerConfig = array{
  *     subject_store?: scalar|Param|null, // Service implementing SubjectStoreInterface; defaults to the Doctrine store when DoctrineBundle is installed. // Default: null
  *     default_transport?: scalar|Param|null, // Default: null
+ *     transport_dsn?: scalar|Param|null, // Declare the Messenger transports of async transitions with this DSN instead of writing them by hand. Null: the application declares them. // Default: null
+ *     driver?: "doctrine"|"amqp"|"phpamqplib"|Param, // Options shape of the declared transports: a queue_name of the Doctrine table, one AMQP exchange and queue per transport (amqp), or a jwage/phpamqplib-messenger DSN path segment (phpamqplib). Explicit because the DSN is usually an unresolved env placeholder. // Default: "doctrine"
+ *     queue_prefix?: scalar|Param|null, // Prefix of generated transport names on a broker shared by several applications; ignored by the doctrine driver. // Default: ""
+ *     workflow_paths?: list<scalar|Param|null>,
+ *     transport_options?: mixed, // Options added to every declared transport, e.g. prefetch_count. // Default: []
+ *     retry_strategy?: mixed, // Retry strategy of every declared transport; Messenger defaults when empty. // Default: []
  *     lock_factory?: scalar|Param|null, // LockFactory serializing transitions per subject across workers. Use a store shared by every worker host. // Default: "lock.factory"
  * }
  * @psalm-type UxRouterConfig = array{

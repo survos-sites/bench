@@ -17541,7 +17541,7 @@
                                 "default": [
                                     "%kernel.project_dir%",
                                     ".",
-                                    "/opt/homebrew/Cellar/php/8.5.12_1/share/php/pear"
+                                    "/opt/homebrew/Cellar/php@8.5/8.5.13/share/php@8.5/pear"
                                 ]
                             },
                             "sample_rate": {
@@ -17780,7 +17780,7 @@
                                         "default": [
                                             "%kernel.project_dir%",
                                             ".",
-                                            "/opt/homebrew/Cellar/php/8.5.12_1/share/php/pear"
+                                            "/opt/homebrew/Cellar/php@8.5/8.5.13/share/php@8.5/pear"
                                         ]
                                     }
                                 ]
@@ -17792,7 +17792,7 @@
                             "prefixes": [
                                 "%kernel.project_dir%",
                                 ".",
-                                "/opt/homebrew/Cellar/php/8.5.12_1/share/php/pear"
+                                "/opt/homebrew/Cellar/php@8.5/8.5.13/share/php@8.5/pear"
                             ],
                             "log_flush_threshold": null,
                             "enable_metrics": true,
@@ -18243,6 +18243,54 @@
                         "default": false,
                         "description": "Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param."
                     },
+                    "authorities": {
+                        "$ref": "#/$defs/types/object_null",
+                        "additionalProperties": {
+                            "$ref": "#/$defs/types/object_null",
+                            "properties": {
+                                "issuer": {
+                                    "$ref": "#/$defs/types/string_null"
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "resources": {
+                        "$ref": "#/$defs/types/object_null",
+                        "additionalProperties": {
+                            "$ref": "#/$defs/types/object_null",
+                            "properties": {
+                                "enabled": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": true
+                                },
+                                "authority": {
+                                    "$ref": "#/$defs/types/string_null"
+                                },
+                                "path": {
+                                    "$ref": "#/$defs/types/string_null"
+                                },
+                                "resource": {
+                                    "$ref": "#/$defs/types/string_null"
+                                },
+                                "audiences": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/string_null"
+                                    },
+                                    "minItems": 1
+                                },
+                                "required_scopes": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/string_null"
+                                    },
+                                    "minItems": 1
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
                     "providers": {
                         "$ref": "#/$defs/types/object_null",
                         "additionalProperties": {
@@ -18435,6 +18483,11 @@
                     "agent": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true,
+                                "description": "Register command tools with MCP. Disable for external corpus-only servers; console commands remain available."
+                            },
                             "token": {
                                 "$ref": "#/$defs/types/scalar",
                                 "default": null,
@@ -18448,6 +18501,7 @@
                         },
                         "additionalProperties": false,
                         "default": {
+                            "enabled": true,
                             "token": null,
                             "user": null
                         },
@@ -18679,6 +18733,42 @@
                         "default": null,
                         "description": "Browser-facing Kibana base URL (including any space/base path). In debug, null defaults to localhost:5601 only when all ES connections are loopback; otherwise the link is hidden."
                     },
+                    "transport_dsn": {
+                        "$ref": "#/$defs/types/scalar",
+                        "default": null,
+                        "description": "Declare the \"elastic\" Messenger transport that ReindexDocuments and RemoveDocuments are routed to with this DSN. Null declares it as sync://: the messages are handled where they are dispatched."
+                    },
+                    "driver": {
+                        "anyOf": [
+                            {
+                                "enum": [
+                                    "doctrine",
+                                    "amqp",
+                                    "phpamqplib"
+                                ]
+                            },
+                            {
+                                "$ref": "#/$defs/types/param"
+                            }
+                        ],
+                        "default": "doctrine",
+                        "description": "Options shape of the declared transport: a queue_name of the Doctrine table, one AMQP exchange and queue (amqp), or a jwage/phpamqplib-messenger DSN path segment (phpamqplib). Explicit because the DSN is usually an unresolved env placeholder."
+                    },
+                    "queue_name": {
+                        "$ref": "#/$defs/types/scalar",
+                        "default": "elastic",
+                        "description": "Queue (and AMQP exchange) behind the \"elastic\" transport. Prefix it on a broker shared by several applications, e.g. \"myapp.elastic\"."
+                    },
+                    "transport_options": {
+                        "$ref": "#/$defs/types/variable",
+                        "default": [],
+                        "description": "Options added to the declared transport, e.g. prefetch_count."
+                    },
+                    "retry_strategy": {
+                        "$ref": "#/$defs/types/variable",
+                        "default": [],
+                        "description": "Retry strategy of the declared transport; Messenger defaults when empty."
+                    },
                     "server_url": {
                         "$ref": "#/$defs/types/scalar",
                         "default": null,
@@ -18705,9 +18795,19 @@
             "survos_ez": {
                 "$ref": "#/$defs/types/object_null",
                 "properties": {
-                    "enabled": {
-                        "$ref": "#/$defs/types/boolean",
-                        "default": true
+                    "localePlacement": {
+                        "anyOf": [
+                            {
+                                "enum": [
+                                    "header",
+                                    "settings"
+                                ]
+                            },
+                            {
+                                "$ref": "#/$defs/types/param"
+                            }
+                        ],
+                        "default": "header"
                     }
                 },
                 "additionalProperties": false
@@ -20294,6 +20394,52 @@
                     "default_transport": {
                         "$ref": "#/$defs/types/scalar",
                         "default": null
+                    },
+                    "transport_dsn": {
+                        "$ref": "#/$defs/types/scalar",
+                        "default": null,
+                        "description": "Declare the Messenger transports of async transitions with this DSN instead of writing them by hand. Null: the application declares them."
+                    },
+                    "driver": {
+                        "anyOf": [
+                            {
+                                "enum": [
+                                    "doctrine",
+                                    "amqp",
+                                    "phpamqplib"
+                                ]
+                            },
+                            {
+                                "$ref": "#/$defs/types/param"
+                            }
+                        ],
+                        "default": "doctrine",
+                        "description": "Options shape of the declared transports: a queue_name of the Doctrine table, one AMQP exchange and queue per transport (amqp), or a jwage/phpamqplib-messenger DSN path segment (phpamqplib). Explicit because the DSN is usually an unresolved env placeholder."
+                    },
+                    "queue_prefix": {
+                        "$ref": "#/$defs/types/scalar",
+                        "default": "",
+                        "description": "Prefix of generated transport names on a broker shared by several applications; ignored by the doctrine driver."
+                    },
+                    "workflow_paths": {
+                        "$ref": "#/$defs/types/array_null",
+                        "items": {
+                            "$ref": "#/$defs/types/scalar"
+                        },
+                        "default": [
+                            "%kernel.project_dir%/src/Workflow"
+                        ],
+                        "description": "Directories whose #[AsWorkflow] classes are read to find async transitions."
+                    },
+                    "transport_options": {
+                        "$ref": "#/$defs/types/variable",
+                        "default": [],
+                        "description": "Options added to every declared transport, e.g. prefetch_count."
+                    },
+                    "retry_strategy": {
+                        "$ref": "#/$defs/types/variable",
+                        "default": [],
+                        "description": "Retry strategy of every declared transport; Messenger defaults when empty."
                     },
                     "lock_factory": {
                         "$ref": "#/$defs/types/scalar",

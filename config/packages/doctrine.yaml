@@ -7,6 +7,10 @@ doctrine:
                 profiling_collect_backtrace: '%kernel.debug%'
                 url: '%env(resolve:DATABASE_URL)%'
 
+            products:
+                url: '%env(resolve:PRODUCT_POSTGRES_URL)%'
+                profiling_collect_backtrace: '%kernel.debug%'
+
             messenger:
                 <<: *dbal_defaults
                 profiling_collect_backtrace: '%kernel.debug%'

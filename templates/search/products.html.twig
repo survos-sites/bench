@@ -2,8 +2,13 @@
 {% block title %}Products · Search and Smart Search{% endblock %}
 {% block page_content %}
     <div class="container-xl py-3">
-        <h1>Products</h1>
+        <h1>Products · {{ backend == 'postgres' ? 'PostgreSQL' : 'DuckDB' }}</h1>
+        <nav class="d-flex gap-2 mb-3" aria-label="Search backend" data-controller="product-backend">
+            {% for engine, label in {duckdb: 'DuckDB', postgres: 'PostgreSQL'} %}
+                <a data-action="product-backend#switch" data-backend="{{ engine }}" class="btn {{ backend == engine ? 'btn-primary' : 'btn-outline-primary' }}" href="{{ path('local_product_search', app.request.query.all|merge({backend: engine, page: 1})) }}">{{ label }}</a>
+            {% endfor %}
+        </nav>
         <p class="text-muted">Search by keyword, or try “tech gifts” with Smart Search. Use the facets to narrow your results.</p>
-        <twig:Survos:Search:Layout name="local_products" :urlRewriting="true" />
+        <twig:Survos:Search:Layout :name="searchName" :urlRewriting="true" />
     </div>
 {% endblock %}

@@ -49,7 +49,7 @@ final class OpenAiEmbedder implements EmbedderInterface
             if ('' === trim($text)) {
                 throw new \InvalidArgumentException('Cannot embed empty text.');
             }
-            $items[$i] = $cache->getItem(hash('sha256', $digest."\0".$text));
+            $items[$i] = $cache->getItem(\Survos\SearchBundle\Search\VectorSearch::fingerprint($digest, $text));
             if ($items[$i]->isHit()) {
                 $vectors[$i] = $items[$i]->get();
             } else {

@@ -6,6 +6,7 @@ survos_search:
     default_adapter: es
     adapters:
         local_products: 'duckdb://local-products'
+        postgres_products: 'postgres-vector://products'
         # Generic Doctrine adapter (LIKE matching) used by the auto-entity searches.
         default: '%env(SURVOS_SEARCH_DEFAULT_DSN)%'
         # Real full-text adapter for AssetSearch. postgres-bm25:// on PostgreSQL,

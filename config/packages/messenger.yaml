@@ -3,37 +3,9 @@ framework:
         failure_transport: failed
 
         transports:
-            official_fetch_wiki:
-                dsn: 'doctrine://default?queue_name=official_fetch_wiki'
-#            _base_rabbitmq: &base_rabbitmq
-#                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-##                serializer: messenger.transport.symfony_serializer
-#                retry_strategy:
-#                    max_retries: 3
-#                    multiplier: 2
-#
-#            official_fetch_wiki:
-#                <<: *base_rabbitmq
-#                options:
-#                    queues:
-#                        official_fetch_wiki: ~
-#
-
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-#            official_fetch_wiki:
-#                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # Separate queue from meili on purpose: a full Elasticsearch reindex must not
-            # delay Meilisearch updates, the two want different retry behaviour (ES answers
-            # 429 when its write queue saturates), and each can be consumed and stopped by
-            # its own worker.
-            elastic:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    queue_name: elastic
-                retry_strategy:
-                    max_retries: 3
-                    multiplier: 2
-
+            # The transport of each async workflow transition (official_fetch_wiki) is declared by
+            # survos/workflow-messenger-bundle, and "elastic" by survos/elastic-bundle; see
+            # config/packages/survos_workflow_messenger.yaml and survos_elastic.yaml.
             meili:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
 #                options:
@@ -56,8 +28,6 @@ framework:
 #            Symfony\Component\Notifier\Message\ChatMessage: async
 #            Symfony\Component\Notifier\Message\SmsMessage: async
             Survos\MeiliBundle\Message\BatchIndexEntitiesMessage: meili
-            Survos\ElasticBundle\Message\ReindexDocuments: elastic
-            Survos\ElasticBundle\Message\RemoveDocuments: elastic
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async

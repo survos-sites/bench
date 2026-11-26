@@ -1,1 +1,5 @@
-survos_workflow_messenger: ~
+survos_workflow_messenger:
+    # One Doctrine queue per async transition, declared from the #[Transition(async: true)]
+    # attributes in src/Workflow, in the application's own database.
+    transport_dsn: 'doctrine://default'
+    driver: doctrine

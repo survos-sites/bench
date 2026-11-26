@@ -3,3 +3,10 @@ survos_elastic:
     analysis:
         language: english
         ascii_folding: true
+    # The "elastic" transport, which ReindexDocuments / RemoveDocuments name themselves.
+    # Separate queue from meili on purpose: a full Elasticsearch reindex must not delay
+    # Meilisearch updates, the two want different retry behaviour (ES answers 429 when its
+    # write queue saturates), and each can be consumed and stopped by its own worker.
+    transport_dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+    driver: doctrine
+    retry_strategy: { max_retries: 3, multiplier: 2 }

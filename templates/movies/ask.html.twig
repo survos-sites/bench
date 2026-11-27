@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block page_title 'Ask the movie snapshot' %}
-{% block page_subtitle 'A local experiment with 1,035,695 movies · early 2025 snapshot' %}
+{% block page_subtitle 'An experiment with 1,035,695 movies · early 2025 snapshot' %}
 {% block body %}
 <div class="row justify-content-center"><div class="col-lg-9">
     <div class="alert alert-info">
-        Explore plots, directors, genres and release years. Answers use a fixed movie catalog, not live listings.
+        Explore plots, directors, genres and release years. <a href="{{ path('movie_browse') }}">Browse and filter the catalog</a>. Answers use a fixed movie catalog, not live listings.
         Keywords and US certifications from newer upstream releases are not included.
         <a href="https://huggingface.co/datasets/remsky/Embeddings__Ultimate_1Million_Movies_Dataset" target="_blank" rel="noopener noreferrer">About the source ↗</a>
     </div>
@@ -38,6 +38,6 @@
             </details>
         </div></div>
     {% endif %}
-    <p class="small text-secondary mt-3">Experimental semantic retrieval uses the publisher’s Nomic embeddings. Exact source model revision and input formatting are incompletely documented. Check the movie sources; this catalog is not suitable for age-rating decisions.</p>
+    <p class="small text-secondary mt-3">Experimental semantic retrieval uses Elasticsearch and the publisher’s existing Nomic embeddings. Exact source model revision and input formatting are incompletely documented. Check the movie sources; this catalog is not suitable for age-rating decisions.</p>
 </div></div>
 {% endblock %}

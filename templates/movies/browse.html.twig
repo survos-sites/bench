@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block page_title 'Browse the movie snapshot' %}
+{% block page_subtitle 'Elasticsearch + InstantSearch · early 2025 experiment' %}
+{% block body %}
+<p>Search titles, cast, directors and descriptions. This is the same fixed catalog used by <a href="{{ path('movie_ask') }}">Ask movies</a>; Ask now retrieves the existing Nomic vectors from Elasticsearch. Newer keywords and US certifications are not included.</p>
+{% set controller = 'survos--search-bundle--instantsearch' %}
+<div {{ stimulus_controller(controller, {
+    endpoint: path('survos_search_instant'), name: 'movie_snapshot_es', template: path('movie_browse_card'),
+    sorts: [
+        {value: 'movie_snapshot_es::vote_count:desc', label: 'Most votes'},
+        {value: 'movie_snapshot_es::year:desc', label: 'Newest release'},
+        {value: 'movie_snapshot_es::year:asc', label: 'Oldest release'}
+    ]
+}) }}>
+    <div role="alert" hidden {{ stimulus_target(controller, 'error') }}></div>
+    <div class="mb-3" {{ stimulus_target(controller, 'query') }}></div>
+    <div class="row g-4">
+        <aside class="col-md-3">
+            {% for field, label in {genres: 'Genre', original_language: 'Original language', status: 'Status'} %}
+                <h2 class="h4 mt-3">{{ label }}</h2>
+                <div data-field="{{ field }}" {{ stimulus_target(controller, 'facet') }}></div>
+            {% endfor %}
+            {% for field, label in {year: 'Release year', vote_count: 'TMDB votes'} %}
+                <h2 class="h4 mt-3">{{ label }}</h2>
+                <div data-field="{{ field }}" data-label="{{ label }}" {{ stimulus_target(controller, 'range') }}></div>
+            {% endfor %}
+        </aside>
+        <section class="col-md-9" aria-label="Movie results">
+            <div class="d-flex justify-content-between gap-2 mb-3">
+                <div {{ stimulus_target(controller, 'stats') }}></div>
+                <div {{ stimulus_target(controller, 'sort') }}></div>
+            </div>
+            <div class="d-flex gap-2 mb-3">
+                <div {{ stimulus_target(controller, 'current') }}></div>
+                <div {{ stimulus_target(controller, 'clear') }}></div>
+            </div>
+            <div {{ stimulus_target(controller, 'hits') }}></div>
+            <div class="mt-4" {{ stimulus_target(controller, 'pagination') }}></div>
+        </section>
+    </div>
+</div>
+{% endblock %}

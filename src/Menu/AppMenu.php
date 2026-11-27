@@ -56,7 +56,8 @@ final class AppMenu
     {
         $menu = $event->getMenu();
         $this->add($menu, 'local_product_search', label: 'Products');
-        if ('dev' === $this->env) { $this->add($menu, 'movie_ask', label: 'Ask movies'); }
+        $this->add($menu, 'movie_ask', label: 'Ask movies');
+        $this->add($menu, 'movie_browse', label: 'Browse movies');
         $this->add($menu, 'demo_product_duckdb', label: 'DuckDB products');
         foreach (['app_homepage', 'meili_admin'] as $route)
         {

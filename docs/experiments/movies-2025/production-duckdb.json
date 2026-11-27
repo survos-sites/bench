@@ -1,0 +1,13 @@
+{
+  "source_manifest": "production-source.json",
+  "rows": 1035695,
+  "bytes": 3721146368,
+  "sha256": "2d1b062dec62658b9a8d1615490fb8240b6269d7e170fc4e64e9ed44768c04bc",
+  "s3_uri": "s3://voxitour/bench/experiments/movies-2025/2d1b062dec62658b9a8d1615490fb8240b6269d7e170fc4e64e9ed44768c04bc.duckdb",
+  "s3_readback_sha256_verified": true,
+  "verified_at": "2026-11-27T13:33:59.630156+00:00",
+  "embedding_type": "FLOAT[768]",
+  "document_embeddings": "unchanged publisher vectors",
+  "fts_index": false,
+  "ann_index": false
+}

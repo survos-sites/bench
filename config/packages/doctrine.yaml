@@ -2,7 +2,7 @@ doctrine:
     dbal:
         connections:
             default: &dbal_defaults
-                schema_filter: '~^(?!(?:_timescaledb_|timescaledb_|toolkit_))~'
+                schema_filter: '~^(?!(?:_timescaledb_|timescaledb_|toolkit_|wmca$))~'
                 logging: false
                 profiling_collect_backtrace: '%kernel.debug%'
                 url: '%env(resolve:DATABASE_URL)%'

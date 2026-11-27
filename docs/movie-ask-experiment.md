@@ -21,7 +21,7 @@ Index inventory: the `.duckdb` file contains a unique `movies_id` index on TMDB 
 - Download: [remsky/Embeddings__Ultimate_1Million_Movies_Dataset](https://huggingface.co/datasets/remsky/Embeddings__Ultimate_1Million_Movies_Dataset).
 - Pinned HF revision: `e59e9402f747fbe56f5c429f22a6eced2219f34d`; source Parquet SHA-256: `5d210a0c71238fabde1d6ed276bd01ea867b9aa780634e0cdd9836f23df8bdf9`.
 - Upstream: [Alan Vourch's TMDB + IMDb dataset](https://www.kaggle.com/datasets/alanvourch/tmdb-movies-daily-updates).
-- 1,035,695 movie records; 31 columns. Source Parquet: 7,029,396,264 bytes, **one row group**.
+- 1,035,695 movie records; 31 columns. Source Parquet: 7,029,412,424 bytes, **one row group**.
 - The publisher describes an early-2025 capture. Download time is not source freshness.
 - Newer upstream data reportedly added keywords and US certifications on June 20, 2026. Neither field exists in this downloaded schema.
 - Existing embeddings: Nomic Embed Text through Ollama, 768 dimensions, originally strings. No movie was re-embedded.
@@ -133,3 +133,122 @@ The newer release is downloaded only: it has not been merged into Ask or embedde
 ## Responsiveness finding and next step
 
 The user found the page slow. The observed 5–10 second answer time is mostly model/tool orchestration and answer generation, not DuckDB. The current browser form waits for the completed answer and redirects, although it immediately disables submission and announces pending work. Streaming progress/tool events and text deltas is the next improvement; it has not been implemented in this commit. Symfony AI's execution iterator already exposes `Progress`, `ToolCall` and `TextDelta`, and FF's Ask controller provides a working pattern. Keep the shared ai-chat composer and preserve CSRF, history, reset and error handling when adding a streaming endpoint.
+
+## Elasticsearch metadata and InstantSearch experiment — 27 November 2026
+
+Working local browse page: `/movies/search`, linked both from the dev menu and `/ask/movies`.
+This uses actual InstantSearch.js widgets through SearchBundle's named-search endpoint, not Algolia hosting or a LiveComponent imitation.
+Only dev/test allowlist `movie_snapshot_es`; the page and plain browser-Twig card endpoint also reject other environments.
+
+The Elasticsearch 9.5.3 alias `bench_movie_snapshot_2025` now points to generation `bench_movie_snapshot_2025_20261127122750` with **1,035,695 documents**, matching DuckDB exactly. The measured primary store was **812,941,616 bytes (~775 MiB)** after loading; segment merges can change this. This is a metadata-only projection, so its size is not comparable to DuckDB's metadata-plus-vector artifact as an engine compression contest.
+
+`MovieSnapshotDocuments` reads an explicit metadata column list from the existing read-only named DuckDB source and yields records to ElasticBundle's bulk indexer. TMDB ID becomes the ES document ID. Genres become trimmed, deduplicated keyword arrays; release year uses `try_cast` with invalid/missing dates retained as null. Titles, original titles, directors, cast, taglines and overviews are full-text fields. Language/status/genre facets, year/vote ranges, and year/vote sorting have explicit mappings. All documents carry `snapshot=hf-early-2025`. The strict mapping has 17 fields and **no embedding field**. This is a selected search projection, not a second complete archival copy of every source column.
+
+Rebuild using the existing bundle lifecycle (new generation, bulk load, refresh, then atomic alias swap):
+
+```sh
+php bin/console elastic:index:rebuild movie_snapshot_es --keep-old --batch-size=1000
+php tools/movie-snapshot/compare-es.php var/data/movies/movies.duckdb http://127.0.0.1:9200 bench_movie_snapshot_2025
+```
+
+The installed registry ignores hand-written searches whose `AsSearch.index` is a free-form string, even when they supply a document provider. The app registers against `MovieSnapshotDocuments::class` and sets the real alias base with the `index` adapter parameter. No vendor edits or Doctrine hydration are needed. The normal app prefix produces `bench_movie_snapshot_2025`.
+
+### Same-filter comparison
+
+`tools/movie-snapshot/compare-es.php` asserts identical total counts and identical ordered first 24 IDs for each case. Both engines sort by votes descending, nulls last, then ID. DuckDB computes rows and count in one SQL statement; ES returns exact totals and rows. The ES HTTP time includes transport and JSON. These are three local measured runs with caches **not cleared**, not OS-cold benchmarks, and do not include AI calls.
+
+| Filter | Matches | DuckDB first / repeats | ES HTTP first / repeats | ES engine first / repeats |
+|---|---:|---:|---:|---:|
+| English + Science Fiction + 1980–2020 + ≥100 votes | 1,307 | 14.50 / 12.31 / 12.44 ms | 38.88 / 11.75 / 9.70 ms | 36 / 9 / 7 ms |
+| Japanese + 1950–1959 | 1,786 | 6.52 / 6.55 / 6.62 ms | 11.80 / 10.19 / 6.98 ms | 10 / 8 / 5 ms |
+
+Raw runs and IDs: `docs/experiments/movies-2025/benchmark-es-comparison.json`.
+
+### Actual UI endpoint
+
+The local HTTPS Symfony **dev** endpoint adds facet aggregations, PHP processing and response serialization. Three requests per case returned:
+
+| Request, 24 hits | Matches | Total HTTP first / repeats |
+|---|---:|---:|
+| Browse all movies | 1,035,695 | 268.43 / 184.77 / 178.58 ms |
+| Text `matrix` | 297 | 72.65 / 56.24 / 59.50 ms |
+| Text `matrix` + Science Fiction | 41 | 58.38 / 50.76 / 49.09 ms |
+
+Raw endpoint measurements: `docs/experiments/movies-2025/benchmark-instantsearch.json`.
+Typing has the bundle's 300 ms debounce in addition to the request time. Faceting all million records costs more than a selective query. Do not present the widget's processing time as end-to-end latency. Deep browsing remains bounded by SearchBundle's 10,000-result window; refine queries instead of treating the UI as an export tool.
+
+Browser checks passed for initial count, query, genre refinement, most-votes sort, page 2, clearing refinements and year bounds (`matrix`, year ≤2000 gives 80 hits). The API also rejected an unlisted search and returned no embeddings. Most-votes ordering places The Matrix (603) first for `matrix`; lexical relevance alone can rank obscure exact-title matches above the famous film. Full-text matching, prefix/fuzzy matching, literal substring filtering and semantic retrieval have different meanings and should not be compared as if their result sets must match.
+
+### What this establishes and what follows
+
+- DuckDB remains the immutable typed snapshot and exact semantic baseline. Its existing Nomic vectors are unchanged. No re-embedding or 2026 merge occurred.
+- Elasticsearch now provides full-text indexing, facets and browsing. DuckDB still has no FTS or ANN index in this experiment. Warm metadata timings were similar; ES is useful here for its retrieval/UI features, not evidence that all database work was previously slow.
+- Ask still calls DuckDB. Its model/tool orchestration delay is separate from the browse experience; streaming remains a useful next step.
+- The agreed next vector phase is to copy the **existing** 768-dimensional vectors to a new ES generation keyed by TMDB ID, retaining DuckDB as the exact-search comparison. This requires no new document embeddings. Record mapping/index options and measure ANN recall against exact cosine, filtered recall, build time, size and query latency before switching Ask. Preserve the publisher-model provenance uncertainty; do not silently mix a new model or a 2026 corpus with these vectors.
+- For Smithsonian, keep stable IDs and immutable provenance in the source artifact; make the ES projection disposable and reproducible. A dbt pilot can later reproduce this projection and assert equivalence without changing download, embedding, indexing or UI responsibilities.
+
+## Existing vectors in Elasticsearch and published Ask
+
+This phase copies the publisher's **existing** 768-dimensional float vectors from the validated DuckDB snapshot. It makes no document-embedding calls and does not merge the 2026 Kaggle release. Incoming questions still need a query embedding; fsn1 and the local machine have the same Nomic query-model digest recorded above.
+
+The ES mapping uses cosine similarity and unquantized `hnsw` indexing. This deliberately leaves quantization out of the first experiment. `MovieSnapshotDocuments` reads bounded 10,000-ID windows, validates every vector's dimensions/finiteness/nonzero norm, and streams documents through ElasticBundle's checked bulk indexer. Browse responses exclude `embedding`, although the index now contains it. Raw substring title/director filters use dedicated wildcard subfields with escaped user input; genre is a case-insensitive exact facet value.
+
+`MovieElasticCatalog` is now the agent's tool implementation for semantic retrieval, metadata filters, ID lookup and counts. It uses the same DSN and alias naming as InstantSearch. ES cosine scores are converted back with `2 * _score - 1` so recorded similarities use the same scale as DuckDB. DuckDB's `MovieSnapshotCatalog` and artifact remain unchanged as the exact-search baseline.
+
+Reproduce the vector comparison with:
+
+```sh
+php bin/console app:movies:compare --candidates=1000 > vector-comparison.json
+```
+
+This runs five thematic questions against the whole snapshot and a ≥100-vote subset, with a first measured run and two repeats. Each pair receives the same query vector. The report contains complete top-eight IDs/titles/scores, recall@8, ES engine/HTTP time, DuckDB time and separately measured query-embedding time. Identical scores at the cutoff may legitimately select different IDs; recall alone is not a complete quality assessment.
+
+An interrupted unpublished generation can be resumed with:
+
+```sh
+php bin/console app:movies:resume-index bench_movie_snapshot_2025_<generation>
+```
+
+The resume command rejects an active alias target, replays the last entire ID window to cover partially successful bulks, checks the vector count against DuckDB, and only then swaps the alias. Old generations are retained. Do not run two writers for the same generation. The Desktop update interrupted the initial load; this recovery path was added rather than discarding completed work.
+
+### Deployment preparation and data provenance
+
+Bench's production destination is **AWS `s3://voxitour`**, as configured by its existing `AWS_S3_BUCKET_NAME`; this is distinct from the earlier X10 `survos-platform` bucket. The pinned HF source was fetched directly on fsn1 and its SHA-256 matched the local source before upload. The source's actual byte size is **7,029,412,424**; the previous manually assembled manifest had an incorrect byte count, now corrected. The content hash and revision were unchanged.
+
+Production uses the existing FrankenPHP Docker deployment, with Ollama available over its private Docker network and the DuckDB baseline mounted read-only. The Nomic SQLite cache holds query embeddings, not regenerated document vectors. The live feature does not need DuckDB for retrieval; the baseline mount supports repeatable comparisons and index rebuilds.
+
+Local symlinked search bundles were ahead of `composer.lock`. The lockfile now pins released SearchBundle 2.45.79, ElasticBundle 2.45.92 and the required DoctrineBundle 3.4.2, so the Docker image receives the tested APIs. An isolated local PostgreSQL `bench_publish` database replaces SQLite for deployment validation; the original SQLite file is preserved. A migration adds missing bundle tables and aligns `product.exact_price`. The unmanaged legacy `wmca` table is explicitly excluded from schema management and retained. The migration was executed successfully on empty rehearsal tables, followed by full mapping/database validation.
+
+The old sections above describe successive experiments: the metadata-only comparison remains useful historical evidence, but its “vectors remain in DuckDB” restriction no longer describes the current Ask implementation.
+
+### Local vector results
+
+All 1,035,695 vectors were counted before the local alias switched to `bench_movie_snapshot_2025_20261127125919`. The primary index occupied 5,997,949,018 bytes (~5.59 GiB) immediately after the build; merges can change this. This run uses a local VM-backed ES 9.5.3 node with a 1 GiB JVM heap, while DuckDB runs natively on the Mac. It is not a hardware-matched engine contest.
+
+| Candidates | Filter | Mean recall@8 | Warm ES HTTP median | Warm DuckDB median |
+|---:|---|---:|---:|---:|
+| 200 | All movies | 100% | 523.49 ms | 211.33 ms |
+| 200 | ≥100 votes | 97.5% | 192.00 ms | 20.60 ms |
+| 1,000 | All movies | 100% | 1,058.25 ms | 217.21 ms |
+| 1,000 | ≥100 votes | 100% | 283.07 ms | 20.63 ms |
+
+These summarize five questions and two repeats per filter; the first measured run is excluded from the warm medians. At 200 candidates, the filtered memory/identity question missed the exact top result, **The Mandela Effect**, rather than merely differing at a tied cutoff. At 1,000 candidates every tested top-eight set matched. Ask therefore uses **1,000 candidates**. This is a small recall sample, not a guarantee for all questions. The 1,000-candidate run followed the 200-candidate run and benefited from previously accessed pages; cold timings are not directly comparable.
+
+The first all-movie ES request in the initial run took 5,635.40 ms versus 786.67 ms in DuckDB. Subsequent *new* questions still incurred 1.26–2.61 s ES reads before their repeats. ANN is **not faster in this local configuration**. Keep DuckDB as a strong exact-search baseline, and measure production independently before extrapolating. Future experiments can examine segment/cache behavior and quantized vector indexing without regenerating embeddings.
+
+The local Ask smoke returned Rememory, Anon and Total Recall, with source links. Its ES retrieval took 308.4 ms and the complete answer 7.33 s in that earlier 200-candidate smoke. This separates retrieval from the model/tool-answer delay; it is not a timing claim for the final candidate setting.
+
+Full records and scores are retained in `docs/experiments/movies-2025/vector-comparison-local-200.json` and `vector-comparison-local-1000.json`.
+
+Production uses the already-authorized `searchbench_es_` index namespace. `ELASTICSEARCH_INDEX_PREFIX` is configured independently from `MEILI_PREFIX`; the existing API key only permits `searchbench_es_*`. The failed attempt with the local `bench_` namespace created no production index, and no API-key privileges were expanded.
+
+### Production snapshot storage
+
+Both immutable objects were uploaded **from fsn1** to Bench's production bucket and read back in full to verify SHA-256:
+
+- Raw publisher Parquet: `s3://voxitour/bench/experiments/movies-2025/raw/5d210a0c71238fabde1d6ed276bd01ea867b9aa780634e0cdd9836f23df8bdf9.parquet` (7,029,412,424 bytes).
+- Typed baseline: `s3://voxitour/bench/experiments/movies-2025/2d1b062dec62658b9a8d1615490fb8240b6269d7e170fc4e64e9ed44768c04bc.duckdb` (3,721,146,368 bytes).
+
+Sibling manifests record hashes, provenance and validation. The pinned publisher README is stored with the raw object. `production-source.json` and `production-duckdb.json` retain verification evidence in this repository. These are storage URIs, not public-download promises; existing bucket permissions were retained.
+
+The published query path is: question → Nomic query embedding → Elasticsearch vector/metadata retrieval → AI answer with TMDB sources. InstantSearch uses the same ES alias for text, facets and sorting. The raw Parquet is archival; the DuckDB file supports rebuilds and exact comparisons, and is mounted read-only at `/app/movie-snapshot/movies-v1.duckdb`.

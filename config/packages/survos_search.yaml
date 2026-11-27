@@ -4,6 +4,8 @@ survos_search:
     # The lookup misses, the DSN comes out NULL, and every auto-entity search silently falls
     # back to the Doctrine adapter. Switch engines by editing this line.
     default_adapter: es
+    index_prefix: '%env(ELASTICSEARCH_INDEX_PREFIX)%'
+    public_searches: [movie_snapshot_es]
     adapters:
         local_products: 'duckdb://local-products'
         postgres_products: 'postgres-vector://products'

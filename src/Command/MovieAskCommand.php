@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace App\Command;
 
-use App\Search\MovieSnapshotCatalog;
+use App\Search\MovieElasticCatalog;
 use Symfony\AI\Agent\AgentInterface;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -14,7 +14,7 @@ final readonly class MovieAskCommand
 {
     public function __construct(
         #[Autowire(service: 'ai.agent.movie_snapshot')] private AgentInterface $agent,
-        private MovieSnapshotCatalog $catalog,
+        private MovieElasticCatalog $catalog,
     ) {}
 
     public function __invoke(#[Argument('Question about the early-2025 movie snapshot')] string $question, SymfonyStyle $io): int

@@ -4,6 +4,14 @@
             "chat": {
                 "enabled": true,
                 "fetch": "lazy"
+            },
+            "voice": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "links": {
+                "enabled": true,
+                "fetch": "eager"
             }
         },
         "@survos/api-grid-bundle": {
@@ -101,7 +109,7 @@
                 "fetch": "eager"
             },
             "instantsearch": {
-                "enabled": false,
+                "enabled": true,
                 "fetch": "lazy"
             }
         },

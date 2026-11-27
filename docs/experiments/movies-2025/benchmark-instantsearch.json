@@ -1,0 +1,75 @@
+{
+  "note": "Local HTTPS Symfony dev endpoint; includes PHP, facets, JSON and transport; three repeats, not OS cold. Browser adds a 300ms typing debounce.",
+  "runs": [
+    {
+      "case": "browse",
+      "run": 1,
+      "http_ms": 268.43,
+      "processing_ms": 153,
+      "total": 1035695
+    },
+    {
+      "case": "browse",
+      "run": 2,
+      "http_ms": 184.77,
+      "processing_ms": 146,
+      "total": 1035695
+    },
+    {
+      "case": "browse",
+      "run": 3,
+      "http_ms": 178.58,
+      "processing_ms": 141,
+      "total": 1035695
+    },
+    {
+      "case": "matrix",
+      "run": 1,
+      "http_ms": 72.65,
+      "processing_ms": 36,
+      "total": 297
+    },
+    {
+      "case": "matrix",
+      "run": 2,
+      "http_ms": 56.24,
+      "processing_ms": 28,
+      "total": 297
+    },
+    {
+      "case": "matrix",
+      "run": 3,
+      "http_ms": 59.5,
+      "processing_ms": 29,
+      "total": 297
+    },
+    {
+      "case": "matrix_scifi",
+      "run": 1,
+      "http_ms": 58.38,
+      "processing_ms": 30,
+      "total": 41
+    },
+    {
+      "case": "matrix_scifi",
+      "run": 2,
+      "http_ms": 50.76,
+      "processing_ms": 25,
+      "total": 41
+    },
+    {
+      "case": "matrix_scifi",
+      "run": 3,
+      "http_ms": 49.09,
+      "processing_ms": 25,
+      "total": 41
+    }
+  ],
+  "checks": [
+    "metadata only",
+    "most-votes order",
+    "disjoint pages",
+    "year bounds",
+    "unlisted search rejected"
+  ]
+}

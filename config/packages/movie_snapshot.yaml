@@ -1,4 +1,5 @@
 parameters:
+    env(ELASTICSEARCH_INDEX_PREFIX): 'bench_'
     env(MOVIE_DUCKDB_URI): '%kernel.project_dir%/var/data/movies/movies.duckdb'
 
 survos_duck_db:
@@ -13,7 +14,7 @@ ai:
             model: 'gpt-4o-mini'
             max_tool_calls: 3
             prompt: |
-                You are a movie guide for a LOCAL EXPERIMENT using a fixed early-2025 snapshot.
+                You are a movie guide for an EXPERIMENT using a fixed early-2025 snapshot.
                 Always use the movie tools before making factual catalog claims. Answer from the returned records.
                 Search by semantic query for themes and plots; use literal title/director/genre/year/language filters for exact constraints.
                 Use at most three tool calls per question. Return at most five recommendations, with title, year and TMDB ID.
@@ -24,4 +25,4 @@ ai:
                 If no results match, say so. Explain uncertainty and do not pretend to have live coverage.
                 Reply in concise plain text; the interface shows clickable links to consulted movies separately.
             tools:
-                - 'App\Search\MovieSnapshotCatalog'
+                - 'App\Search\MovieElasticCatalog'

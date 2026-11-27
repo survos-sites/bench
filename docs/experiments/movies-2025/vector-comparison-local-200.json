@@ -1,0 +1,2830 @@
+{
+    "measured_at": "2026-11-27T13:25:04+00:00",
+    "query_model_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+    "document_embeddings": "existing HF 2025 FLOAT[768], no re-embedding",
+    "candidates": 200,
+    "k": 8,
+    "cache_note": "First measured and two warm repeats; OS caches not cleared; query embedding excluded from retrieval timings.",
+    "runs": [
+        {
+            "query": "science fiction about memory and identity",
+            "min_votes": 0,
+            "run": 1,
+            "query_embedding_ms": 803.83,
+            "duckdb_ms": 786.67,
+            "es_http_ms": 5635.4,
+            "es_engine_ms": 5612,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 1035525,
+                    "title": "The Memory Stealers",
+                    "similarity": 0.7949737
+                },
+                {
+                    "id": 985452,
+                    "title": "Memories",
+                    "similarity": 0.7784079
+                },
+                {
+                    "id": 1391617,
+                    "title": "AMNESIA",
+                    "similarity": 0.7782978
+                },
+                {
+                    "id": 1113496,
+                    "title": "(Dis)connected",
+                    "similarity": 0.7753361
+                },
+                {
+                    "id": 886354,
+                    "title": "People Steal Memory",
+                    "similarity": 0.7734827
+                },
+                {
+                    "id": 1127017,
+                    "title": "The Forgetting Device",
+                    "similarity": 0.7721735
+                },
+                {
+                    "id": 727566,
+                    "title": "Parallel Minds",
+                    "similarity": 0.7699072
+                },
+                {
+                    "id": 1047409,
+                    "title": "Universe Memory",
+                    "similarity": 0.7689803
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 1035525,
+                    "title": "The Memory Stealers",
+                    "similarity": 0.7949738
+                },
+                {
+                    "id": 985452,
+                    "title": "Memories",
+                    "similarity": 0.7784077
+                },
+                {
+                    "id": 1391617,
+                    "title": "AMNESIA",
+                    "similarity": 0.77829766
+                },
+                {
+                    "id": 1113496,
+                    "title": "(Dis)connected",
+                    "similarity": 0.7753359
+                },
+                {
+                    "id": 886354,
+                    "title": "People Steal Memory",
+                    "similarity": 0.77348208
+                },
+                {
+                    "id": 1127017,
+                    "title": "The Forgetting Device",
+                    "similarity": 0.77217292
+                },
+                {
+                    "id": 727566,
+                    "title": "Parallel Minds",
+                    "similarity": 0.76990688
+                },
+                {
+                    "id": 1047409,
+                    "title": "Universe Memory",
+                    "similarity": 0.7689804
+                }
+            ]
+        },
+        {
+            "query": "science fiction about memory and identity",
+            "min_votes": 0,
+            "run": 2,
+            "query_embedding_ms": 803.83,
+            "duckdb_ms": 323.38,
+            "es_http_ms": 709.18,
+            "es_engine_ms": 706,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 1035525,
+                    "title": "The Memory Stealers",
+                    "similarity": 0.7949737
+                },
+                {
+                    "id": 985452,
+                    "title": "Memories",
+                    "similarity": 0.7784079
+                },
+                {
+                    "id": 1391617,
+                    "title": "AMNESIA",
+                    "similarity": 0.7782978
+                },
+                {
+                    "id": 1113496,
+                    "title": "(Dis)connected",
+                    "similarity": 0.7753361
+                },
+                {
+                    "id": 886354,
+                    "title": "People Steal Memory",
+                    "similarity": 0.7734827
+                },
+                {
+                    "id": 1127017,
+                    "title": "The Forgetting Device",
+                    "similarity": 0.7721735
+                },
+                {
+                    "id": 727566,
+                    "title": "Parallel Minds",
+                    "similarity": 0.7699072
+                },
+                {
+                    "id": 1047409,
+                    "title": "Universe Memory",
+                    "similarity": 0.7689803
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 1035525,
+                    "title": "The Memory Stealers",
+                    "similarity": 0.7949738
+                },
+                {
+                    "id": 985452,
+                    "title": "Memories",
+                    "similarity": 0.7784077
+                },
+                {
+                    "id": 1391617,
+                    "title": "AMNESIA",
+                    "similarity": 0.77829766
+                },
+                {
+                    "id": 1113496,
+                    "title": "(Dis)connected",
+                    "similarity": 0.7753359
+                },
+                {
+                    "id": 886354,
+                    "title": "People Steal Memory",
+                    "similarity": 0.77348208
+                },
+                {
+                    "id": 1127017,
+                    "title": "The Forgetting Device",
+                    "similarity": 0.77217292
+                },
+                {
+                    "id": 727566,
+                    "title": "Parallel Minds",
+                    "similarity": 0.76990688
+                },
+                {
+                    "id": 1047409,
+                    "title": "Universe Memory",
+                    "similarity": 0.7689804
+                }
+            ]
+        },
+        {
+            "query": "science fiction about memory and identity",
+            "min_votes": 0,
+            "run": 3,
+            "query_embedding_ms": 803.83,
+            "duckdb_ms": 224.34,
+            "es_http_ms": 614.14,
+            "es_engine_ms": 611,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 1035525,
+                    "title": "The Memory Stealers",
+                    "similarity": 0.7949737
+                },
+                {
+                    "id": 985452,
+                    "title": "Memories",
+                    "similarity": 0.7784079
+                },
+                {
+                    "id": 1391617,
+                    "title": "AMNESIA",
+                    "similarity": 0.7782978
+                },
+                {
+                    "id": 1113496,
+                    "title": "(Dis)connected",
+                    "similarity": 0.7753361
+                },
+                {
+                    "id": 886354,
+                    "title": "People Steal Memory",
+                    "similarity": 0.7734827
+                },
+                {
+                    "id": 1127017,
+                    "title": "The Forgetting Device",
+                    "similarity": 0.7721735
+                },
+                {
+                    "id": 727566,
+                    "title": "Parallel Minds",
+                    "similarity": 0.7699072
+                },
+                {
+                    "id": 1047409,
+                    "title": "Universe Memory",
+                    "similarity": 0.7689803
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 1035525,
+                    "title": "The Memory Stealers",
+                    "similarity": 0.7949738
+                },
+                {
+                    "id": 985452,
+                    "title": "Memories",
+                    "similarity": 0.7784077
+                },
+                {
+                    "id": 1391617,
+                    "title": "AMNESIA",
+                    "similarity": 0.77829766
+                },
+                {
+                    "id": 1113496,
+                    "title": "(Dis)connected",
+                    "similarity": 0.7753359
+                },
+                {
+                    "id": 886354,
+                    "title": "People Steal Memory",
+                    "similarity": 0.77348208
+                },
+                {
+                    "id": 1127017,
+                    "title": "The Forgetting Device",
+                    "similarity": 0.77217292
+                },
+                {
+                    "id": 727566,
+                    "title": "Parallel Minds",
+                    "similarity": 0.76990688
+                },
+                {
+                    "id": 1047409,
+                    "title": "Universe Memory",
+                    "similarity": 0.7689804
+                }
+            ]
+        },
+        {
+            "query": "science fiction about memory and identity",
+            "min_votes": 100,
+            "run": 1,
+            "query_embedding_ms": 803.83,
+            "duckdb_ms": 22.47,
+            "es_http_ms": 846.53,
+            "es_engine_ms": 843,
+            "recall_at_8": 0.875,
+            "duckdb": [
+                {
+                    "id": 491037,
+                    "title": "The Mandela Effect",
+                    "similarity": 0.7170951
+                },
+                {
+                    "id": 579047,
+                    "title": "Reminiscence",
+                    "similarity": 0.7130916
+                },
+                {
+                    "id": 586791,
+                    "title": "Little Fish",
+                    "similarity": 0.7020398
+                },
+                {
+                    "id": 583081,
+                    "title": "Warning",
+                    "similarity": 0.6979287
+                },
+                {
+                    "id": 624860,
+                    "title": "The Matrix Resurrections",
+                    "similarity": 0.6953166
+                },
+                {
+                    "id": 48138,
+                    "title": "Unknown",
+                    "similarity": 0.6903653
+                },
+                {
+                    "id": 1067820,
+                    "title": "Awareness",
+                    "similarity": 0.6880963
+                },
+                {
+                    "id": 842171,
+                    "title": "Deep",
+                    "similarity": 0.6841961
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 579047,
+                    "title": "Reminiscence",
+                    "similarity": 0.7130905999999999
+                },
+                {
+                    "id": 586791,
+                    "title": "Little Fish",
+                    "similarity": 0.70204008
+                },
+                {
+                    "id": 583081,
+                    "title": "Warning",
+                    "similarity": 0.697929
+                },
+                {
+                    "id": 624860,
+                    "title": "The Matrix Resurrections",
+                    "similarity": 0.6953157999999999
+                },
+                {
+                    "id": 48138,
+                    "title": "Unknown",
+                    "similarity": 0.6903649999999999
+                },
+                {
+                    "id": 1067820,
+                    "title": "Awareness",
+                    "similarity": 0.68809652
+                },
+                {
+                    "id": 842171,
+                    "title": "Deep",
+                    "similarity": 0.6841957999999999
+                },
+                {
+                    "id": 1001835,
+                    "title": "Wifelike",
+                    "similarity": 0.6785388000000001
+                }
+            ]
+        },
+        {
+            "query": "science fiction about memory and identity",
+            "min_votes": 100,
+            "run": 2,
+            "query_embedding_ms": 803.83,
+            "duckdb_ms": 20.65,
+            "es_http_ms": 200.88,
+            "es_engine_ms": 198,
+            "recall_at_8": 0.875,
+            "duckdb": [
+                {
+                    "id": 491037,
+                    "title": "The Mandela Effect",
+                    "similarity": 0.7170951
+                },
+                {
+                    "id": 579047,
+                    "title": "Reminiscence",
+                    "similarity": 0.7130916
+                },
+                {
+                    "id": 586791,
+                    "title": "Little Fish",
+                    "similarity": 0.7020398
+                },
+                {
+                    "id": 583081,
+                    "title": "Warning",
+                    "similarity": 0.6979287
+                },
+                {
+                    "id": 624860,
+                    "title": "The Matrix Resurrections",
+                    "similarity": 0.6953166
+                },
+                {
+                    "id": 48138,
+                    "title": "Unknown",
+                    "similarity": 0.6903653
+                },
+                {
+                    "id": 1067820,
+                    "title": "Awareness",
+                    "similarity": 0.6880963
+                },
+                {
+                    "id": 842171,
+                    "title": "Deep",
+                    "similarity": 0.6841961
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 579047,
+                    "title": "Reminiscence",
+                    "similarity": 0.7130905999999999
+                },
+                {
+                    "id": 586791,
+                    "title": "Little Fish",
+                    "similarity": 0.70204008
+                },
+                {
+                    "id": 583081,
+                    "title": "Warning",
+                    "similarity": 0.697929
+                },
+                {
+                    "id": 624860,
+                    "title": "The Matrix Resurrections",
+                    "similarity": 0.6953157999999999
+                },
+                {
+                    "id": 48138,
+                    "title": "Unknown",
+                    "similarity": 0.6903649999999999
+                },
+                {
+                    "id": 1067820,
+                    "title": "Awareness",
+                    "similarity": 0.68809652
+                },
+                {
+                    "id": 842171,
+                    "title": "Deep",
+                    "similarity": 0.6841957999999999
+                },
+                {
+                    "id": 1001835,
+                    "title": "Wifelike",
+                    "similarity": 0.6785388000000001
+                }
+            ]
+        },
+        {
+            "query": "science fiction about memory and identity",
+            "min_votes": 100,
+            "run": 3,
+            "query_embedding_ms": 803.83,
+            "duckdb_ms": 20.24,
+            "es_http_ms": 209.36,
+            "es_engine_ms": 206,
+            "recall_at_8": 0.875,
+            "duckdb": [
+                {
+                    "id": 491037,
+                    "title": "The Mandela Effect",
+                    "similarity": 0.7170951
+                },
+                {
+                    "id": 579047,
+                    "title": "Reminiscence",
+                    "similarity": 0.7130916
+                },
+                {
+                    "id": 586791,
+                    "title": "Little Fish",
+                    "similarity": 0.7020398
+                },
+                {
+                    "id": 583081,
+                    "title": "Warning",
+                    "similarity": 0.6979287
+                },
+                {
+                    "id": 624860,
+                    "title": "The Matrix Resurrections",
+                    "similarity": 0.6953166
+                },
+                {
+                    "id": 48138,
+                    "title": "Unknown",
+                    "similarity": 0.6903653
+                },
+                {
+                    "id": 1067820,
+                    "title": "Awareness",
+                    "similarity": 0.6880963
+                },
+                {
+                    "id": 842171,
+                    "title": "Deep",
+                    "similarity": 0.6841961
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 579047,
+                    "title": "Reminiscence",
+                    "similarity": 0.7130905999999999
+                },
+                {
+                    "id": 586791,
+                    "title": "Little Fish",
+                    "similarity": 0.70204008
+                },
+                {
+                    "id": 583081,
+                    "title": "Warning",
+                    "similarity": 0.697929
+                },
+                {
+                    "id": 624860,
+                    "title": "The Matrix Resurrections",
+                    "similarity": 0.6953157999999999
+                },
+                {
+                    "id": 48138,
+                    "title": "Unknown",
+                    "similarity": 0.6903649999999999
+                },
+                {
+                    "id": 1067820,
+                    "title": "Awareness",
+                    "similarity": 0.68809652
+                },
+                {
+                    "id": 842171,
+                    "title": "Deep",
+                    "similarity": 0.6841957999999999
+                },
+                {
+                    "id": 1001835,
+                    "title": "Wifelike",
+                    "similarity": 0.6785388000000001
+                }
+            ]
+        },
+        {
+            "query": "a lonely robot finds friendship",
+            "min_votes": 0,
+            "run": 1,
+            "query_embedding_ms": 26.61,
+            "duckdb_ms": 217.37,
+            "es_http_ms": 2612.86,
+            "es_engine_ms": 2610,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 632493,
+                    "title": "JERICH0",
+                    "similarity": 0.8350073
+                },
+                {
+                    "id": 734850,
+                    "title": "Victor_Robot",
+                    "similarity": 0.8002608
+                },
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995933
+                },
+                {
+                    "id": 617851,
+                    "title": "Fragile",
+                    "similarity": 0.7950444
+                },
+                {
+                    "id": 468154,
+                    "title": "Death and the Robot",
+                    "similarity": 0.7939041
+                },
+                {
+                    "id": 1122230,
+                    "title": "The Absent-Minded Robot",
+                    "similarity": 0.7917959
+                },
+                {
+                    "id": 453374,
+                    "title": "Will-Bot: Friend or Foe",
+                    "similarity": 0.784419
+                },
+                {
+                    "id": 740646,
+                    "title": "Bot",
+                    "similarity": 0.7809052
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 632493,
+                    "title": "JERICH0",
+                    "similarity": 0.8350078000000001
+                },
+                {
+                    "id": 734850,
+                    "title": "Victor_Robot",
+                    "similarity": 0.8002602999999999
+                },
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995931000000001
+                },
+                {
+                    "id": 617851,
+                    "title": "Fragile",
+                    "similarity": 0.7950443
+                },
+                {
+                    "id": 468154,
+                    "title": "Death and the Robot",
+                    "similarity": 0.7939044
+                },
+                {
+                    "id": 1122230,
+                    "title": "The Absent-Minded Robot",
+                    "similarity": 0.7917955999999999
+                },
+                {
+                    "id": 453374,
+                    "title": "Will-Bot: Friend or Foe",
+                    "similarity": 0.7844186
+                },
+                {
+                    "id": 740646,
+                    "title": "Bot",
+                    "similarity": 0.78090572
+                }
+            ]
+        },
+        {
+            "query": "a lonely robot finds friendship",
+            "min_votes": 0,
+            "run": 2,
+            "query_embedding_ms": 26.61,
+            "duckdb_ms": 212.47,
+            "es_http_ms": 532.75,
+            "es_engine_ms": 530,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 632493,
+                    "title": "JERICH0",
+                    "similarity": 0.8350073
+                },
+                {
+                    "id": 734850,
+                    "title": "Victor_Robot",
+                    "similarity": 0.8002608
+                },
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995933
+                },
+                {
+                    "id": 617851,
+                    "title": "Fragile",
+                    "similarity": 0.7950444
+                },
+                {
+                    "id": 468154,
+                    "title": "Death and the Robot",
+                    "similarity": 0.7939041
+                },
+                {
+                    "id": 1122230,
+                    "title": "The Absent-Minded Robot",
+                    "similarity": 0.7917959
+                },
+                {
+                    "id": 453374,
+                    "title": "Will-Bot: Friend or Foe",
+                    "similarity": 0.784419
+                },
+                {
+                    "id": 740646,
+                    "title": "Bot",
+                    "similarity": 0.7809052
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 632493,
+                    "title": "JERICH0",
+                    "similarity": 0.8350078000000001
+                },
+                {
+                    "id": 734850,
+                    "title": "Victor_Robot",
+                    "similarity": 0.8002602999999999
+                },
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995931000000001
+                },
+                {
+                    "id": 617851,
+                    "title": "Fragile",
+                    "similarity": 0.7950443
+                },
+                {
+                    "id": 468154,
+                    "title": "Death and the Robot",
+                    "similarity": 0.7939044
+                },
+                {
+                    "id": 1122230,
+                    "title": "The Absent-Minded Robot",
+                    "similarity": 0.7917955999999999
+                },
+                {
+                    "id": 453374,
+                    "title": "Will-Bot: Friend or Foe",
+                    "similarity": 0.7844186
+                },
+                {
+                    "id": 740646,
+                    "title": "Bot",
+                    "similarity": 0.78090572
+                }
+            ]
+        },
+        {
+            "query": "a lonely robot finds friendship",
+            "min_votes": 0,
+            "run": 3,
+            "query_embedding_ms": 26.61,
+            "duckdb_ms": 209.96,
+            "es_http_ms": 521.09,
+            "es_engine_ms": 518,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 632493,
+                    "title": "JERICH0",
+                    "similarity": 0.8350073
+                },
+                {
+                    "id": 734850,
+                    "title": "Victor_Robot",
+                    "similarity": 0.8002608
+                },
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995933
+                },
+                {
+                    "id": 617851,
+                    "title": "Fragile",
+                    "similarity": 0.7950444
+                },
+                {
+                    "id": 468154,
+                    "title": "Death and the Robot",
+                    "similarity": 0.7939041
+                },
+                {
+                    "id": 1122230,
+                    "title": "The Absent-Minded Robot",
+                    "similarity": 0.7917959
+                },
+                {
+                    "id": 453374,
+                    "title": "Will-Bot: Friend or Foe",
+                    "similarity": 0.784419
+                },
+                {
+                    "id": 740646,
+                    "title": "Bot",
+                    "similarity": 0.7809052
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 632493,
+                    "title": "JERICH0",
+                    "similarity": 0.8350078000000001
+                },
+                {
+                    "id": 734850,
+                    "title": "Victor_Robot",
+                    "similarity": 0.8002602999999999
+                },
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995931000000001
+                },
+                {
+                    "id": 617851,
+                    "title": "Fragile",
+                    "similarity": 0.7950443
+                },
+                {
+                    "id": 468154,
+                    "title": "Death and the Robot",
+                    "similarity": 0.7939044
+                },
+                {
+                    "id": 1122230,
+                    "title": "The Absent-Minded Robot",
+                    "similarity": 0.7917955999999999
+                },
+                {
+                    "id": 453374,
+                    "title": "Will-Bot: Friend or Foe",
+                    "similarity": 0.7844186
+                },
+                {
+                    "id": 740646,
+                    "title": "Bot",
+                    "similarity": 0.78090572
+                }
+            ]
+        },
+        {
+            "query": "a lonely robot finds friendship",
+            "min_votes": 100,
+            "run": 1,
+            "query_embedding_ms": 26.61,
+            "duckdb_ms": 17.53,
+            "es_http_ms": 261.91,
+            "es_engine_ms": 259,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995933
+                },
+                {
+                    "id": 838240,
+                    "title": "Robot Dreams",
+                    "similarity": 0.7672237
+                },
+                {
+                    "id": 33278,
+                    "title": "Deadly Friend",
+                    "similarity": 0.7520434
+                },
+                {
+                    "id": 482321,
+                    "title": "Ron's Gone Wrong",
+                    "similarity": 0.7499996
+                },
+                {
+                    "id": 523777,
+                    "title": "Next Gen",
+                    "similarity": 0.7494571
+                },
+                {
+                    "id": 536554,
+                    "title": "M3GAN",
+                    "similarity": 0.740807
+                },
+                {
+                    "id": 913814,
+                    "title": "Brian and Charles",
+                    "similarity": 0.7319947
+                },
+                {
+                    "id": 1184918,
+                    "title": "The Wild Robot",
+                    "similarity": 0.7117091
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995931000000001
+                },
+                {
+                    "id": 838240,
+                    "title": "Robot Dreams",
+                    "similarity": 0.7672235999999999
+                },
+                {
+                    "id": 33278,
+                    "title": "Deadly Friend",
+                    "similarity": 0.75204348
+                },
+                {
+                    "id": 482321,
+                    "title": "Ron's Gone Wrong",
+                    "similarity": 0.74999952
+                },
+                {
+                    "id": 523777,
+                    "title": "Next Gen",
+                    "similarity": 0.749457
+                },
+                {
+                    "id": 536554,
+                    "title": "M3GAN",
+                    "similarity": 0.7408073
+                },
+                {
+                    "id": 913814,
+                    "title": "Brian and Charles",
+                    "similarity": 0.7319945999999999
+                },
+                {
+                    "id": 1184918,
+                    "title": "The Wild Robot",
+                    "similarity": 0.7117092599999999
+                }
+            ]
+        },
+        {
+            "query": "a lonely robot finds friendship",
+            "min_votes": 100,
+            "run": 2,
+            "query_embedding_ms": 26.61,
+            "duckdb_ms": 20.68,
+            "es_http_ms": 202.82,
+            "es_engine_ms": 200,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995933
+                },
+                {
+                    "id": 838240,
+                    "title": "Robot Dreams",
+                    "similarity": 0.7672237
+                },
+                {
+                    "id": 33278,
+                    "title": "Deadly Friend",
+                    "similarity": 0.7520434
+                },
+                {
+                    "id": 482321,
+                    "title": "Ron's Gone Wrong",
+                    "similarity": 0.7499996
+                },
+                {
+                    "id": 523777,
+                    "title": "Next Gen",
+                    "similarity": 0.7494571
+                },
+                {
+                    "id": 536554,
+                    "title": "M3GAN",
+                    "similarity": 0.740807
+                },
+                {
+                    "id": 913814,
+                    "title": "Brian and Charles",
+                    "similarity": 0.7319947
+                },
+                {
+                    "id": 1184918,
+                    "title": "The Wild Robot",
+                    "similarity": 0.7117091
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995931000000001
+                },
+                {
+                    "id": 838240,
+                    "title": "Robot Dreams",
+                    "similarity": 0.7672235999999999
+                },
+                {
+                    "id": 33278,
+                    "title": "Deadly Friend",
+                    "similarity": 0.75204348
+                },
+                {
+                    "id": 482321,
+                    "title": "Ron's Gone Wrong",
+                    "similarity": 0.74999952
+                },
+                {
+                    "id": 523777,
+                    "title": "Next Gen",
+                    "similarity": 0.749457
+                },
+                {
+                    "id": 536554,
+                    "title": "M3GAN",
+                    "similarity": 0.7408073
+                },
+                {
+                    "id": 913814,
+                    "title": "Brian and Charles",
+                    "similarity": 0.7319945999999999
+                },
+                {
+                    "id": 1184918,
+                    "title": "The Wild Robot",
+                    "similarity": 0.7117092599999999
+                }
+            ]
+        },
+        {
+            "query": "a lonely robot finds friendship",
+            "min_votes": 100,
+            "run": 3,
+            "query_embedding_ms": 26.61,
+            "duckdb_ms": 20.57,
+            "es_http_ms": 201.73,
+            "es_engine_ms": 198,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995933
+                },
+                {
+                    "id": 838240,
+                    "title": "Robot Dreams",
+                    "similarity": 0.7672237
+                },
+                {
+                    "id": 33278,
+                    "title": "Deadly Friend",
+                    "similarity": 0.7520434
+                },
+                {
+                    "id": 482321,
+                    "title": "Ron's Gone Wrong",
+                    "similarity": 0.7499996
+                },
+                {
+                    "id": 523777,
+                    "title": "Next Gen",
+                    "similarity": 0.7494571
+                },
+                {
+                    "id": 536554,
+                    "title": "M3GAN",
+                    "similarity": 0.740807
+                },
+                {
+                    "id": 913814,
+                    "title": "Brian and Charles",
+                    "similarity": 0.7319947
+                },
+                {
+                    "id": 1184918,
+                    "title": "The Wild Robot",
+                    "similarity": 0.7117091
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 84329,
+                    "title": "Robot & Frank",
+                    "similarity": 0.7995931000000001
+                },
+                {
+                    "id": 838240,
+                    "title": "Robot Dreams",
+                    "similarity": 0.7672235999999999
+                },
+                {
+                    "id": 33278,
+                    "title": "Deadly Friend",
+                    "similarity": 0.75204348
+                },
+                {
+                    "id": 482321,
+                    "title": "Ron's Gone Wrong",
+                    "similarity": 0.74999952
+                },
+                {
+                    "id": 523777,
+                    "title": "Next Gen",
+                    "similarity": 0.749457
+                },
+                {
+                    "id": 536554,
+                    "title": "M3GAN",
+                    "similarity": 0.7408073
+                },
+                {
+                    "id": 913814,
+                    "title": "Brian and Charles",
+                    "similarity": 0.7319945999999999
+                },
+                {
+                    "id": 1184918,
+                    "title": "The Wild Robot",
+                    "similarity": 0.7117092599999999
+                }
+            ]
+        },
+        {
+            "query": "Japanese samurai defending a village",
+            "min_votes": 0,
+            "run": 1,
+            "query_embedding_ms": 26.77,
+            "duckdb_ms": 212.61,
+            "es_http_ms": 1846.21,
+            "es_engine_ms": 1842,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871776
+                },
+                {
+                    "id": 827767,
+                    "title": "Yakuza Vassal",
+                    "similarity": 0.7711148
+                },
+                {
+                    "id": 151250,
+                    "title": "Ronin-gai",
+                    "similarity": 0.7498072
+                },
+                {
+                    "id": 531753,
+                    "title": "Killing",
+                    "similarity": 0.748935
+                },
+                {
+                    "id": 540370,
+                    "title": "Samurai Warrior",
+                    "similarity": 0.7446432
+                },
+                {
+                    "id": 254007,
+                    "title": "The Samurai",
+                    "similarity": 0.7417082
+                },
+                {
+                    "id": 57706,
+                    "title": "Samurai Wolf",
+                    "similarity": 0.7412213
+                },
+                {
+                    "id": 94411,
+                    "title": "Landmine Warfare",
+                    "similarity": 0.7404516
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871778
+                },
+                {
+                    "id": 827767,
+                    "title": "Yakuza Vassal",
+                    "similarity": 0.7711142
+                },
+                {
+                    "id": 151250,
+                    "title": "Ronin-gai",
+                    "similarity": 0.74980688
+                },
+                {
+                    "id": 531753,
+                    "title": "Killing",
+                    "similarity": 0.7489356
+                },
+                {
+                    "id": 540370,
+                    "title": "Samurai Warrior",
+                    "similarity": 0.7446429999999999
+                },
+                {
+                    "id": 254007,
+                    "title": "The Samurai",
+                    "similarity": 0.7417081999999999
+                },
+                {
+                    "id": 57706,
+                    "title": "Samurai Wolf",
+                    "similarity": 0.7412216599999999
+                },
+                {
+                    "id": 94411,
+                    "title": "Landmine Warfare",
+                    "similarity": 0.7404516000000001
+                }
+            ]
+        },
+        {
+            "query": "Japanese samurai defending a village",
+            "min_votes": 0,
+            "run": 2,
+            "query_embedding_ms": 26.77,
+            "duckdb_ms": 212.94,
+            "es_http_ms": 429.62,
+            "es_engine_ms": 426,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871776
+                },
+                {
+                    "id": 827767,
+                    "title": "Yakuza Vassal",
+                    "similarity": 0.7711148
+                },
+                {
+                    "id": 151250,
+                    "title": "Ronin-gai",
+                    "similarity": 0.7498072
+                },
+                {
+                    "id": 531753,
+                    "title": "Killing",
+                    "similarity": 0.748935
+                },
+                {
+                    "id": 540370,
+                    "title": "Samurai Warrior",
+                    "similarity": 0.7446432
+                },
+                {
+                    "id": 254007,
+                    "title": "The Samurai",
+                    "similarity": 0.7417082
+                },
+                {
+                    "id": 57706,
+                    "title": "Samurai Wolf",
+                    "similarity": 0.7412213
+                },
+                {
+                    "id": 94411,
+                    "title": "Landmine Warfare",
+                    "similarity": 0.7404516
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871778
+                },
+                {
+                    "id": 827767,
+                    "title": "Yakuza Vassal",
+                    "similarity": 0.7711142
+                },
+                {
+                    "id": 151250,
+                    "title": "Ronin-gai",
+                    "similarity": 0.74980688
+                },
+                {
+                    "id": 531753,
+                    "title": "Killing",
+                    "similarity": 0.7489356
+                },
+                {
+                    "id": 540370,
+                    "title": "Samurai Warrior",
+                    "similarity": 0.7446429999999999
+                },
+                {
+                    "id": 254007,
+                    "title": "The Samurai",
+                    "similarity": 0.7417081999999999
+                },
+                {
+                    "id": 57706,
+                    "title": "Samurai Wolf",
+                    "similarity": 0.7412216599999999
+                },
+                {
+                    "id": 94411,
+                    "title": "Landmine Warfare",
+                    "similarity": 0.7404516000000001
+                }
+            ]
+        },
+        {
+            "query": "Japanese samurai defending a village",
+            "min_votes": 0,
+            "run": 3,
+            "query_embedding_ms": 26.77,
+            "duckdb_ms": 214.65,
+            "es_http_ms": 429.05,
+            "es_engine_ms": 426,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871776
+                },
+                {
+                    "id": 827767,
+                    "title": "Yakuza Vassal",
+                    "similarity": 0.7711148
+                },
+                {
+                    "id": 151250,
+                    "title": "Ronin-gai",
+                    "similarity": 0.7498072
+                },
+                {
+                    "id": 531753,
+                    "title": "Killing",
+                    "similarity": 0.748935
+                },
+                {
+                    "id": 540370,
+                    "title": "Samurai Warrior",
+                    "similarity": 0.7446432
+                },
+                {
+                    "id": 254007,
+                    "title": "The Samurai",
+                    "similarity": 0.7417082
+                },
+                {
+                    "id": 57706,
+                    "title": "Samurai Wolf",
+                    "similarity": 0.7412213
+                },
+                {
+                    "id": 94411,
+                    "title": "Landmine Warfare",
+                    "similarity": 0.7404516
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871778
+                },
+                {
+                    "id": 827767,
+                    "title": "Yakuza Vassal",
+                    "similarity": 0.7711142
+                },
+                {
+                    "id": 151250,
+                    "title": "Ronin-gai",
+                    "similarity": 0.74980688
+                },
+                {
+                    "id": 531753,
+                    "title": "Killing",
+                    "similarity": 0.7489356
+                },
+                {
+                    "id": 540370,
+                    "title": "Samurai Warrior",
+                    "similarity": 0.7446429999999999
+                },
+                {
+                    "id": 254007,
+                    "title": "The Samurai",
+                    "similarity": 0.7417081999999999
+                },
+                {
+                    "id": 57706,
+                    "title": "Samurai Wolf",
+                    "similarity": 0.7412216599999999
+                },
+                {
+                    "id": 94411,
+                    "title": "Landmine Warfare",
+                    "similarity": 0.7404516000000001
+                }
+            ]
+        },
+        {
+            "query": "Japanese samurai defending a village",
+            "min_votes": 100,
+            "run": 1,
+            "query_embedding_ms": 26.77,
+            "duckdb_ms": 21.18,
+            "es_http_ms": 244.75,
+            "es_engine_ms": 241,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871776
+                },
+                {
+                    "id": 11878,
+                    "title": "Yojimbo",
+                    "similarity": 0.7320403
+                },
+                {
+                    "id": 31378,
+                    "title": "Samurai III: Duel at Ganryu Island",
+                    "similarity": 0.7291381
+                },
+                {
+                    "id": 31372,
+                    "title": "Samurai I: Musashi Miyamoto",
+                    "similarity": 0.7288183
+                },
+                {
+                    "id": 25602,
+                    "title": "Ninja",
+                    "similarity": 0.7103635
+                },
+                {
+                    "id": 14696,
+                    "title": "Ugetsu",
+                    "similarity": 0.7085723
+                },
+                {
+                    "id": 31374,
+                    "title": "Samurai II: Duel at Ichijoji Temple",
+                    "similarity": 0.7069826
+                },
+                {
+                    "id": 15119,
+                    "title": "Shogun Assassin",
+                    "similarity": 0.704343
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871778
+                },
+                {
+                    "id": 11878,
+                    "title": "Yojimbo",
+                    "similarity": 0.7320401999999999
+                },
+                {
+                    "id": 31378,
+                    "title": "Samurai III: Duel at Ganryu Island",
+                    "similarity": 0.7291380000000001
+                },
+                {
+                    "id": 31372,
+                    "title": "Samurai I: Musashi Miyamoto",
+                    "similarity": 0.72881854
+                },
+                {
+                    "id": 25602,
+                    "title": "Ninja",
+                    "similarity": 0.7103634999999999
+                },
+                {
+                    "id": 14696,
+                    "title": "Ugetsu",
+                    "similarity": 0.7085722000000001
+                },
+                {
+                    "id": 31374,
+                    "title": "Samurai II: Duel at Ichijoji Temple",
+                    "similarity": 0.70698214
+                },
+                {
+                    "id": 15119,
+                    "title": "Shogun Assassin",
+                    "similarity": 0.7043436000000001
+                }
+            ]
+        },
+        {
+            "query": "Japanese samurai defending a village",
+            "min_votes": 100,
+            "run": 2,
+            "query_embedding_ms": 26.77,
+            "duckdb_ms": 20.62,
+            "es_http_ms": 160.8,
+            "es_engine_ms": 158,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871776
+                },
+                {
+                    "id": 11878,
+                    "title": "Yojimbo",
+                    "similarity": 0.7320403
+                },
+                {
+                    "id": 31378,
+                    "title": "Samurai III: Duel at Ganryu Island",
+                    "similarity": 0.7291381
+                },
+                {
+                    "id": 31372,
+                    "title": "Samurai I: Musashi Miyamoto",
+                    "similarity": 0.7288183
+                },
+                {
+                    "id": 25602,
+                    "title": "Ninja",
+                    "similarity": 0.7103635
+                },
+                {
+                    "id": 14696,
+                    "title": "Ugetsu",
+                    "similarity": 0.7085723
+                },
+                {
+                    "id": 31374,
+                    "title": "Samurai II: Duel at Ichijoji Temple",
+                    "similarity": 0.7069826
+                },
+                {
+                    "id": 15119,
+                    "title": "Shogun Assassin",
+                    "similarity": 0.704343
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871778
+                },
+                {
+                    "id": 11878,
+                    "title": "Yojimbo",
+                    "similarity": 0.7320401999999999
+                },
+                {
+                    "id": 31378,
+                    "title": "Samurai III: Duel at Ganryu Island",
+                    "similarity": 0.7291380000000001
+                },
+                {
+                    "id": 31372,
+                    "title": "Samurai I: Musashi Miyamoto",
+                    "similarity": 0.72881854
+                },
+                {
+                    "id": 25602,
+                    "title": "Ninja",
+                    "similarity": 0.7103634999999999
+                },
+                {
+                    "id": 14696,
+                    "title": "Ugetsu",
+                    "similarity": 0.7085722000000001
+                },
+                {
+                    "id": 31374,
+                    "title": "Samurai II: Duel at Ichijoji Temple",
+                    "similarity": 0.70698214
+                },
+                {
+                    "id": 15119,
+                    "title": "Shogun Assassin",
+                    "similarity": 0.7043436000000001
+                }
+            ]
+        },
+        {
+            "query": "Japanese samurai defending a village",
+            "min_votes": 100,
+            "run": 3,
+            "query_embedding_ms": 26.77,
+            "duckdb_ms": 18.04,
+            "es_http_ms": 163.14,
+            "es_engine_ms": 160,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871776
+                },
+                {
+                    "id": 11878,
+                    "title": "Yojimbo",
+                    "similarity": 0.7320403
+                },
+                {
+                    "id": 31378,
+                    "title": "Samurai III: Duel at Ganryu Island",
+                    "similarity": 0.7291381
+                },
+                {
+                    "id": 31372,
+                    "title": "Samurai I: Musashi Miyamoto",
+                    "similarity": 0.7288183
+                },
+                {
+                    "id": 25602,
+                    "title": "Ninja",
+                    "similarity": 0.7103635
+                },
+                {
+                    "id": 14696,
+                    "title": "Ugetsu",
+                    "similarity": 0.7085723
+                },
+                {
+                    "id": 31374,
+                    "title": "Samurai II: Duel at Ichijoji Temple",
+                    "similarity": 0.7069826
+                },
+                {
+                    "id": 15119,
+                    "title": "Shogun Assassin",
+                    "similarity": 0.704343
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 346,
+                    "title": "Seven Samurai",
+                    "similarity": 0.7871778
+                },
+                {
+                    "id": 11878,
+                    "title": "Yojimbo",
+                    "similarity": 0.7320401999999999
+                },
+                {
+                    "id": 31378,
+                    "title": "Samurai III: Duel at Ganryu Island",
+                    "similarity": 0.7291380000000001
+                },
+                {
+                    "id": 31372,
+                    "title": "Samurai I: Musashi Miyamoto",
+                    "similarity": 0.72881854
+                },
+                {
+                    "id": 25602,
+                    "title": "Ninja",
+                    "similarity": 0.7103634999999999
+                },
+                {
+                    "id": 14696,
+                    "title": "Ugetsu",
+                    "similarity": 0.7085722000000001
+                },
+                {
+                    "id": 31374,
+                    "title": "Samurai II: Duel at Ichijoji Temple",
+                    "similarity": 0.70698214
+                },
+                {
+                    "id": 15119,
+                    "title": "Shogun Assassin",
+                    "similarity": 0.7043436000000001
+                }
+            ]
+        },
+        {
+            "query": "a musician struggles with ambition and fame",
+            "min_votes": 0,
+            "run": 1,
+            "query_embedding_ms": 24.4,
+            "duckdb_ms": 208.66,
+            "es_http_ms": 1872.66,
+            "es_engine_ms": 1870,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 879244,
+                    "title": "Guy",
+                    "similarity": 0.8097947
+                },
+                {
+                    "id": 859340,
+                    "title": "Trees and Ink",
+                    "similarity": 0.7978492
+                },
+                {
+                    "id": 1118400,
+                    "title": "Double Lives",
+                    "similarity": 0.7915361
+                },
+                {
+                    "id": 1362521,
+                    "title": "Drumming",
+                    "similarity": 0.7871691
+                },
+                {
+                    "id": 844547,
+                    "title": "Taurus",
+                    "similarity": 0.781559
+                },
+                {
+                    "id": 830066,
+                    "title": "CURRENT",
+                    "similarity": 0.7776907
+                },
+                {
+                    "id": 1184412,
+                    "title": "Long December",
+                    "similarity": 0.7770638
+                },
+                {
+                    "id": 575644,
+                    "title": "Art Is...",
+                    "similarity": 0.7768434
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 879244,
+                    "title": "Guy",
+                    "similarity": 0.8097954999999999
+                },
+                {
+                    "id": 859340,
+                    "title": "Trees and Ink",
+                    "similarity": 0.7978479999999999
+                },
+                {
+                    "id": 1118400,
+                    "title": "Double Lives",
+                    "similarity": 0.7915357999999999
+                },
+                {
+                    "id": 1362521,
+                    "title": "Drumming",
+                    "similarity": 0.787169
+                },
+                {
+                    "id": 844547,
+                    "title": "Taurus",
+                    "similarity": 0.7815578000000001
+                },
+                {
+                    "id": 830066,
+                    "title": "CURRENT",
+                    "similarity": 0.7776909999999999
+                },
+                {
+                    "id": 1184412,
+                    "title": "Long December",
+                    "similarity": 0.777064
+                },
+                {
+                    "id": 575644,
+                    "title": "Art Is...",
+                    "similarity": 0.7768440000000001
+                }
+            ]
+        },
+        {
+            "query": "a musician struggles with ambition and fame",
+            "min_votes": 0,
+            "run": 2,
+            "query_embedding_ms": 24.4,
+            "duckdb_ms": 207.95,
+            "es_http_ms": 528.67,
+            "es_engine_ms": 525,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 879244,
+                    "title": "Guy",
+                    "similarity": 0.8097947
+                },
+                {
+                    "id": 859340,
+                    "title": "Trees and Ink",
+                    "similarity": 0.7978492
+                },
+                {
+                    "id": 1118400,
+                    "title": "Double Lives",
+                    "similarity": 0.7915361
+                },
+                {
+                    "id": 1362521,
+                    "title": "Drumming",
+                    "similarity": 0.7871691
+                },
+                {
+                    "id": 844547,
+                    "title": "Taurus",
+                    "similarity": 0.781559
+                },
+                {
+                    "id": 830066,
+                    "title": "CURRENT",
+                    "similarity": 0.7776907
+                },
+                {
+                    "id": 1184412,
+                    "title": "Long December",
+                    "similarity": 0.7770638
+                },
+                {
+                    "id": 575644,
+                    "title": "Art Is...",
+                    "similarity": 0.7768434
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 879244,
+                    "title": "Guy",
+                    "similarity": 0.8097954999999999
+                },
+                {
+                    "id": 859340,
+                    "title": "Trees and Ink",
+                    "similarity": 0.7978479999999999
+                },
+                {
+                    "id": 1118400,
+                    "title": "Double Lives",
+                    "similarity": 0.7915357999999999
+                },
+                {
+                    "id": 1362521,
+                    "title": "Drumming",
+                    "similarity": 0.787169
+                },
+                {
+                    "id": 844547,
+                    "title": "Taurus",
+                    "similarity": 0.7815578000000001
+                },
+                {
+                    "id": 830066,
+                    "title": "CURRENT",
+                    "similarity": 0.7776909999999999
+                },
+                {
+                    "id": 1184412,
+                    "title": "Long December",
+                    "similarity": 0.777064
+                },
+                {
+                    "id": 575644,
+                    "title": "Art Is...",
+                    "similarity": 0.7768440000000001
+                }
+            ]
+        },
+        {
+            "query": "a musician struggles with ambition and fame",
+            "min_votes": 0,
+            "run": 3,
+            "query_embedding_ms": 24.4,
+            "duckdb_ms": 210.2,
+            "es_http_ms": 525.89,
+            "es_engine_ms": 523,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 879244,
+                    "title": "Guy",
+                    "similarity": 0.8097947
+                },
+                {
+                    "id": 859340,
+                    "title": "Trees and Ink",
+                    "similarity": 0.7978492
+                },
+                {
+                    "id": 1118400,
+                    "title": "Double Lives",
+                    "similarity": 0.7915361
+                },
+                {
+                    "id": 1362521,
+                    "title": "Drumming",
+                    "similarity": 0.7871691
+                },
+                {
+                    "id": 844547,
+                    "title": "Taurus",
+                    "similarity": 0.781559
+                },
+                {
+                    "id": 830066,
+                    "title": "CURRENT",
+                    "similarity": 0.7776907
+                },
+                {
+                    "id": 1184412,
+                    "title": "Long December",
+                    "similarity": 0.7770638
+                },
+                {
+                    "id": 575644,
+                    "title": "Art Is...",
+                    "similarity": 0.7768434
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 879244,
+                    "title": "Guy",
+                    "similarity": 0.8097954999999999
+                },
+                {
+                    "id": 859340,
+                    "title": "Trees and Ink",
+                    "similarity": 0.7978479999999999
+                },
+                {
+                    "id": 1118400,
+                    "title": "Double Lives",
+                    "similarity": 0.7915357999999999
+                },
+                {
+                    "id": 1362521,
+                    "title": "Drumming",
+                    "similarity": 0.787169
+                },
+                {
+                    "id": 844547,
+                    "title": "Taurus",
+                    "similarity": 0.7815578000000001
+                },
+                {
+                    "id": 830066,
+                    "title": "CURRENT",
+                    "similarity": 0.7776909999999999
+                },
+                {
+                    "id": 1184412,
+                    "title": "Long December",
+                    "similarity": 0.777064
+                },
+                {
+                    "id": 575644,
+                    "title": "Art Is...",
+                    "similarity": 0.7768440000000001
+                }
+            ]
+        },
+        {
+            "query": "a musician struggles with ambition and fame",
+            "min_votes": 100,
+            "run": 1,
+            "query_embedding_ms": 24.4,
+            "duckdb_ms": 21.01,
+            "es_http_ms": 211.82,
+            "es_engine_ms": 209,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 332562,
+                    "title": "A Star Is Born",
+                    "similarity": 0.7423569
+                },
+                {
+                    "id": 630566,
+                    "title": "Clouds",
+                    "similarity": 0.7397755
+                },
+                {
+                    "id": 768503,
+                    "title": "Fierce",
+                    "similarity": 0.7397512
+                },
+                {
+                    "id": 1553,
+                    "title": "The Beat That My Heart Skipped",
+                    "similarity": 0.7354398
+                },
+                {
+                    "id": 41804,
+                    "title": "All the Mornings of the World",
+                    "similarity": 0.7260908
+                },
+                {
+                    "id": 822,
+                    "title": "The Music Room",
+                    "similarity": 0.7250082
+                },
+                {
+                    "id": 13763,
+                    "title": "Purple Rain",
+                    "similarity": 0.7210366
+                },
+                {
+                    "id": 41823,
+                    "title": "Mo' Better Blues",
+                    "similarity": 0.7195187
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 332562,
+                    "title": "A Star Is Born",
+                    "similarity": 0.7423557999999999
+                },
+                {
+                    "id": 630566,
+                    "title": "Clouds",
+                    "similarity": 0.7397754000000001
+                },
+                {
+                    "id": 768503,
+                    "title": "Fierce",
+                    "similarity": 0.73975134
+                },
+                {
+                    "id": 1553,
+                    "title": "The Beat That My Heart Skipped",
+                    "similarity": 0.73543954
+                },
+                {
+                    "id": 41804,
+                    "title": "All the Mornings of the World",
+                    "similarity": 0.7260903999999999
+                },
+                {
+                    "id": 822,
+                    "title": "The Music Room",
+                    "similarity": 0.7250082
+                },
+                {
+                    "id": 13763,
+                    "title": "Purple Rain",
+                    "similarity": 0.7210363200000001
+                },
+                {
+                    "id": 41823,
+                    "title": "Mo' Better Blues",
+                    "similarity": 0.7195183999999999
+                }
+            ]
+        },
+        {
+            "query": "a musician struggles with ambition and fame",
+            "min_votes": 100,
+            "run": 2,
+            "query_embedding_ms": 24.4,
+            "duckdb_ms": 20.41,
+            "es_http_ms": 193.11,
+            "es_engine_ms": 190,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 332562,
+                    "title": "A Star Is Born",
+                    "similarity": 0.7423569
+                },
+                {
+                    "id": 630566,
+                    "title": "Clouds",
+                    "similarity": 0.7397755
+                },
+                {
+                    "id": 768503,
+                    "title": "Fierce",
+                    "similarity": 0.7397512
+                },
+                {
+                    "id": 1553,
+                    "title": "The Beat That My Heart Skipped",
+                    "similarity": 0.7354398
+                },
+                {
+                    "id": 41804,
+                    "title": "All the Mornings of the World",
+                    "similarity": 0.7260908
+                },
+                {
+                    "id": 822,
+                    "title": "The Music Room",
+                    "similarity": 0.7250082
+                },
+                {
+                    "id": 13763,
+                    "title": "Purple Rain",
+                    "similarity": 0.7210366
+                },
+                {
+                    "id": 41823,
+                    "title": "Mo' Better Blues",
+                    "similarity": 0.7195187
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 332562,
+                    "title": "A Star Is Born",
+                    "similarity": 0.7423557999999999
+                },
+                {
+                    "id": 630566,
+                    "title": "Clouds",
+                    "similarity": 0.7397754000000001
+                },
+                {
+                    "id": 768503,
+                    "title": "Fierce",
+                    "similarity": 0.73975134
+                },
+                {
+                    "id": 1553,
+                    "title": "The Beat That My Heart Skipped",
+                    "similarity": 0.73543954
+                },
+                {
+                    "id": 41804,
+                    "title": "All the Mornings of the World",
+                    "similarity": 0.7260903999999999
+                },
+                {
+                    "id": 822,
+                    "title": "The Music Room",
+                    "similarity": 0.7250082
+                },
+                {
+                    "id": 13763,
+                    "title": "Purple Rain",
+                    "similarity": 0.7210363200000001
+                },
+                {
+                    "id": 41823,
+                    "title": "Mo' Better Blues",
+                    "similarity": 0.7195183999999999
+                }
+            ]
+        },
+        {
+            "query": "a musician struggles with ambition and fame",
+            "min_votes": 100,
+            "run": 3,
+            "query_embedding_ms": 24.4,
+            "duckdb_ms": 15.65,
+            "es_http_ms": 190.89,
+            "es_engine_ms": 188,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 332562,
+                    "title": "A Star Is Born",
+                    "similarity": 0.7423569
+                },
+                {
+                    "id": 630566,
+                    "title": "Clouds",
+                    "similarity": 0.7397755
+                },
+                {
+                    "id": 768503,
+                    "title": "Fierce",
+                    "similarity": 0.7397512
+                },
+                {
+                    "id": 1553,
+                    "title": "The Beat That My Heart Skipped",
+                    "similarity": 0.7354398
+                },
+                {
+                    "id": 41804,
+                    "title": "All the Mornings of the World",
+                    "similarity": 0.7260908
+                },
+                {
+                    "id": 822,
+                    "title": "The Music Room",
+                    "similarity": 0.7250082
+                },
+                {
+                    "id": 13763,
+                    "title": "Purple Rain",
+                    "similarity": 0.7210366
+                },
+                {
+                    "id": 41823,
+                    "title": "Mo' Better Blues",
+                    "similarity": 0.7195187
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 332562,
+                    "title": "A Star Is Born",
+                    "similarity": 0.7423557999999999
+                },
+                {
+                    "id": 630566,
+                    "title": "Clouds",
+                    "similarity": 0.7397754000000001
+                },
+                {
+                    "id": 768503,
+                    "title": "Fierce",
+                    "similarity": 0.73975134
+                },
+                {
+                    "id": 1553,
+                    "title": "The Beat That My Heart Skipped",
+                    "similarity": 0.73543954
+                },
+                {
+                    "id": 41804,
+                    "title": "All the Mornings of the World",
+                    "similarity": 0.7260903999999999
+                },
+                {
+                    "id": 822,
+                    "title": "The Music Room",
+                    "similarity": 0.7250082
+                },
+                {
+                    "id": 13763,
+                    "title": "Purple Rain",
+                    "similarity": 0.7210363200000001
+                },
+                {
+                    "id": 41823,
+                    "title": "Mo' Better Blues",
+                    "similarity": 0.7195183999999999
+                }
+            ]
+        },
+        {
+            "query": "underwater exploration and dangerous sea creatures",
+            "min_votes": 0,
+            "run": 1,
+            "query_embedding_ms": 29.73,
+            "duckdb_ms": 208.38,
+            "es_http_ms": 1261.51,
+            "es_engine_ms": 1259,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 1130329,
+                    "title": "Deep Sea Adventure",
+                    "similarity": 0.7553675
+                },
+                {
+                    "id": 1128543,
+                    "title": "Ocean Weirdos",
+                    "similarity": 0.7525933
+                },
+                {
+                    "id": 157717,
+                    "title": "Danger in the Depths",
+                    "similarity": 0.7498215
+                },
+                {
+                    "id": 852093,
+                    "title": "Monsters of the Deep",
+                    "similarity": 0.749408
+                },
+                {
+                    "id": 687812,
+                    "title": "Mucky Secrets",
+                    "similarity": 0.7451127
+                },
+                {
+                    "id": 695322,
+                    "title": "Dangerous Creatures",
+                    "similarity": 0.7398652
+                },
+                {
+                    "id": 813110,
+                    "title": "World's Deadliest Sea Creatures",
+                    "similarity": 0.7350476
+                },
+                {
+                    "id": 83877,
+                    "title": "Amphibious 3D",
+                    "similarity": 0.7338297
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 1130329,
+                    "title": "Deep Sea Adventure",
+                    "similarity": 0.75536812
+                },
+                {
+                    "id": 1128543,
+                    "title": "Ocean Weirdos",
+                    "similarity": 0.7525936
+                },
+                {
+                    "id": 157717,
+                    "title": "Danger in the Depths",
+                    "similarity": 0.7498210000000001
+                },
+                {
+                    "id": 852093,
+                    "title": "Monsters of the Deep",
+                    "similarity": 0.7494075200000001
+                },
+                {
+                    "id": 687812,
+                    "title": "Mucky Secrets",
+                    "similarity": 0.7451117
+                },
+                {
+                    "id": 695322,
+                    "title": "Dangerous Creatures",
+                    "similarity": 0.7398658
+                },
+                {
+                    "id": 813110,
+                    "title": "World's Deadliest Sea Creatures",
+                    "similarity": 0.7350483000000001
+                },
+                {
+                    "id": 83877,
+                    "title": "Amphibious 3D",
+                    "similarity": 0.7338298000000001
+                }
+            ]
+        },
+        {
+            "query": "underwater exploration and dangerous sea creatures",
+            "min_votes": 0,
+            "run": 2,
+            "query_embedding_ms": 29.73,
+            "duckdb_ms": 208.42,
+            "es_http_ms": 506.84,
+            "es_engine_ms": 504,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 1130329,
+                    "title": "Deep Sea Adventure",
+                    "similarity": 0.7553675
+                },
+                {
+                    "id": 1128543,
+                    "title": "Ocean Weirdos",
+                    "similarity": 0.7525933
+                },
+                {
+                    "id": 157717,
+                    "title": "Danger in the Depths",
+                    "similarity": 0.7498215
+                },
+                {
+                    "id": 852093,
+                    "title": "Monsters of the Deep",
+                    "similarity": 0.749408
+                },
+                {
+                    "id": 687812,
+                    "title": "Mucky Secrets",
+                    "similarity": 0.7451127
+                },
+                {
+                    "id": 695322,
+                    "title": "Dangerous Creatures",
+                    "similarity": 0.7398652
+                },
+                {
+                    "id": 813110,
+                    "title": "World's Deadliest Sea Creatures",
+                    "similarity": 0.7350476
+                },
+                {
+                    "id": 83877,
+                    "title": "Amphibious 3D",
+                    "similarity": 0.7338297
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 1130329,
+                    "title": "Deep Sea Adventure",
+                    "similarity": 0.75536812
+                },
+                {
+                    "id": 1128543,
+                    "title": "Ocean Weirdos",
+                    "similarity": 0.7525936
+                },
+                {
+                    "id": 157717,
+                    "title": "Danger in the Depths",
+                    "similarity": 0.7498210000000001
+                },
+                {
+                    "id": 852093,
+                    "title": "Monsters of the Deep",
+                    "similarity": 0.7494075200000001
+                },
+                {
+                    "id": 687812,
+                    "title": "Mucky Secrets",
+                    "similarity": 0.7451117
+                },
+                {
+                    "id": 695322,
+                    "title": "Dangerous Creatures",
+                    "similarity": 0.7398658
+                },
+                {
+                    "id": 813110,
+                    "title": "World's Deadliest Sea Creatures",
+                    "similarity": 0.7350483000000001
+                },
+                {
+                    "id": 83877,
+                    "title": "Amphibious 3D",
+                    "similarity": 0.7338298000000001
+                }
+            ]
+        },
+        {
+            "query": "underwater exploration and dangerous sea creatures",
+            "min_votes": 0,
+            "run": 3,
+            "query_embedding_ms": 29.73,
+            "duckdb_ms": 209.73,
+            "es_http_ms": 503.14,
+            "es_engine_ms": 500,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 1130329,
+                    "title": "Deep Sea Adventure",
+                    "similarity": 0.7553675
+                },
+                {
+                    "id": 1128543,
+                    "title": "Ocean Weirdos",
+                    "similarity": 0.7525933
+                },
+                {
+                    "id": 157717,
+                    "title": "Danger in the Depths",
+                    "similarity": 0.7498215
+                },
+                {
+                    "id": 852093,
+                    "title": "Monsters of the Deep",
+                    "similarity": 0.749408
+                },
+                {
+                    "id": 687812,
+                    "title": "Mucky Secrets",
+                    "similarity": 0.7451127
+                },
+                {
+                    "id": 695322,
+                    "title": "Dangerous Creatures",
+                    "similarity": 0.7398652
+                },
+                {
+                    "id": 813110,
+                    "title": "World's Deadliest Sea Creatures",
+                    "similarity": 0.7350476
+                },
+                {
+                    "id": 83877,
+                    "title": "Amphibious 3D",
+                    "similarity": 0.7338297
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 1130329,
+                    "title": "Deep Sea Adventure",
+                    "similarity": 0.75536812
+                },
+                {
+                    "id": 1128543,
+                    "title": "Ocean Weirdos",
+                    "similarity": 0.7525936
+                },
+                {
+                    "id": 157717,
+                    "title": "Danger in the Depths",
+                    "similarity": 0.7498210000000001
+                },
+                {
+                    "id": 852093,
+                    "title": "Monsters of the Deep",
+                    "similarity": 0.7494075200000001
+                },
+                {
+                    "id": 687812,
+                    "title": "Mucky Secrets",
+                    "similarity": 0.7451117
+                },
+                {
+                    "id": 695322,
+                    "title": "Dangerous Creatures",
+                    "similarity": 0.7398658
+                },
+                {
+                    "id": 813110,
+                    "title": "World's Deadliest Sea Creatures",
+                    "similarity": 0.7350483000000001
+                },
+                {
+                    "id": 83877,
+                    "title": "Amphibious 3D",
+                    "similarity": 0.7338298000000001
+                }
+            ]
+        },
+        {
+            "query": "underwater exploration and dangerous sea creatures",
+            "min_votes": 100,
+            "run": 1,
+            "query_embedding_ms": 29.73,
+            "duckdb_ms": 20.78,
+            "es_http_ms": 180.19,
+            "es_engine_ms": 177,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 523931,
+                    "title": "Megalodon",
+                    "similarity": 0.7055576
+                },
+                {
+                    "id": 10153,
+                    "title": "Sphere",
+                    "similarity": 0.7018748
+                },
+                {
+                    "id": 522444,
+                    "title": "Black Water: Abyss",
+                    "similarity": 0.6970916
+                },
+                {
+                    "id": 960258,
+                    "title": "Shark Bait",
+                    "similarity": 0.6890723
+                },
+                {
+                    "id": 899445,
+                    "title": "Deep Fear",
+                    "similarity": 0.6851223
+                },
+                {
+                    "id": 480105,
+                    "title": "47 Meters Down: Uncaged",
+                    "similarity": 0.6805866
+                },
+                {
+                    "id": 175,
+                    "title": "The Big Blue",
+                    "similarity": 0.6778075
+                },
+                {
+                    "id": 246080,
+                    "title": "Black Sea",
+                    "similarity": 0.6776317
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 523931,
+                    "title": "Megalodon",
+                    "similarity": 0.7055579999999999
+                },
+                {
+                    "id": 10153,
+                    "title": "Sphere",
+                    "similarity": 0.701875
+                },
+                {
+                    "id": 522444,
+                    "title": "Black Water: Abyss",
+                    "similarity": 0.6970912
+                },
+                {
+                    "id": 960258,
+                    "title": "Shark Bait",
+                    "similarity": 0.6890719999999999
+                },
+                {
+                    "id": 899445,
+                    "title": "Deep Fear",
+                    "similarity": 0.6851225999999999
+                },
+                {
+                    "id": 480105,
+                    "title": "47 Meters Down: Uncaged",
+                    "similarity": 0.68058694
+                },
+                {
+                    "id": 175,
+                    "title": "The Big Blue",
+                    "similarity": 0.6778078000000001
+                },
+                {
+                    "id": 246080,
+                    "title": "Black Sea",
+                    "similarity": 0.677632
+                }
+            ]
+        },
+        {
+            "query": "underwater exploration and dangerous sea creatures",
+            "min_votes": 100,
+            "run": 2,
+            "query_embedding_ms": 29.73,
+            "duckdb_ms": 21.9,
+            "es_http_ms": 174.63,
+            "es_engine_ms": 171,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 523931,
+                    "title": "Megalodon",
+                    "similarity": 0.7055576
+                },
+                {
+                    "id": 10153,
+                    "title": "Sphere",
+                    "similarity": 0.7018748
+                },
+                {
+                    "id": 522444,
+                    "title": "Black Water: Abyss",
+                    "similarity": 0.6970916
+                },
+                {
+                    "id": 960258,
+                    "title": "Shark Bait",
+                    "similarity": 0.6890723
+                },
+                {
+                    "id": 899445,
+                    "title": "Deep Fear",
+                    "similarity": 0.6851223
+                },
+                {
+                    "id": 480105,
+                    "title": "47 Meters Down: Uncaged",
+                    "similarity": 0.6805866
+                },
+                {
+                    "id": 175,
+                    "title": "The Big Blue",
+                    "similarity": 0.6778075
+                },
+                {
+                    "id": 246080,
+                    "title": "Black Sea",
+                    "similarity": 0.6776317
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 523931,
+                    "title": "Megalodon",
+                    "similarity": 0.7055579999999999
+                },
+                {
+                    "id": 10153,
+                    "title": "Sphere",
+                    "similarity": 0.701875
+                },
+                {
+                    "id": 522444,
+                    "title": "Black Water: Abyss",
+                    "similarity": 0.6970912
+                },
+                {
+                    "id": 960258,
+                    "title": "Shark Bait",
+                    "similarity": 0.6890719999999999
+                },
+                {
+                    "id": 899445,
+                    "title": "Deep Fear",
+                    "similarity": 0.6851225999999999
+                },
+                {
+                    "id": 480105,
+                    "title": "47 Meters Down: Uncaged",
+                    "similarity": 0.68058694
+                },
+                {
+                    "id": 175,
+                    "title": "The Big Blue",
+                    "similarity": 0.6778078000000001
+                },
+                {
+                    "id": 246080,
+                    "title": "Black Sea",
+                    "similarity": 0.677632
+                }
+            ]
+        },
+        {
+            "query": "underwater exploration and dangerous sea creatures",
+            "min_votes": 100,
+            "run": 3,
+            "query_embedding_ms": 29.73,
+            "duckdb_ms": 20.76,
+            "es_http_ms": 171.86,
+            "es_engine_ms": 169,
+            "recall_at_8": 1,
+            "duckdb": [
+                {
+                    "id": 523931,
+                    "title": "Megalodon",
+                    "similarity": 0.7055576
+                },
+                {
+                    "id": 10153,
+                    "title": "Sphere",
+                    "similarity": 0.7018748
+                },
+                {
+                    "id": 522444,
+                    "title": "Black Water: Abyss",
+                    "similarity": 0.6970916
+                },
+                {
+                    "id": 960258,
+                    "title": "Shark Bait",
+                    "similarity": 0.6890723
+                },
+                {
+                    "id": 899445,
+                    "title": "Deep Fear",
+                    "similarity": 0.6851223
+                },
+                {
+                    "id": 480105,
+                    "title": "47 Meters Down: Uncaged",
+                    "similarity": 0.6805866
+                },
+                {
+                    "id": 175,
+                    "title": "The Big Blue",
+                    "similarity": 0.6778075
+                },
+                {
+                    "id": 246080,
+                    "title": "Black Sea",
+                    "similarity": 0.6776317
+                }
+            ],
+            "elasticsearch": [
+                {
+                    "id": 523931,
+                    "title": "Megalodon",
+                    "similarity": 0.7055579999999999
+                },
+                {
+                    "id": 10153,
+                    "title": "Sphere",
+                    "similarity": 0.701875
+                },
+                {
+                    "id": 522444,
+                    "title": "Black Water: Abyss",
+                    "similarity": 0.6970912
+                },
+                {
+                    "id": 960258,
+                    "title": "Shark Bait",
+                    "similarity": 0.6890719999999999
+                },
+                {
+                    "id": 899445,
+                    "title": "Deep Fear",
+                    "similarity": 0.6851225999999999
+                },
+                {
+                    "id": 480105,
+                    "title": "47 Meters Down: Uncaged",
+                    "similarity": 0.68058694
+                },
+                {
+                    "id": 175,
+                    "title": "The Big Blue",
+                    "similarity": 0.6778078000000001
+                },
+                {
+                    "id": 246080,
+                    "title": "Black Sea",
+                    "similarity": 0.677632
+                }
+            ]
+        }
+    ]
+}

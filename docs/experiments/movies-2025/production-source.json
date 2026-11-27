@@ -1,0 +1,13 @@
+{
+  "source": "remsky/Embeddings__Ultimate_1Million_Movies_Dataset",
+  "revision": "e59e9402f747fbe56f5c429f22a6eced2219f34d",
+  "snapshot": "early 2025",
+  "rows": 1035695,
+  "bytes": 7029412424,
+  "sha256": "5d210a0c71238fabde1d6ed276bd01ea867b9aa780634e0cdd9836f23df8bdf9",
+  "s3_uri": "s3://voxitour/bench/experiments/movies-2025/raw/5d210a0c71238fabde1d6ed276bd01ea867b9aa780634e0cdd9836f23df8bdf9.parquet",
+  "fetched_on": "fsn1",
+  "s3_readback_sha256_verified": true,
+  "reembedded": false,
+  "verified_at": "2026-11-27T13:15:57.579384+00:00"
+}

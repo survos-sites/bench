@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Search\MovieSnapshotCatalog;
+use App\Search\MovieElasticCatalog;
 use League\CommonMark\CommonMarkConverter;
 use Psr\Log\LoggerInterface;
 use Symfony\AI\Agent\AgentInterface;
@@ -22,16 +22,13 @@ final class MovieAskController extends AbstractController
 
     public function __construct(
         #[Autowire(service: 'ai.agent.movie_snapshot')] private readonly AgentInterface $agent,
-        private readonly MovieSnapshotCatalog $catalog,
+        private readonly MovieElasticCatalog $catalog,
         private readonly LoggerInterface $logger,
-        #[Autowire('%kernel.environment%')] private readonly string $environment,
     ) {}
 
     #[Route('/ask/movies', name: 'movie_ask', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
-        // This is an opt-in local experiment, not an unauthenticated public AI endpoint.
-        if (!in_array($this->environment, ['dev', 'test'], true)) { throw $this->createNotFoundException(); }
         $session = $request->getSession();
         $turns = $session->get(self::SESSION_KEY, []);
         if ($request->isMethod('POST')) {
@@ -78,7 +75,6 @@ final class MovieAskController extends AbstractController
     #[Route('/ask/movies/reset', name: 'movie_ask_reset', methods: ['POST'])]
     public function reset(Request $request): Response
     {
-        if (!in_array($this->environment, ['dev', 'test'], true)) { throw $this->createNotFoundException(); }
         if (!$this->isCsrfTokenValid('movie_ask_reset', $request->request->getString('_token'))) { throw $this->createAccessDeniedException(); }
         $request->getSession()->remove(self::SESSION_KEY);
         return $this->redirectToRoute('movie_ask');

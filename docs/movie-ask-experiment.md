@@ -252,3 +252,24 @@ Both immutable objects were uploaded **from fsn1** to Bench's production bucket 
 Sibling manifests record hashes, provenance and validation. The pinned publisher README is stored with the raw object. `production-source.json` and `production-duckdb.json` retain verification evidence in this repository. These are storage URIs, not public-download promises; existing bucket permissions were retained.
 
 The published query path is: question → Nomic query embedding → Elasticsearch vector/metadata retrieval → AI answer with TMDB sources. InstantSearch uses the same ES alias for text, facets and sorting. The raw Parquet is archival; the DuckDB file supports rebuilds and exact comparisons, and is mounted read-only at `/app/movie-snapshot/movies-v1.duckdb`.
+
+### Production vector results (fsn1)
+
+The production build ran from 13:27:05 to 13:58:05 UTC on 27 November 2026: approximately **31 minutes**, with no document re-embedding. Both the document count and the count of records containing vectors were **1,035,695** before publishing. The alias is `searchbench_es_movie_snapshot_2025`, initially pointing to generation `searchbench_es_movie_snapshot_2025_20261127132706`. The primary index measured 4,028,277,624 bytes (~3.75 GiB) just after building; background merges change this size.
+
+The same 30 retrieval runs (five questions × two filters × three repeats), at **1,000 candidates**, produced:
+
+| Filter | Mean recall@8 | Warm ES HTTP median | Warm DuckDB median |
+|---|---:|---:|---:|
+| All movies | 100% | 106.27 ms | 349.33 ms |
+| ≥100 votes | 100% | 8.99 ms | 33.67 ms |
+
+Warm medians exclude the first measured run of each question/filter pair. These production results favor ES, unlike the local VM setup: approximately **3.3× faster** over the full corpus and **3.7× faster** with the vote filter. This is one small, repeatable sample, not a general recall or latency guarantee.
+
+The first all-movie ES request took **9,906.28 ms**, and the first filtered request took **4,744.12 ms**. The benchmark began just after index construction; caches were not cleared, and background index work could still affect the first reads. Do not report the warm numbers as cold-start or complete Ask-response latency. Embedding and answer generation are excluded from retrieval timings and recorded separately where applicable.
+
+The production ES 9.5.3 node has a 2 GiB JVM heap inside a 6 GiB container. DuckDB ran on the same host with four threads and a 4 GiB memory limit; ES storage is on the attached volume and the DuckDB baseline on host storage. The local and production environments are therefore distinct experiments, not a controlled hardware comparison. Production's query model digest matches the local Nomic digest exactly.
+
+Raw top-eight IDs, scores and timings: `vector-comparison-production-1000.json`. Index/count/build evidence: `production-index.json`, both under `docs/experiments/movies-2025/`.
+
+The release exposes `/ask/movies` for sourced answers and `/movies/search` for InstantSearch. The full local suite passed: 20 tests, 106 assertions, three environment-dependent skips. Container, YAML, Twig, asset compilation, full PostgreSQL schema validation and the HTTP Ask/InstantSearch smoke checks passed. The production Docker image and migration dry run also passed before deployment.

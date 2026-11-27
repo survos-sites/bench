@@ -1,0 +1,24 @@
+{
+  "alias": "searchbench_es_movie_snapshot_2025",
+  "generation": "searchbench_es_movie_snapshot_2025_20261127132706",
+  "build_started_at": "2026-11-27T13:27:05.832419889Z",
+  "build_finished_at": "2026-11-27T13:58:05Z",
+  "build_seconds": 1859.17,
+  "documents": 1035695,
+  "documents_with_vectors": 1035695,
+  "primary_store_bytes_after_build": 4028277624,
+  "size_note": "Measured immediately after build; background merges can change size.",
+  "embedding": {
+    "dimensions": 768,
+    "similarity": "cosine",
+    "index_options": {
+      "type": "hnsw",
+      "m": 16,
+      "ef_construction": 100
+    }
+  },
+  "es_version": "9.5.3",
+  "es_jvm_heap_gib": 2,
+  "es_container_memory_limit_gib": 6,
+  "document_embeddings_regenerated": false
+}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block page_title 'Ask the movie snapshot' %}
+{% block page_subtitle 'A local experiment with 1,035,695 movies · early 2025 snapshot' %}
+{% block body %}
+<div class="row justify-content-center"><div class="col-lg-9">
+    <div class="alert alert-info">
+        Explore plots, directors, genres and release years. Answers use a fixed movie catalog, not live listings.
+        Keywords and US certifications from newer upstream releases are not included.
+        <a href="https://huggingface.co/datasets/remsky/Embeddings__Ultimate_1Million_Movies_Dataset" target="_blank" rel="noopener noreferrer">About the source ↗</a>
+    </div>
+    <div id="conversation">
+        {% for turn in turns %}
+            <article class="card mb-3">
+                <div class="card-header"><strong>{{ turn.question }}</strong></div>
+                <div class="card-body {{ turn.failed ? 'text-danger' }}">{{ turn.html|raw }}</div>
+            </article>
+        {% endfor %}
+        {% include '@SurvosAiChat/widget.html.twig' with {
+            messages: [], action: path('movie_ask'), token: csrf_token('movie_ask'),
+            resetAction: path('movie_ask_reset'), resetToken: csrf_token('movie_ask_reset'),
+            maxLength: 1000, placeholder: 'Find thoughtful science-fiction films about memory…',
+            samples: [
+                {label: 'Memory & identity', question: 'Recommend three science-fiction movies about memory and identity with at least 100 TMDB votes. Explain why each fits.'},
+                {label: 'A director', question: 'Which Akira Kurosawa movies from the 1950s are in this snapshot?'},
+                {label: 'Explore the collection', question: 'How many movies are in this snapshot, and what are its most common original languages?'}
+            ]
+        } %}
+    </div>
+    {% if turns|length %}
+        {% set latest = turns|last %}
+        <div class="card mt-4"><div class="card-body">
+            <h2 class="h4">Sources consulted for the latest answer</h2>
+            <ul>{% for source in latest.sources %}
+                <li><a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.title }}{% if source.release_date %} ({{ source.release_date|slice(0, 4) }}){% endif %} ↗</a> <small class="text-secondary">TMDB {{ source.id }}</small></li>
+            {% else %}<li>No individual movie records were consulted.</li>{% endfor %}</ul>
+            <details><summary>Experiment timings · {{ latest.seconds }} s total</summary>
+                <ul>{% for call in latest.calls %}<li>{{ call.tool }}: {{ call.results }} results{% if call.query_ms is defined %}, {{ call.query_ms }} ms database time{% endif %}</li>{% endfor %}</ul>
+            </details>
+        </div></div>
+    {% endif %}
+    <p class="small text-secondary mt-3">Experimental semantic retrieval uses the publisher’s Nomic embeddings. Exact source model revision and input formatting are incompletely documented. Check the movie sources; this catalog is not suitable for age-rating decisions.</p>
+</div></div>
+{% endblock %}

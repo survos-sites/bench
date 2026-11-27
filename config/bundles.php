@@ -62,4 +62,6 @@ return [
     Survos\WorkflowExtrasBundle\SurvosWorkflowExtrasBundle::class => ['all' => true],
     Survos\WorkflowMessengerBundle\SurvosWorkflowMessengerBundle::class => ['all' => true],
     Symfony\UX\Router\UXRouterBundle::class => ['all' => true],
+    Survos\AiChatBundle\SurvosAiChatBundle::class => ['all' => true],
+    Survos\DuckDbBundle\SurvosDuckDbBundle::class => ['all' => true],
 ];

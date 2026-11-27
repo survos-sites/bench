@@ -41,6 +41,17 @@ final class MovieElasticCatalog implements ResetInterface
         return $filters;
     }
 
+    /**
+     * @param string $query Semantic themes or plots only; empty for director/title/date lookups.
+     * @param string $title A movie title substring, never a person's name unless it is the requested movie title. Empty when no title was requested.
+     * @param string $director Director name substring; do not also copy it into title.
+     * @param string $genre Genre explicitly requested by the user; otherwise empty.
+     * @param string $language Two-letter original-language code such as ja or en, only when requested; otherwise empty.
+     * @param int|null $yearFrom Inclusive first release year, or null when unspecified.
+     * @param int|null $yearTo Inclusive last release year, or null when unspecified.
+     * @param int $minVotes Minimum TMDB votes; zero unless the user requested a popularity filter.
+     * @param int $limit Maximum results, capped at eight.
+     */
     public function search(string $query = '', string $title = '', string $director = '', string $genre = '', string $language = '', ?int $yearFrom = null, ?int $yearTo = null, int $minVotes = 0, int $limit = 6): array
     {
         $start = microtime(true);
@@ -51,9 +62,13 @@ final class MovieElasticCatalog implements ResetInterface
         $filters = self::filters($title, $director, $genre, $language, $yearFrom, $yearTo, $minVotes);
         $queryStart = microtime(true);
         $result = $this->retrieve($vector, $filters, max(1,min(8,$limit)));
-        $this->calls[] = ['tool'=>'search_movie_snapshot', 'backend'=>'elasticsearch', 'results'=>count($result['movies']), 'query_ms'=>round((microtime(true)-$queryStart)*1000,1), 'engine_ms'=>$result['engine_ms'], 'total_ms'=>round((microtime(true)-$start)*1000,1)];
+        $this->calls[] = ['tool'=>'search_movie_snapshot', 'backend'=>'elasticsearch', 'semantic_query'=>$query, 'filters'=>$filters, 'results'=>count($result['movies']), 'query_ms'=>round((microtime(true)-$queryStart)*1000,1), 'engine_ms'=>$result['engine_ms'], 'total_ms'=>round((microtime(true)-$start)*1000,1)];
         $result['movies'] = $this->remember($result['movies']);
-        return $result + ['snapshot'=>'early 2025; not current'];
+        return $result + [
+            'snapshot'=>'early 2025; not current',
+            'filters_used'=>compact('title', 'director', 'genre', 'language', 'yearFrom', 'yearTo', 'minVotes'),
+            'note'=>[] === $result['movies'] ? 'No rows matched this combination. Check for accidentally inferred filters before claiming the catalog has no matches.' : null,
+        ];
     }
 
     /** Shared by Ask and the exact-DuckDB benchmark; takes a query vector, never embeds documents. */

@@ -21,5 +21,17 @@
     "addons": [
         "dokku-postgres",
         "dokku-redis"
-    ]
+    ],
+    "healthchecks": {
+        "web": [
+            {
+                "type": "startup",
+                "name": "Symfony HTTP health",
+                "path": "/health",
+                "attempts": 5,
+                "timeout": 10,
+                "wait": 5
+            }
+        ]
+    }
 }

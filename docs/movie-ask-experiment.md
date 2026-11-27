@@ -281,3 +281,16 @@ The first release passed full production mapping/database validation, with all s
 The HTTP Ask smoke exposed an intermittent agent error: a director/date question sometimes copied the director name into both `director` and `title`, yielding zero rows and an incorrect absence claim. A repeated CLI run reproduced the exact bad arguments. The tool now describes each parameter explicitly, reports `filters_used`, and records the query/filters in CLI diagnostics. The agent prompt forbids invented constraints and requires checking empty-result filters before claiming absence. This is an agent argument-selection fix, not a data/index change; real title constraints are never silently discarded.
 
 The deployment configuration now includes an HTTP startup check for `/health`, following [Dokku's health-check configuration](https://dokku.com/docs/deployment/zero-downtime-deploys/#customizing-checks), in addition to the release's database migration gate.
+
+### Production networking and final smoke
+
+Dokku 0.38.27 has an early return inside its `attach-post-create` network loop: despite reporting both configured networks, it attached only the first. This left metadata queries working while semantic Ask failed to resolve `ollama.web`. The behavior was verified against the deployed container and the [0.38.27 implementation](https://github.com/dokku/dokku/blob/v0.38.27/plugins/network/triggers.go). No shared Dokku code or Ollama/ES service was changed.
+
+Bench's persistent workaround is:
+
+```sh
+dokku network:set searchbench initial-network ollama
+dokku network:set searchbench attach-post-create survos-es-private
+```
+
+This supplies both networks to web and one-off command containers. A production one-off semantic Ask then successfully retrieved **Rememory, The Mandela Effect and Anon**, with ES retrieval 1,318.4 ms and the complete answer 8.97 s. This includes a real query-embedding request and differs from the warmed benchmark. The corrected director/date HTTP smoke also passed twice (11.06 s and 8.42 s). These are end-to-end smoke measurements, not latency guarantees.

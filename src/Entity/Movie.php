@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\PartialSearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SortFilter;
-use ApiPlatform\Meilisearch\State\Options as MeilisearchOptions;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -29,11 +28,6 @@ use Survos\MeiliBundle\Metadata\MeiliIndex;
     operations: [
         new Get(),
         new GetCollection(),
-        new GetCollection(
-            uriTemplate: '/meilisearch/movies',
-            filters: ['movie.meili_search_filter', 'movie.meili_term_filter'],
-            stateOptions: new MeilisearchOptions(index: 'meili_movie'),
-        ),
     ],
     normalizationContext: ['skip_null_values' => true],
     parameters: [

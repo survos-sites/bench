@@ -25,19 +25,6 @@ final class AppMenu
 {
     use MenuBuilderTrait;
 
-    /**
-     * Entities wired with a second, api-platform/meilisearch-backed GetCollection
-     * operation (api-platform/core#8443 proof of concept) -- keyed by
-     * EntityMetaRegistry code. Only Movie has one right now; add more here as
-     * more entities get a `new GetCollection(stateOptions: new
-     * \ApiPlatform\Meilisearch\State\Options(...))` operation.
-     *
-     * @var array<string, array{route: string, apiUrl: string}>
-     */
-    private const MEILI_GRID_DEMOS = [
-        'app_movie' => ['route' => 'demo_movie_meili_grid', 'apiUrl' => '/api/meilisearch/movies'],
-    ];
-
     public function __construct(
         private ContextService                 $contextService,
         #[Autowire('%kernel.environment%')] protected string $env,
@@ -66,8 +53,8 @@ final class AppMenu
         $this->add($menu, 'survos_workflow_extras', ['flowCode' => \App\Workflow\OfficialWorkflow::WORKFLOW_NAME], label: 'Official workflow');
         // Per-entity dropdowns (#[EntityMeta]-annotated classes): every way we have
         // to search/browse this entity's data, from fastest-to-set-up to
-        // richest-but-heaviest. InstantSearch/Meili-api-grid only appear when the
-        // class actually has that capability (MeiliIndex / MEILI_GRID_DEMOS);
+        // richest-but-heaviest. InstantSearch only appears when the
+        // class actually has that capability (MeiliIndex);
         // ux-search and Doctrine-api-grid are generic and always shown. The old
         // single link to the EntityDashboardController "everything" page is now
         // the last item, not the entry point.
@@ -80,23 +67,14 @@ final class AppMenu
 
             $this->add($submenu, 'survos_admin_browse', ['code' => $descriptor->code], label: 'Doctrine search (api-grid)');
 
-            if (isset(self::MEILI_GRID_DEMOS[$descriptor->code])) {
-                $this->add($submenu, self::MEILI_GRID_DEMOS[$descriptor->code]['route'], label: 'Meilisearch search (api-grid)');
-            }
-
             $this->add($submenu, 'survos_entity_ux_search', ['code' => $descriptor->code], label: 'Search (ux-search / Doctrine LIKE)', dividerAfter: true);
 
             if (null !== $duckDb = $this->duckDbLinks->forEntity($descriptor->code)) {
                 $this->add($submenu, $duckDb['route'], $duckDb['parameters'], label: 'DuckDB search', icon: 'tabler:database-search');
             }
 
-            $hasMeiliGrid = isset(self::MEILI_GRID_DEMOS[$descriptor->code]);
-
             if (null !== $doctrineCollectionUrl = $this->doctrineCollectionUrl($descriptor->class)) {
-                $this->add($submenu, uri: $doctrineCollectionUrl, label: 'raw GetCollection (Doctrine)', external: true, icon: 'mdi:code-json', dividerAfter: !$hasMeiliGrid);
-            }
-            if ($hasMeiliGrid) {
-                $this->add($submenu, uri: self::MEILI_GRID_DEMOS[$descriptor->code]['apiUrl'], label: 'raw GetCollection (Meilisearch)', external: true, icon: 'mdi:code-json', dividerAfter: true);
+                $this->add($submenu, uri: $doctrineCollectionUrl, label: 'raw GetCollection (Doctrine)', external: true, icon: 'mdi:code-json', dividerAfter: true);
             }
 
             $this->add($submenu, 'survos_entity_dashboard', ['code' => $descriptor->code], label: 'Overview');

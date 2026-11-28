@@ -6345,16 +6345,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.4.2",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "f80e753caa465ab4f93cb265ae32e2e8cb02c3f3"
+                "reference": "839c252522bb9d2be16ce89d99487d2a75eadc8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/f80e753caa465ab4f93cb265ae32e2e8cb02c3f3",
-                "reference": "f80e753caa465ab4f93cb265ae32e2e8cb02c3f3",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/839c252522bb9d2be16ce89d99487d2a75eadc8e",
+                "reference": "839c252522bb9d2be16ce89d99487d2a75eadc8e",
                 "shasum": ""
             },
             "require": {
@@ -6386,10 +6386,10 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.4.2"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.5.1"
             },
-            "time": "2026-11-25T13:45:51+00:00",
-            "published-time": "2026-11-25T13:46:33+00:00"
+            "time": "2026-11-28T13:46:42+00:00",
+            "published-time": "2026-11-28T13:47:37+00:00"
         },
         {
             "name": "psr/cache",
@@ -7668,16 +7668,16 @@
         },
         {
             "name": "survos/command-bundle",
-            "version": "2.45.61",
+            "version": "2.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/command-bundle.git",
-                "reference": "e1995728e7b2b2b2ca1c6e885ec1678b25d1d7ec"
+                "reference": "dcb5ca7b045bee8ed5ad0a8e1519c739059556bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/command-bundle/zipball/e1995728e7b2b2b2ca1c6e885ec1678b25d1d7ec",
-                "reference": "e1995728e7b2b2b2ca1c6e885ec1678b25d1d7ec",
+                "url": "https://api.github.com/repos/survos/command-bundle/zipball/dcb5ca7b045bee8ed5ad0a8e1519c739059556bc",
+                "reference": "dcb5ca7b045bee8ed5ad0a8e1519c739059556bc",
                 "shasum": ""
             },
             "require": {
@@ -7696,10 +7696,10 @@
                 "twig/twig": "^3.4|^4.0"
             },
             "conflict": {
-                "mcp/sdk": "<0.8"
+                "mcp/sdk": "<0.10"
             },
             "require-dev": {
-                "mcp/sdk": "^0.9",
+                "mcp/sdk": "^0.10",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^13.0",
                 "rector/rector": "^2.0",
@@ -7740,7 +7740,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/command-bundle/issues",
-                "source": "https://github.com/survos/command-bundle/tree/2.45.61"
+                "source": "https://github.com/survos/command-bundle/tree/2.46.0"
             },
             "funding": [
                 {
@@ -7748,8 +7748,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-17T12:16:37+00:00",
-            "published-time": "2026-11-17T12:17:16+00:00"
+            "time": "2026-11-28T13:03:45+00:00",
+            "published-time": "2026-11-28T13:03:54+00:00"
         },
         {
             "name": "survos/core-bundle",
@@ -8008,16 +8008,16 @@
         },
         {
             "name": "survos/duckdb-bundle",
-            "version": "2.45.95",
+            "version": "2.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/duckdb-bundle.git",
-                "reference": "4c205c3dba74d782141d09bbc6f6d7352749e40b"
+                "reference": "7da0aedcfcbdd7eda94c88e661ea5cd4ab3a5035"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/duckdb-bundle/zipball/4c205c3dba74d782141d09bbc6f6d7352749e40b",
-                "reference": "4c205c3dba74d782141d09bbc6f6d7352749e40b",
+                "url": "https://api.github.com/repos/survos/duckdb-bundle/zipball/7da0aedcfcbdd7eda94c88e661ea5cd4ab3a5035",
+                "reference": "7da0aedcfcbdd7eda94c88e661ea5cd4ab3a5035",
                 "shasum": ""
             },
             "require": {
@@ -8028,11 +8028,14 @@
                 "symfony/framework-bundle": "^8.1",
                 "symfony/lock": "^8.1"
             },
+            "conflict": {
+                "mcp/sdk": "<0.10"
+            },
             "require-dev": {
                 "doctrine/dbal": "^4.4",
                 "phpunit/phpunit": "^13.0",
                 "symfony/console": "^8.1",
-                "symfony/mcp-bundle": "^1.0.0-beta1",
+                "symfony/mcp-bundle": "dev-main",
                 "symfony/process": "^8.1",
                 "symfony/stopwatch": "^8.1",
                 "symfony/twig-bundle": "^8.1",
@@ -8065,7 +8068,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/duckdb-bundle/issues",
-                "source": "https://github.com/survos/duckdb-bundle/tree/2.45.95"
+                "source": "https://github.com/survos/duckdb-bundle/tree/2.46.0"
             },
             "funding": [
                 {
@@ -8073,8 +8076,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-28T12:17:15+00:00",
-            "published-time": "2026-11-28T12:20:42+00:00"
+            "time": "2026-11-28T13:03:48+00:00",
+            "published-time": "2026-11-28T13:03:52+00:00"
         },
         {
             "name": "survos/elastic-bundle",
@@ -9195,16 +9198,16 @@
         },
         {
             "name": "survos/meili-bundle",
-            "version": "2.45.91",
+            "version": "2.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/meili-bundle.git",
-                "reference": "3a5c4db3a1e6334d221104314f71e37f25486a78"
+                "reference": "a7fa2a84307405373ba43134824869a9bdd81f29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/meili-bundle/zipball/3a5c4db3a1e6334d221104314f71e37f25486a78",
-                "reference": "3a5c4db3a1e6334d221104314f71e37f25486a78",
+                "url": "https://api.github.com/repos/survos/meili-bundle/zipball/a7fa2a84307405373ba43134824869a9bdd81f29",
+                "reference": "a7fa2a84307405373ba43134824869a9bdd81f29",
                 "shasum": ""
             },
             "require": {
@@ -9230,6 +9233,9 @@
                 "twig/twig": "^3.4|^4.0",
                 "zenstruck/bytes": "^1.0"
             },
+            "conflict": {
+                "mcp/sdk": "<0.10"
+            },
             "require-dev": {
                 "devizzent/cebe-php-openapi": "^1.1",
                 "doctrine/doctrine-bundle": "^3.4",
@@ -9244,7 +9250,7 @@
                 "symfony/framework-bundle": "^8.1",
                 "symfony/http-client": "^8.1",
                 "symfony/intl": "^8.1",
-                "symfony/mcp-bundle": "^1.0.0-beta1",
+                "symfony/mcp-bundle": "dev-main",
                 "symfony/messenger": "^8.1",
                 "symfony/phpunit-bridge": "^8.1",
                 "symfony/twig-bundle": "^8.1",
@@ -9277,7 +9283,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/meili-bundle/issues",
-                "source": "https://github.com/survos/meili-bundle/tree/2.45.91"
+                "source": "https://github.com/survos/meili-bundle/tree/2.46.0"
             },
             "funding": [
                 {
@@ -9285,8 +9291,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-25T12:04:43+00:00",
-            "published-time": "2026-11-25T12:05:22+00:00"
+            "time": "2026-11-28T13:03:47+00:00",
+            "published-time": "2026-11-28T13:03:54+00:00"
         },
         {
             "name": "survos/menu-bundle",

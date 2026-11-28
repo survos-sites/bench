@@ -32,3 +32,36 @@ img {
     margin: 3px;
     padding: 3px;
 }
+
+/* Fit movie cards to the results panel, including space taken by the filters. */
+.movie-snapshot-results .ais-Hits-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: 1rem;
+}
+.movie-snapshot-results .ais-Hits-item {
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    overflow-wrap: anywhere;
+}
+.movie-snapshot-overview {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+}
+.movie-snapshot-results mark {
+    color: #3b2900;
+    background: #ffe69c;
+    padding: 0 .1em;
+    border-radius: .15em;
+}
+
+/* Keep results visible on arrival: filters are opt-in below desktop width. */
+@media (max-width: 991.98px) {
+    .movie-snapshot-filters:not(.is-open) {
+        display: none;
+    }
+}

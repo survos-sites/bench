@@ -1,9 +1,10 @@
+{# Highlight values are HTML-encoded by Elasticsearch, with only server-defined <mark> tags. #}
 <article class="card h-100">
     <div class="card-body">
-        <h3 class="card-title"><a href="https://www.themoviedb.org/movie/{{ hit.id|escape }}" target="_blank" rel="noopener noreferrer">{{ hit.title|escape }}</a></h3>
+        <h3 class="card-title"><a href="https://www.themoviedb.org/movie/{{ hit.id|escape }}" target="_blank" rel="noopener noreferrer">{% if hit._highlightResult.title.value is defined %}{{ hit._highlightResult.title.value|raw }}{% else %}{{ hit.title|escape }}{% endif %}</a></h3>
         <p class="text-secondary small">{{ hit.year|default('Year unknown')|escape }} · {{ hit.original_language|escape }} · {{ hit.vote_count|escape }} TMDB votes</p>
-        <p>{{ hit.director|escape }}</p>
-        <p class="small">{{ hit.overview|slice(0, 260)|escape }}{% if hit.overview|length > 260 %}…{% endif %}</p>
+        <p>{% if hit._highlightResult.director.value is defined %}{{ hit._highlightResult.director.value|raw }}{% else %}{{ hit.director|escape }}{% endif %}</p>
+        <p class="small movie-snapshot-overview">{% if hit._highlightResult.overview.value is defined %}{{ hit._highlightResult.overview.value|raw }}{% else %}{{ hit.overview|escape }}{% endif %}</p>
         <p class="small text-secondary">{{ hit.genres|join(' · ')|escape }}</p>
     </div>
 </article>

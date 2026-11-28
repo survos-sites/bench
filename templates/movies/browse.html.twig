@@ -4,6 +4,7 @@
 {% block body %}
 <p>Search titles, cast, directors and descriptions. This is the same fixed catalog used by <a href="{{ path('movie_ask') }}">Ask movies</a>; Ask now retrieves the existing Nomic vectors from Elasticsearch. Newer keywords and US certifications are not included.</p>
 {% set controller = 'survos--search-bundle--instantsearch' %}
+<div data-controller="movie-filters">
 <div {{ stimulus_controller(controller, {
     endpoint: path('survos_search_instant'), name: 'movie_snapshot_es', template: path('movie_browse_card'),
     sorts: [
@@ -14,8 +15,9 @@
 }) }}>
     <div role="alert" hidden {{ stimulus_target(controller, 'error') }}></div>
     <div class="mb-3" {{ stimulus_target(controller, 'query') }}></div>
-    <div class="row g-4">
-        <aside class="col-md-3">
+    <button type="button" class="btn btn-outline-secondary d-lg-none mb-3" aria-expanded="false" aria-controls="movie-snapshot-filters" data-movie-filters-target="button" data-action="movie-filters#toggle">Filters</button>
+    <div class="row g-4 mx-0">
+        <aside id="movie-snapshot-filters" class="col-lg-3 movie-snapshot-filters" data-movie-filters-target="panel" aria-label="Movie filters">
             {% for field, label in {genres: 'Genre', original_language: 'Original language', status: 'Status'} %}
                 <h2 class="h4 mt-3">{{ label }}</h2>
                 <div data-field="{{ field }}" {{ stimulus_target(controller, 'facet') }}></div>
@@ -25,7 +27,7 @@
                 <div data-field="{{ field }}" data-label="{{ label }}" {{ stimulus_target(controller, 'range') }}></div>
             {% endfor %}
         </aside>
-        <section class="col-md-9" aria-label="Movie results">
+        <section class="col-lg-9" aria-label="Movie results">
             <div class="d-flex justify-content-between gap-2 mb-3">
                 <div {{ stimulus_target(controller, 'stats') }}></div>
                 <div {{ stimulus_target(controller, 'sort') }}></div>
@@ -34,9 +36,10 @@
                 <div {{ stimulus_target(controller, 'current') }}></div>
                 <div {{ stimulus_target(controller, 'clear') }}></div>
             </div>
-            <div {{ stimulus_target(controller, 'hits') }}></div>
+            <div class="movie-snapshot-results" {{ stimulus_target(controller, 'hits') }}></div>
             <div class="mt-4" {{ stimulus_target(controller, 'pagination') }}></div>
         </section>
     </div>
+</div>
 </div>
 {% endblock %}

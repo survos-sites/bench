@@ -11635,7 +11635,7 @@
                                     },
                                     "save_path": {
                                         "$ref": "#/$defs/types/scalar",
-                                        "description": "Defaults to \"%kernel.cache_dir%/sessions\" if the \"handler_id\" option is not null."
+                                        "description": "Defaults to \"%kernel.share_dir%/sessions\" if the \"handler_id\" option is not null."
                                     },
                                     "metadata_update_threshold": {
                                         "$ref": "#/$defs/types/integer",
@@ -12278,7 +12278,7 @@
                                             "properties": {
                                                 "scope": {
                                                     "$ref": "#/$defs/types/scalar",
-                                                    "description": "The regular expression that the request URL must match before adding the other options. When none is provided, the base URI is used instead."
+                                                    "description": "The regular expression that the request URL must match before adding the other options. When none is provided, the base URI is used instead. The regular expression should end with a \"/\", for example \"https://api\\.github\\.com/\", so that it doesn't match other hosts."
                                                 },
                                                 "base_uri": {
                                                     "$ref": "#/$defs/types/scalar",
@@ -13379,7 +13379,7 @@
                                                 "additionalProperties": {
                                                     "$ref": "#/$defs/types/scalar"
                                                 },
-                                                "description": "Recipient PGP public keys, as a map of email address to public key file path. Cannot be used together with \"repository\"."
+                                                "description": "Recipient PGP public keys, as a map of email address to the path of a file holding exactly one key with a user ID for that address. Cannot be used together with \"repository\"."
                                             },
                                             "binary": {
                                                 "$ref": "#/$defs/types/scalar",
@@ -13414,7 +13414,7 @@
                                             "hide_recipients": {
                                                 "$ref": "#/$defs/types/boolean",
                                                 "default": false,
-                                                "description": "Hide every recipient's key ID in the encrypted message (gpg --hidden-recipient). Recipients listed in the Bcc header are always hidden regardless of this option; set it to true to also hide To and Cc recipients."
+                                                "description": "Hide every recipient's key ID in the encrypted message (gpg --hidden-recipient-file). Recipients listed in the Bcc header are always hidden regardless of this option; set it to true to also hide To and Cc recipients."
                                             },
                                             "on_missing_key": {
                                                 "anyOf": [
@@ -15370,7 +15370,7 @@
                     },
                     "recent_authentication_lifetime": {
                         "$ref": "#/$defs/types/integer",
-                        "minimum": 0,
+                        "minimum": 1,
                         "default": 7200,
                         "description": "Number of seconds an interactive authentication keeps granting IS_AUTHENTICATED_RECENTLY. Use it to make sensitive actions require the user to authenticate again.",
                         "examples": [
@@ -15379,7 +15379,7 @@
                     },
                     "very_recent_authentication_lifetime": {
                         "$ref": "#/$defs/types/integer",
-                        "minimum": 0,
+                        "minimum": 1,
                         "default": 300,
                         "description": "Number of seconds an interactive authentication keeps granting IS_AUTHENTICATED_VERY_RECENTLY, a stricter bar than IS_AUTHENTICATED_RECENTLY for the most sensitive actions.",
                         "examples": [
@@ -15410,7 +15410,8 @@
                                     "!php/enum Symfony\\Component\\Security\\Http\\Authentication\\ExposeSecurityLevel::AccountStatus",
                                     "account_status",
                                     "!php/enum Symfony\\Component\\Security\\Http\\Authentication\\ExposeSecurityLevel::All",
-                                    "all"
+                                    "all",
+                                    null
                                 ]
                             },
                             {
@@ -16728,7 +16729,7 @@
                                                 "enabled": false,
                                                 "leeway": 30
                                             },
-                                            "description": "Renew the access token with the refresh token grant of RFC 6749, Section 6, so that it stays usable to call an API on behalf of the logged-in user. The provider only issues a refresh token when it was asked for one, e.g. with the \"offline_access\" scope, and the renewal needs the \"expires_in\" it is optional for the provider to report. Whether this is enabled or not, the tokens are held as the \"oidc_refresh_token\", \"oidc_access_token\" and \"oidc_access_token_expires_at\" attributes of the security token, and the \"security.authenticator.oidc_login.token_refresher.<firewall>\" service renews them on demand. A provider rotating refresh tokens expects the previous one never to be replayed, which a session handler locking the session guarantees, and the default one does."
+                                            "description": "Renew the access token with the refresh token grant of RFC 6749, Section 6, so that it stays usable to call an API on behalf of the logged-in user. The provider only issues a refresh token when it was asked for one, e.g. with the \"offline_access\" scope, and the renewal needs the \"expires_in\" it is optional for the provider to report. Whether this is enabled or not, the tokens are held as the \"oauth2_refresh_token\", \"oauth2_access_token\" and \"oauth2_access_token_expires_at\" attributes of the security token, and the \"security.authenticator.oidc_login.token_refresher.<firewall>\" service renews them on demand. A provider rotating refresh tokens expects the previous one never to be replayed, which a session handler locking the session guarantees, and the default one does."
                                         },
                                         "enable_end_session": {
                                             "$ref": "#/$defs/types/boolean",
@@ -17270,8 +17271,7 @@
                                                                             "$ref": "#/$defs/types/array_null",
                                                                             "items": {
                                                                                 "$ref": "#/$defs/types/scalar"
-                                                                            },
-                                                                            "minItems": 1
+                                                                            }
                                                                         },
                                                                         {
                                                                             "type": [
@@ -17279,7 +17279,7 @@
                                                                             ]
                                                                         }
                                                                     ],
-                                                                    "description": "Identifiers of this resource server, one of which the \"aud\" of the token must name. A single identifier may be given as a string."
+                                                                    "description": "Identifiers of this resource server, one of which the \"aud\" of the token must name. A single identifier may be given as a string. Defaults to the \"resource\" of \"resource_metadata\" when it is a URL."
                                                                 },
                                                                 "issuers": {
                                                                     "$ref": "#/$defs/types/array_null",
@@ -17452,7 +17452,7 @@
                                                                                     ]
                                                                                 }
                                                                             ],
-                                                                            "description": "Identifiers of this resource server, one of which the \"aud\" of the introspection response must name. A single identifier may be given as a string."
+                                                                            "description": "Identifiers of this resource server, one of which the \"aud\" of the introspection response must name. A single identifier may be given as a string. Defaults to the \"resource\" of \"resource_metadata\" when it is a URL."
                                                                         },
                                                                         "issuer": {
                                                                             "$ref": "#/$defs/types/scalar",
@@ -17833,10 +17833,9 @@
                                                             "minItems": 1,
                                                             "default": [
                                                                 "ES256",
-                                                                "PS256",
                                                                 "RS256"
                                                             ],
-                                                            "description": "The algorithms a proof may be signed with, announced in the challenge."
+                                                            "description": "The algorithms a proof may be signed with, announced in the challenge. \"PS256\", \"PS384\" and \"PS512\" need the GMP or BCMath extension."
                                                         },
                                                         "cache": {
                                                             "$ref": "#/$defs/types/scalar",
@@ -17870,10 +17869,9 @@
                                                                     "minItems": 1,
                                                                     "default": [
                                                                         "ES256",
-                                                                        "PS256",
                                                                         "RS256"
                                                                     ],
-                                                                    "description": "The algorithms a proof may be signed with, announced in the challenge."
+                                                                    "description": "The algorithms a proof may be signed with, announced in the challenge. \"PS256\", \"PS384\" and \"PS512\" need the GMP or BCMath extension."
                                                                 }
                                                             ]
                                                         }
@@ -17890,7 +17888,6 @@
                                                 "enabled": false,
                                                 "algorithms": [
                                                     "ES256",
-                                                    "PS256",
                                                     "RS256"
                                                 ],
                                                 "cache": "cache.security",
@@ -18817,7 +18814,7 @@
                                 "$ref": "#/$defs/types/number",
                                 "minimum": 0,
                                 "maximum": 1,
-                                "description": "The sampling factor to apply to transactions. A value of 0 will deny sending any transaction, and a value of 1 will send all transactions."
+                                "description": "The sampling factor to apply to transactions. A value of 0 will deny sending any transaction, and a value of 1 will send all transactions. A value of null disables tracing unless \"traces_sampler\" is set."
                             },
                             "traces_sampler": {
                                 "$ref": "#/$defs/types/scalar"
@@ -18828,10 +18825,37 @@
                                 "maximum": 1,
                                 "description": "The sampling factor to apply to profiles. A value of 0 will deny sending any profiles, and a value of 1 will send all profiles. Profiles are sampled in relation to traces_sample_rate"
                             },
+                            "profiles_sampler": {
+                                "$ref": "#/$defs/types/scalar"
+                            },
+                            "profile_session_sample_rate": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "The sampling factor to apply to continuous profiling sessions. A value of 0 disables continuous profiling, and a value of 1 profiles every session."
+                            },
+                            "profile_lifecycle": {
+                                "anyOf": [
+                                    {
+                                        "enum": [
+                                            "manual",
+                                            "trace"
+                                        ]
+                                    },
+                                    {
+                                        "$ref": "#/$defs/types/param"
+                                    }
+                                ],
+                                "description": "Whether the continuous profiler is started and stopped manually (\"manual\") or runs while a sampled transaction is active (\"trace\")."
+                            },
                             "enable_logs": {
                                 "$ref": "#/$defs/types/boolean"
                             },
                             "log_flush_threshold": {
+                                "$ref": "#/$defs/types/variable",
+                                "default": null
+                            },
+                            "metric_flush_threshold": {
                                 "$ref": "#/$defs/types/variable",
                                 "default": null
                             },
@@ -18878,6 +18902,10 @@
                             "ignore_transactions": {
                                 "$ref": "#/$defs/types/variable"
                             },
+                            "trace_ignore_status_codes": {
+                                "$ref": "#/$defs/types/variable",
+                                "description": "The HTTP status codes of incoming requests whose transactions are not sent. Each entry is either a single status code (e.g. 404) or an inclusive range (e.g. [500, 599])."
+                            },
                             "before_send": {
                                 "$ref": "#/$defs/types/scalar"
                             },
@@ -18914,6 +18942,12 @@
                             "max_breadcrumbs": {
                                 "$ref": "#/$defs/types/integer",
                                 "minimum": 0
+                            },
+                            "max_breadth": {
+                                "$ref": "#/$defs/types/variable"
+                            },
+                            "send_client_reports": {
+                                "$ref": "#/$defs/types/boolean"
                             },
                             "before_breadcrumb": {
                                 "$ref": "#/$defs/types/variable"
@@ -18963,6 +18997,9 @@
                                 "description": "The maximum execution time for the request+response as a whole. It works only when using the default transport."
                             },
                             "http_ssl_verify_peer": {
+                                "$ref": "#/$defs/types/boolean"
+                            },
+                            "http_ssl_native_ca": {
                                 "$ref": "#/$defs/types/boolean"
                             },
                             "http_compression": {
@@ -19027,6 +19064,17 @@
                                     }
                                 ]
                             },
+                            "^trace_ignore_status_code$": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/variable"
+                                    },
+                                    {
+                                        "$ref": "#/$defs/types/variable",
+                                        "description": "The HTTP status codes of incoming requests whose transactions are not sent. Each entry is either a single status code (e.g. 404) or an inclusive range (e.g. [500, 599])."
+                                    }
+                                ]
+                            },
                             "^prefix$": {
                                 "anyOf": [
                                     {
@@ -19055,11 +19103,13 @@
                                 "/opt/homebrew/Cellar/php@8.5/8.5.13/share/php@8.5/pear"
                             ],
                             "log_flush_threshold": null,
+                            "metric_flush_threshold": null,
                             "enable_metrics": true,
                             "environment": "%kernel.environment%",
                             "release": "%env(default::SENTRY_RELEASE)%",
                             "ignore_exceptions": [],
                             "ignore_transactions": [],
+                            "trace_ignore_status_codes": [],
                             "tags": [],
                             "in_app_exclude": [
                                 "%kernel.cache_dir%",
@@ -19963,6 +20013,43 @@
             "survos_duck_db": {
                 "$ref": "#/$defs/types/object_null",
                 "properties": {
+                    "mcp": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false
+                            },
+                            "max_rows": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 1000,
+                                "default": 100
+                            },
+                            "max_bytes": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1024,
+                                "maximum": 1048576,
+                                "default": 65536
+                            },
+                            "sources": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    }
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "enabled": false,
+                            "max_rows": 100,
+                            "max_bytes": 65536,
+                            "sources": []
+                        }
+                    },
                     "profiling": {
                         "$ref": "#/$defs/types/boolean_null",
                         "default": null
